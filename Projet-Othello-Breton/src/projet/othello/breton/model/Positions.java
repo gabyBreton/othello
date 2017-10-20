@@ -16,7 +16,7 @@ class Positions {
      * @param row the position on the row axis.
      * @param column the position on the column axis.
      */
-    public Positions(int row, int column) {
+    Positions(int row, int column) {
         this.ROW = row;
         this.COLUMN = column;
     }
@@ -26,7 +26,7 @@ class Positions {
      *
      * @return the position on the row axis.
      */
-    public int getROW() {
+    int getROW() {
         return ROW;
     }
 
@@ -35,7 +35,7 @@ class Positions {
      *
      * @return the position on the row axis.
      */
-    public int getCOLUMN() {
+    int getCOLUMN() {
         return COLUMN;
     }
 }
