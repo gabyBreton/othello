@@ -15,7 +15,7 @@ public class Players {
      *
      * @param color the color of the player.
      */
-    public Players(Color color) {
+    Players(Color color) {
         this.color = color;
         this.score = 2;
     }
