@@ -67,7 +67,8 @@ public class OthelloImpl implements Othello {
     public void play(int x, int y) {
         List<Positions> pawnsToFlip = new ArrayList<>();
         boolean validMove;
-
+        int nbFlippedPawns;
+        
         validMove = false;
 
         if (isValidPosition(x, y)) {
@@ -76,7 +77,40 @@ public class OthelloImpl implements Othello {
         }
 
         if (validMove) {
-            flipPawns(pawnsToFlip);
+            placeFlipAndSetScore(pawnsToFlip, x, y);
+        }
+    }
+
+    /**
+     * Flip the pawns and set the new score of the players.
+     * 
+     * @param pawnsToFlip the list of positions of the pawns to flip.
+     * @param x the position where to place the new pawn on the x axis.
+     * @param y the position where to place the new pawn on the y axis.
+     */
+    private void placeFlipAndSetScore(List<Positions> pawnsToFlip, int x, int y) {
+        int nbFlippedPawns;
+        
+        flipPawns(pawnsToFlip);
+        board.setColor(x, y, currentPlayer.getColor());
+        board.incCounterPawnsOnBoard();
+        
+        nbFlippedPawns = pawnsToFlip.size();
+        setPlayersScores(nbFlippedPawns);
+    }
+
+    /**
+     * Actualize the new score of the players.
+     * 
+     * @param nbFlippedPawns the number of pawns that have been flipped.
+     */
+    private void setPlayersScores(int nbFlippedPawns) {
+        if (currentPlayer.getColor() == Color.BLACK) {
+            playerB.addPointsToScore(nbFlippedPawns + 1);
+            playerW.addPointsToScore( -nbFlippedPawns);
+        } else {
+            playerW.addPointsToScore(nbFlippedPawns + 1);
+            playerB.addPointsToScore( -nbFlippedPawns);
         }
     }
 
@@ -206,63 +240,75 @@ public class OthelloImpl implements Othello {
         }
     }
 
-//    public static void main(String[] args) {
-//        OthelloImpl game = new OthelloImpl(8, 8);
-//        Color colorCell;
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//
-//        game.play(3, 2);
-//
-//        System.out.println("--------------------------");
-//        System.out.println("");
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//
-//        game.play(4, 5);
-//        System.out.println("--------------------------");
-//        System.out.println("");
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//    }
+    public static void main(String[] args) {
+        OthelloImpl game = new OthelloImpl(8, 8);
+        Color colorCell;
+        
+        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
+        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
+        
+        System.out.println("   0  1  2  3  4  5  6  7");
+        for (int i = 0; i < game.getWidht(); i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < game.getHeight(); j++) {
+                colorCell = game.getColor(i, j);
+                if (colorCell == null) {
+                    System.out.print(" - ");
+                } else if (colorCell == Color.BLACK) {
+                    System.out.print(" B ");
+                } else {
+                    System.out.print(" W ");
+                }
+            }
+            System.out.println("");
+        }
+
+        game.play(3, 2);
+
+        System.out.println("--------------------------");
+        System.out.println("");
+        
+        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
+        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
+        
+        System.out.println("   0  1  2  3  4  5  6  7");
+        for (int i = 0; i < game.getWidht(); i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < game.getHeight(); j++) {
+                colorCell = game.getColor(i, j);
+                if (colorCell == null) {
+                    System.out.print(" - ");
+                } else if (colorCell == Color.BLACK) {
+                    System.out.print(" B ");
+                } else {
+                    System.out.print(" W ");
+                }
+            }
+            System.out.println("");
+        }
+
+        game.play(4, 5);
+        System.out.println("--------------------------");
+        System.out.println("");
+        
+        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
+        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
+        
+        System.out.println("   0  1  2  3  4  5  6  7");
+        for (int i = 0; i < game.getWidht(); i++) {
+            System.out.print(i + " ");
+            for (int j = 0; j < game.getHeight(); j++) {
+                colorCell = game.getColor(i, j);
+                if (colorCell == null) {
+                    System.out.print(" - ");
+                } else if (colorCell == Color.BLACK) {
+                    System.out.print(" B ");
+                } else {
+                    System.out.print(" W ");
+                }
+            }
+            System.out.println("");
+        }
+    }
 
 }
