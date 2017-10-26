@@ -15,7 +15,13 @@ public class OthelloImpl implements Othello {
     private final Players playerW;
     private final Players currentPlayer;
 
-    public OthelloImpl(int rows, int columns) {
+    /**
+     * Creates a new othello game.
+     *
+     * @param rows the number of lines.
+     * @param columns the number of columns.
+     */
+    OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
         playerB = new Players(Color.BLACK);
         playerW = new Players(Color.WHITE);
@@ -59,118 +65,56 @@ public class OthelloImpl implements Othello {
 
     @Override
     public void play(int x, int y) {
+        List<Positions> pawnsToFlip = new ArrayList<>();
         boolean validMove;
+
         validMove = false;
-        
+
         if (isValidPosition(x, y)) {
-            Color otherColor;
-            List<Positions> pawnsToFlip = new ArrayList<>();
-
-            board.setColor(x, y, currentPlayer.getColor()); //WHY DO WE NEED THIS ?
-            otherColor = getOtherPlayerColor();
-            pawnsToFlip = getListOfValidPositions(x, y, otherColor, pawnsToFlip);
-            board.setColor(x, y, null);
-
+            pawnsToFlip = getListPositionsToFlip(x, y, pawnsToFlip);
             validMove = pawnsToFlip.size() > 0;
         }
-        
+
         if (validMove) {
-            returnPawns(pawnsToFlip);
+            flipPawns(pawnsToFlip);
         }
     }
-//    @Override
-//    public void play(int x, int y) {
-//
-//        if (isValidPosition(x, y)) return false;
-//
-//        board.setColor(x, y, currentColor);
-//
-//        if (currentColor = Color.BLACK) {
-//            otherColor = Color.WHITE;
-//        } else {
-//            otherColor = Color.BLACK;
-//        }
-//
-//        List<Positions> pawnsToFlip = new ArrayList<>();
-//
-//        //[1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1]];
-//        //int[][] directions={{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1},{-1,0},{-1,1}};
-//        for (Directions direction : Directions.values()) {
-//            int xActual = x;
-//            int yActual = y;
-//
-//            xActual += direction.getxAxisMov();
-//            yActual += direction.getyAxisMov();
-//
-//            if (board.isOnBoard(xActual, yActual)
-//                    && board.getColor(xActual, yActual) == otherColor) {
-//
-//                xActual += direction.getxAxisMov();
-//                yActual += direction.getyAxisMov();
-//
-//                if (!board.isOnBoard(xActual, yActual)) {
-//                    continue;
-//                }
-//
-//                while (board.getColor(xActual, yActual) == otherColor) {
-//                    xActual += direction.getxAxisMov();
-//                    yActual += direction.getyAxisMov();
-//                    
-//                    if (!board.isOnBoard(xActual, yActual)) {
-//                        break;
-//                    }
-//                }
-//                
-//                if (!board.isOnBoard(xActual, yActual)) {
-//                    continue;
-//                }
-//                
-//                if (board.getColor(xActual, yActual) == currentColor) {
-//                    while (true) {
-//                        xActual -= direction.getxAxisMov();
-//                        yActual -= direction.getyAxisMov();
-//                        
-//                        if ((xActual == x) && (yActual == y)) {
-//                            break;
-//                        }
-//                        pawnsToFlip.add(new Positions(xActual, yActual));
-//                    }
-//                }
-//            }
-//        }
-//        
-//        board.setColor(x, y, null);
-//        
-//        if (pawnsToFlip.size() == 0) {
-//            return false;
-//        }
-//        
-//        return pawnsToFlip;
-//    }
 
-    private List<Positions> getListOfValidPositions(int x, int y, Color otherColor, List<Positions> pawnsToFlip) {
+    /**
+     * Get a list of all the positions where flip the color.
+     *
+     * @param x the position from where starting to evaluate, on the x axis.
+     * @param y the position from where starting to evaluate, on the y axis.
+     * @param pawnsToFlip the list of positions where flip the pawns.
+     * @return a list of positions to flip. This list can be returned empty.
+     */
+    private List<Positions> getListPositionsToFlip(int x, int y, 
+                                                   List<Positions> pawnsToFlip){
         for (Directions direction : Directions.values()) {
             int xActual = x;
             int yActual = y;
 
-            actualizeCurrentPositions(xActual, yActual, direction);
+            xActual += direction.getxAxisMov();
+            yActual += direction.getyAxisMov();
 
-            if (isOnBoardAndOppositeColor(xActual, yActual, otherColor)) {
-                actualizeCurrentPositions(xActual, yActual, direction);
-
-                if (!board.isOnBoard(xActual, yActual)) {
-                    continue;
-                }
-
-                continueThroughLine(xActual, yActual, otherColor, direction);
+            if (isOnBoardAndOppositeColor(xActual, yActual)) {
+                xActual += direction.getxAxisMov();
+                yActual += direction.getyAxisMov();
 
                 if (!board.isOnBoard(xActual, yActual)) {
                     continue;
                 }
 
-                if (board.getColor(xActual, yActual) == currentPlayer.getColor()) {
+                moveForwardLine(xActual, yActual, direction);
+
+                if (!board.isOnBoard(xActual, yActual)) {
+                    continue;
+                }
+
+                if(board.getColor(xActual,yActual) == currentPlayer.getColor()){
                     while (true) {
-                        goBackStartPosition(xActual, yActual, direction);
+                        xActual -= direction.getxAxisMov();
+                        yActual -= direction.getyAxisMov();
                         if ((xActual == x) && (yActual == y)) {
                             break;
                         }
@@ -182,20 +126,47 @@ public class OthelloImpl implements Othello {
         return pawnsToFlip;
     }
 
-    private void continueThroughLine(int xActual, int yActual, Color otherColor, Directions direction) {
+    /**
+     * Move forward a line until while the new position is the color of the 
+     * other player.
+     * 
+     * @param xActual the current positions being verified, on x axis.
+     * @param yActual the current positions being verified, on y axis.
+     * @param direction the direction where to move.
+     */
+    private void moveForwardLine(int xActual, int yActual,Directions direction){
+        Color otherColor = getOtherPlayerColor();
+        
         while (board.getColor(xActual, yActual) == otherColor) {
-            actualizeCurrentPositions(xActual, yActual, direction);
+            xActual += direction.getxAxisMov();
+            yActual += direction.getyAxisMov();
             if (!board.isOnBoard(xActual, yActual)) {
                 break;
             }
         }
     }
 
-    private boolean isOnBoardAndOppositeColor(int xActual, int yActual, Color otherColor) {
+    /**
+     * Verifies if a position is on the board and the cell at this position 
+     * contains a pawns of the opposite player.
+     * 
+     * @param xActual the current positions being verified, on x axis.
+     * @param yActual the current positions being verified, on y axis.
+     * @return true if the position is on the board and the cell at this 
+     * position contains a pawns of the opposite player, or else false.
+     */
+    private boolean isOnBoardAndOppositeColor(int xActual, int yActual) {
+        Color otherColor = getOtherPlayerColor();
+
         return board.isOnBoard(xActual, yActual)
-                && board.getColor(xActual, yActual) == otherColor;
+                && (board.getColor(xActual, yActual) == otherColor);
     }
 
+    /**
+     * Get the color of the non current player.
+     * 
+     * @return the color of the non current player.
+     */
     private Color getOtherPlayerColor() {
         Color otherColor;
         if (currentPlayer.getColor() == Color.BLACK) {
@@ -206,17 +177,92 @@ public class OthelloImpl implements Othello {
         return otherColor;
     }
 
+    /**
+     * Verifies if a position is valid as it on the game board.
+     * 
+     * @param x the position on the x axis.
+     * @param y the position on the y axis.
+     * @return true if the position is on the board, or else false.
+     */
     private boolean isValidPosition(int x, int y) {
         return (board.isFree(x, y)) && (board.isOnBoard(x, y));
     }
 
-    private void actualizeCurrentPositions(int x, int y, Directions direction) {
-        x += direction.getxAxisMov();
-        y += direction.getyAxisMov();
+    /**
+     * Flip the color of a list of pawns.
+     * 
+     * @param pawnsToFlip the list of positions that represents the pawns to 
+     * flip.
+     */
+    private void flipPawns(List<Positions> pawnsToFlip) {
+        int x;
+        int y;
+
+        for (Positions aPosition : pawnsToFlip) {
+            x = aPosition.getROW();
+            y = aPosition.getCOLUMN();
+
+            board.setColor(x, y, currentPlayer.getColor());
+        }
     }
 
-    private void goBackStartPosition(int x, int y, Directions direction) {
-        x -= direction.getxAxisMov();
-        y -= direction.getyAxisMov();
-    }
+//    public static void main(String[] args) {
+//        OthelloImpl game = new OthelloImpl(8, 8);
+//        Color colorCell;
+//        System.out.println("   0  1  2  3  4  5  6  7");
+//        for (int i = 0; i < game.getWidht(); i++) {
+//            System.out.print(i + " ");
+//            for (int j = 0; j < game.getHeight(); j++) {
+//                colorCell = game.getColor(i, j);
+//                if (colorCell == null) {
+//                    System.out.print(" - ");
+//                } else if (colorCell == Color.BLACK) {
+//                    System.out.print(" B ");
+//                } else {
+//                    System.out.print(" W ");
+//                }
+//            }
+//            System.out.println("");
+//        }
+//
+//        game.play(3, 2);
+//
+//        System.out.println("--------------------------");
+//        System.out.println("");
+//        System.out.println("   0  1  2  3  4  5  6  7");
+//        for (int i = 0; i < game.getWidht(); i++) {
+//            System.out.print(i + " ");
+//            for (int j = 0; j < game.getHeight(); j++) {
+//                colorCell = game.getColor(i, j);
+//                if (colorCell == null) {
+//                    System.out.print(" - ");
+//                } else if (colorCell == Color.BLACK) {
+//                    System.out.print(" B ");
+//                } else {
+//                    System.out.print(" W ");
+//                }
+//            }
+//            System.out.println("");
+//        }
+//
+//        game.play(4, 5);
+//        System.out.println("--------------------------");
+//        System.out.println("");
+//        System.out.println("   0  1  2  3  4  5  6  7");
+//        for (int i = 0; i < game.getWidht(); i++) {
+//            System.out.print(i + " ");
+//            for (int j = 0; j < game.getHeight(); j++) {
+//                colorCell = game.getColor(i, j);
+//                if (colorCell == null) {
+//                    System.out.print(" - ");
+//                } else if (colorCell == Color.BLACK) {
+//                    System.out.print(" B ");
+//                } else {
+//                    System.out.print(" W ");
+//                }
+//            }
+//            System.out.println("");
+//        }
+//    }
+
 }
