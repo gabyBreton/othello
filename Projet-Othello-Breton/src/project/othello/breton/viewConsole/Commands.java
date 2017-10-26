@@ -2,9 +2,9 @@ package project.othello.breton.viewConsole;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import projet.othello.breton.model.OthelloImpl;
 
 /**
  * This class provides methods to manage the command-line interactions with the
@@ -14,6 +14,10 @@ import projet.othello.breton.model.OthelloImpl;
  */
 public class Commands {
 
+    public static String getACommand() {
+        Scanner keybd = new Scanner(System.in);
+        return keybd.nextLine();
+    }
     /**
      * Verify the validity of a given command.
      *
@@ -100,16 +104,5 @@ public class Commands {
         return cmdId;
     }
     
-    /**
-     * Executes a given command.
-     *
-     * @param command the command to execute
-     * @param cmdId the ID of the command type.
-     * @param game the current game session.
-     * @throws IllegalArgumentException if the command type is not valid.
-     */
-    public static void execCommand(String[] command, int cmdId,OthelloImpl game)
-                                               throws IllegalArgumentException {
-        
-    }
+
 }
