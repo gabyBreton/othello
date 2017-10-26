@@ -21,7 +21,7 @@ public class OthelloImpl implements Othello {
      * @param rows the number of lines.
      * @param columns the number of columns.
      */
-    OthelloImpl(int rows, int columns) {
+    public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
         playerB = new Players(Color.BLACK);
         playerW = new Players(Color.WHITE);

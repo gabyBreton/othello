@@ -13,7 +13,7 @@ class Board {
     private final Color[][] board;
     private final int rows;
     private final int columns;
-    private final int cptPawnsOnBoard;
+    private int counterPawnsOnBoard;
 
     /**
      * Creates a new game board.
@@ -27,7 +27,7 @@ class Board {
         board = new Color[rows][columns];
         initBoardCells();
         placeFirstFourPawns();
-        cptPawnsOnBoard = 4;
+        counterPawnsOnBoard = 4;
     }
 
     /**
@@ -58,7 +58,7 @@ class Board {
      * @return true if the board is full of pawns, or else false.
      */
     boolean isFull() {
-        return cptPawnsOnBoard == rows * columns;
+        return counterPawnsOnBoard == rows * columns;
     }
 
     /**
@@ -123,7 +123,8 @@ class Board {
      * @return the color of the cell.
      */
     Color getColor(int x, int y) {
-        return board[x][y];
+        Color colorDebug = board[x][y];
+        return colorDebug;
     }
 
     /**
@@ -143,13 +144,35 @@ class Board {
     int getColumns() {
         return columns;
     }
-    
-    boolean isOnBoard(int x, int y) {
-        return ((x >= 0) && (x <= rows - 1)
-                && (y >= 0) && (y <= columns - 1));
-    }
-    
+
+    /**
+     * Set the color of a position on the board.
+     * 
+     * @param x the position on the x axis.
+     * @param y the position on the y axis.
+     * @param color the color to set.
+     */
     void setColor(int x, int y, Color color) {
         board[x][y] = color;
+    }    
+
+    /**
+     * Verifies if a position is on the game board.
+     * 
+     * @param x the position on the x axis.
+     * @param y the position on the y axis.
+     * @return true if the position is on the board, or else false.
+     */
+    boolean isOnBoard(int x, int y) {
+       boolean onBoardDebug = ((x >= 0) && (x <= rows - 1)
+                && (y >= 0) && (y <= columns - 1));
+        return onBoardDebug;
+    }
+    
+    /**
+     * Increments the counter of pawns on the board.
+     */
+    void incCounterPawnsOnBoard() {
+        counterPawnsOnBoard += 1;
     }
 }
