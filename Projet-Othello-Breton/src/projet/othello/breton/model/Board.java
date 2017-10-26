@@ -46,10 +46,10 @@ class Board {
      * and two white. They are positioned around the center of the board.
      */
     private void placeFirstFourPawns() {
-        board[(rows / 2) - 1][(columns / 2) - 1] = Color.BLACK;
-        board[(rows / 2) - 1][columns / 2] = Color.WHITE;
-        board[rows / 2][(columns / 2) - 1] = Color.WHITE;
-        board[rows / 2][columns / 2] = Color.BLACK;
+        board[(rows / 2) - 1][(columns / 2) - 1] = Color.WHITE;
+        board[(rows / 2) - 1][columns / 2] = Color.BLACK;
+        board[rows / 2][(columns / 2) - 1] = Color.BLACK;
+        board[rows / 2][columns / 2] = Color.WHITE;
     }
 
     /**
@@ -67,8 +67,8 @@ class Board {
      * @param pos the position to verify.
      * @return true if the cell is free, or else false.
      */
-    boolean isFree(Positions pos) {
-        return board[pos.getROW()][pos.getCOLUMN()] == null;
+    boolean isFree(int x, int y) {
+        return board[x][y] == null;
     }
 
     /**
@@ -143,31 +143,13 @@ class Board {
     int getColumns() {
         return columns;
     }
-
-//    public static void main(String[] args) {
-//        Board board = new Board(10, 10);
-//        Color color;
-//
-//        for (int i = 0; i < board.getRows(); i++) {
-//
-//            for (int j = 0; j < board.getColumns(); j++) {
-//
-//                color = board.getColor(i, j);
-//                if (null == color) {
-//                    System.out.print(" . ");
-//                } else {
-//                    switch (color) {
-//                        case BLACK:
-//                            System.out.print(" B ");
-//                            break;
-//                        default:
-//                            System.out.print(" w ");
-//                            break;
-//                    }
-//                }
-//            }
-//
-//            System.out.println("");
-//        }
-//    }
+    
+    boolean isOnBoard(int x, int y) {
+        return ((x >= 0) && (x <= rows - 1)
+                && (y >= 0) && (y <= columns - 1));
+    }
+    
+    void setColor(int x, int y, Color color) {
+        board[x][y] = color;
+    }
 }
