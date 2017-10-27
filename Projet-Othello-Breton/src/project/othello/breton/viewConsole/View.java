@@ -98,6 +98,22 @@ public class View {
     }
     
     static void askForACommand(OthelloImpl game) {
+        String currentPlayer;
+        currentPlayer = game.getCurrentColor().toString();
+        currentPlayer =  currentPlayer.charAt(0) 
+                         + currentPlayer.substring(1).toLowerCase();
+                
+        System.out.println(currentPlayer + " enter a command:");
+    }
+    
+    static String newAction(OthelloImpl game) {
+        String aCommand;
         
+        game.setPossiblePositions();
+        System.out.println("*-*-*-*-*-*-*-*-*-*");
+        askForACommand(game);
+        aCommand = Commands.getACommand();
+        System.out.println("*-*-*-*-*-*-*-*-*-*");
+        return aCommand;
     }
 }

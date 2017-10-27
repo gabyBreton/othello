@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  *
  * @author Gabriel Breton - 43397
  */
-public class Commands {
+class Commands {
 
-    public static String getACommand() {
+    static String getACommand() {
         Scanner keybd = new Scanner(System.in);
         return keybd.nextLine();
     }
@@ -26,7 +26,7 @@ public class Commands {
      * we can use it to show the board, show the score, play a move or display
      * the help.
      */
-    public static boolean verifyCommand(String command) {
+    static boolean verifyCommand(String command) {
         boolean findMatch;
 
         List<Pattern> patterns = creatPatternList();
@@ -85,7 +85,7 @@ public class Commands {
      * @throws IllegalArgumentException if the command is not recognized, such
      * as it is a bad wrong shape or wrong command type.
      */
-    public static int getCommandId(String[] cmdSplitted)
+    static int getCommandId(String[] cmdSplitted)
             throws IllegalArgumentException {
         int cmdId;
 

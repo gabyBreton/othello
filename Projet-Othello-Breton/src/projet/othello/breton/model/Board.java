@@ -68,7 +68,7 @@ class Board {
      * @return true if the cell is free, or else false.
      */
     boolean isFree(int x, int y) {
-        return board[x][y] == null;
+        return (board[x][y] == null) || (board[x][y] == Color.GREY);
     }
 
     /**
