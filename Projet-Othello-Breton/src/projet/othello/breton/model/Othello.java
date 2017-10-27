@@ -24,11 +24,11 @@ interface Othello {
     List<Players> getPlayers();
     
     /**
-     * Gives the current player.
+     * Gives the current player color.
      * 
-     * @return the current player.
+     * @return the current player color.
      */
-    Players getCurrentPlayer();
+    Color getCurrentColor();
     
     /**
      * Gives the height of the board.

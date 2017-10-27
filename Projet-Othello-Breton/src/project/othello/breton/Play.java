@@ -24,9 +24,10 @@ public class Play {
             View.showGameBoard(othello);
 
             while (!gameOver) {
-                System.out.println("Enter a command:sh");
+                System.out.println("*-*-*-*-*-*-*-*-*-*");
+                System.out.println("Enter a command:");
                 aCommand = Commands.getACommand();
-
+                System.out.println("*-*-*-*-*-*-*-*-*-*");
                 if (Commands.verifyCommand(aCommand)) {
                     cmdSplitted = aCommand.split(" ");
                     cmdId = Commands.getCommandId(cmdSplitted);
@@ -44,6 +45,7 @@ public class Play {
                             xMove = Integer.parseInt(cmdSplitted[1]);
                             yMove = Integer.parseInt(cmdSplitted[2]);
                             othello.play(xMove - 1, yMove - 1);
+                            
                             break;
                         default:
                             throw new IllegalArgumentException("command type is not valid. "

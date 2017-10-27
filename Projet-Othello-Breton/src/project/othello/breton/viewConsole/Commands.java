@@ -46,7 +46,7 @@ public class Commands {
         List<Pattern> patterns = new ArrayList<>();
         patterns.add(Pattern.compile("show[\\s]*"));
         patterns.add(Pattern.compile("score[\\s]*"));
-        patterns.add(Pattern.compile("play[\\s]([\\d]+[\\s]){2}"));
+        patterns.add(Pattern.compile("play[\\s][\\d]+[\\s][\\d]+[\\s]*"));
         patterns.add(Pattern.compile("help[\\s]*"));
 
         return patterns;
