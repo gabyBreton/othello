@@ -36,25 +36,63 @@ public class View {
 
         for (int i = 0; i < game.getWidht(); i++) {
 
-            if ((i + 1) / 10 == 0) {
-                System.out.print("  " + (i + 1) + " ");
-            } else if ((i+1) / 10 >= 1) {
-                System.out.print(" " + (i + 1) + " ");
-            } 
-
+            printSideNumerotation(i); 
             for (int j = 0; j < game.getHeight(); j++) {
-                colorCell = game.getColor(i, j);
-                if (colorCell == null) {
-                    System.out.print(" . ");
-                } else if (colorCell == Color.BLACK) {
-                    System.out.print(" B ");
-                } else if (colorCell == Color.WHITE) {
-                    System.out.print(" W ");
-                } else {
-                    System.out.print(" x ");
-                }
+                printABoxContent(game, i, j);
             }
             System.out.println("");
+        }
+    }
+
+    private static void printABoxContent(OthelloImpl game, int i, int j) {
+        String ansiCyan = "\u001B[46m";
+        String ansiMagenta = "\u001B[45m";
+        String ansiReset = "\u001B[0m"; 
+        Color colorCell;
+        String charToPrint;
+        
+        colorCell = game.getColor(i, j);
+        charToPrint = setPrintedColorPlayer(colorCell);
+        
+        if (null == colorCell) {
+            System.out.print(ansiCyan + charToPrint + ansiReset);
+        } else switch (colorCell) {
+            case BLACK: case WHITE:
+                System.out.print(ansiCyan + charToPrint + ansiReset);
+                break;
+            default:
+                System.out.print(ansiMagenta + charToPrint + ansiReset);
+                break;
+        }
+    }
+    
+    private static String setPrintedColorPlayer(Color colorCell) {
+        String ansiBlack = "\u001B[30m";
+        String ansiWhite = "\u001B[37m";
+        String ansiReset = "\u001B[0m"; 
+        String charToPrint;
+        
+        if (null == colorCell) {
+            charToPrint = " . ";
+        } else switch (colorCell) {
+            case BLACK:
+                charToPrint = ansiBlack + " B " + ansiReset;
+                break;
+            case WHITE:
+                charToPrint= ansiWhite + " W " + ansiReset;
+                break;
+            default:
+                charToPrint = " . ";
+                break;
+        }
+        return charToPrint;
+    }
+    
+    private static void printSideNumerotation(int i) {
+        if ((i + 1) / 10 == 0) {
+            System.out.print("  " + (i + 1) + " ");
+        } else if ((i+1) / 10 >= 1) {
+            System.out.print(" " + (i + 1) + " ");
         }
     }
 
