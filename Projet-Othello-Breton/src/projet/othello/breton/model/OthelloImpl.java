@@ -66,6 +66,18 @@ public class OthelloImpl implements Othello {
         return board.getColor(x, y);
     }
 
+    public void setPossiblePositions() {
+        List<Positions> listPossiblePositions = new ArrayList<>();
+        int x, y;
+        
+        listPossiblePositions = getValidMoves();
+        for(Positions aPosition : listPossiblePositions) {
+            x = aPosition.getROW();
+            y = aPosition.getCOLUMN();
+            board.setColor(x, y, Color.GREY);
+        }
+    }
+    
     @Override
     public void play(int x, int y) {
         List<Positions> pawnsToFlip = new ArrayList<>();
@@ -74,7 +86,7 @@ public class OthelloImpl implements Othello {
         validMove = false;
 
         if (isValidPosition(x, y)) {
-            pawnsToFlip = getListPositionsToFlip(x, y, pawnsToFlip);
+            pawnsToFlip = getListPositionsToFlip(x, y);
             validMove = pawnsToFlip.size() > 0;
         }
 
@@ -122,11 +134,11 @@ public class OthelloImpl implements Othello {
      *
      * @param x the position from where starting to evaluate, on the x axis.
      * @param y the position from where starting to evaluate, on the y axis.
-     * @param pawnsToFlip the list of positions where flip the pawns.
      * @return a list of positions to flip. This list can be returned empty.
      */
-    private List<Positions> getListPositionsToFlip(int x, int y,
-            List<Positions> pawnsToFlip) {
+    private List<Positions> getListPositionsToFlip(int x, int y) {
+        List<Positions> pawnsToFlip = new ArrayList<>();
+        
         for (Directions direction : Directions.values()) {
             int xActual = x;
             int yActual = y;
@@ -243,33 +255,58 @@ public class OthelloImpl implements Othello {
         }
     }
 
-    private boolean stillValidMoves() {
-        List<Positions> positionsToTest = new ArrayList<>();
-        boolean validMove;
+    private List<Positions> getValidMoves() {
+        List<Positions> emptyPositions = new ArrayList<>();
+        List<Positions> listValidMoves = new ArrayList<>();
+        boolean isValidPosition;
+        int x;
+        int y;
 
-        positionsToTest = getListEmptyPositions();
-        for (Positions aPositionToTest : positionsToTest) {
-            
-            pawnsToFlip = getListPositionsToFlip(x, y, pawnsToFlip);
-            validMove = pawnsToFlip.size() > 0;
+        emptyPositions = getListEmptyPositions();
+
+        for (Positions aPositionToTest : emptyPositions) {
+            List<Positions> flippablePawns = new ArrayList<>();
+
+            x = aPositionToTest.getROW();
+            y = aPositionToTest.getCOLUMN();
+
+            flippablePawns = getListPositionsToFlip(x, y);
+            isValidPosition = flippablePawns.size() > 0;
+            if (isValidPosition) {
+                listValidMoves.add(aPositionToTest);
+            }
         }
 
+        return listValidMoves;
     }
+//
+//    private boolean stillValidMoves() {
+//        List<Positions> positionsToTest = new ArrayList<>();
+//        boolean validMove;
+//
+//        positionsToTest = getListEmptyPositions();
+//        for (Positions aPositionToTest : positionsToTest) {
+//            
+//            pawnsToFlip = getListPositionsToFlip(x, y, pawnsToFlip);
+//            validMove = pawnsToFlip.size() > 0;
+//        }
+//
+//    }
 
     private List<Positions> getListEmptyPositions() {
-        List<Positions> emptyPositionsToTest = new ArrayList<>();
+        List<Positions> emptyPositions = new ArrayList<>();
         Color aColor;
 
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
                 aColor = board.getColor(i, j);
                 if (aColor == null) {
-                    emptyPositionsToTest.add(new Positions(i, j));
+                    emptyPositions.add(new Positions(i, j));
                 }
             }
         }
 
-        return emptyPositionsToTest;
+        return emptyPositions;
     }
 
     private void changeCurrentPlayer() {
@@ -281,77 +318,4 @@ public class OthelloImpl implements Othello {
             }
         }
     }
-    
-//    
-//    public static void main(String[] args) {
-//        OthelloImpl game = new OthelloImpl(8, 8);
-//        Color colorCell;
-//
-//        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
-//        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
-//
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//
-//        game.play(3, 2);
-//
-//        System.out.println("--------------------------");
-//        System.out.println("");
-//
-//        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
-//        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
-//
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//
-//        game.play(4, 5);
-//        System.out.println("--------------------------");
-//        System.out.println("");
-//
-//        System.out.println("Score B: " + game.getPlayers().get(0).getScore());
-//        System.out.println("Score W: " + game.getPlayers().get(1).getScore());
-//
-//        System.out.println("   0  1  2  3  4  5  6  7");
-//        for (int i = 0; i < game.getWidht(); i++) {
-//            System.out.print(i + " ");
-//            for (int j = 0; j < game.getHeight(); j++) {
-//                colorCell = game.getColor(i, j);
-//                if (colorCell == null) {
-//                    System.out.print(" - ");
-//                } else if (colorCell == Color.BLACK) {
-//                    System.out.print(" B ");
-//                } else {
-//                    System.out.print(" W ");
-//                }
-//            }
-//            System.out.println("");
-//        }
-//    }
-
 }
