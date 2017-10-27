@@ -109,11 +109,16 @@ public class View {
     static String newAction(OthelloImpl game) {
         String aCommand;
         
-        game.setPossiblePositions();
+        setNewPossibilites(game);
         System.out.println("*-*-*-*-*-*-*-*-*-*");
         askForACommand(game);
         aCommand = Commands.getACommand();
         System.out.println("*-*-*-*-*-*-*-*-*-*");
         return aCommand;
+    }
+
+    private static void setNewPossibilites(OthelloImpl game) {
+        game.cleanLastPlayerPossibilities();
+        game.setPossiblePositions();
     }
 }

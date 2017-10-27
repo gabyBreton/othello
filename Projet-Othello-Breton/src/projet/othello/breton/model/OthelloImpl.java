@@ -65,7 +65,17 @@ public class OthelloImpl implements Othello {
     public Color getColor(int x, int y) {
         return board.getColor(x, y);
     }
-
+    
+    public void cleanLastPlayerPossibilities() {
+        for(int i = 0; i < getHeight(); i++) {
+            for(int j = 0; j < getWidht(); j++) {
+                if(board.getColor(i, j) == Color.GREY) {
+                    board.setColor(i, j, null);
+                }
+            }
+        }
+    }
+    
     public void setPossiblePositions() {
         List<Positions> listPossiblePositions = new ArrayList<>();
         int x, y;
@@ -300,7 +310,7 @@ public class OthelloImpl implements Othello {
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
                 aColor = board.getColor(i, j);
-                if (aColor == null) {
+                if (aColor == null || aColor == Color.GREY) {
                     emptyPositions.add(new Positions(i, j));
                 }
             }
