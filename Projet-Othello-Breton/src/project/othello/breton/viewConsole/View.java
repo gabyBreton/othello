@@ -10,7 +10,7 @@ import projet.othello.breton.model.OthelloImpl;
  */
 public class View {
 
-    public static void showGameBoard(OthelloImpl game) {
+    static void showGameBoard(OthelloImpl game) {
         displayHeader(game.getWidht());
         displayContent(game);
         displayFooter(game.getWidht());
@@ -48,8 +48,10 @@ public class View {
                     System.out.print(" . ");
                 } else if (colorCell == Color.BLACK) {
                     System.out.print(" B ");
-                } else {
+                } else if (colorCell == Color.WHITE) {
                     System.out.print(" W ");
+                } else {
+                    System.out.print(" x ");
                 }
             }
             System.out.println("");
@@ -71,7 +73,7 @@ public class View {
 
     }
 
-    public static void showFinalScoresAndWinner(OthelloImpl game) {
+    static void showFinalScoresAndWinner(OthelloImpl game) {
         int scoreBlack;
         int scoreWhite;
 
@@ -89,9 +91,13 @@ public class View {
 
     }
 
-    public static void showScores(OthelloImpl game) {
+    static void showScores(OthelloImpl game) {
         System.out.println("Black: " + game.getPlayers().get(0).getScore());
         System.out.println("White: " + game.getPlayers().get(1).getScore());
 
+    }
+    
+    static void askForACommand(OthelloImpl game) {
+        
     }
 }
