@@ -15,10 +15,16 @@ import projet.othello.breton.model.OthelloImpl;
  */
 class Commands {
 
+    /**
+     * Takes an input from the user.
+     *
+     * @return the input of the user.
+     */
     static String getACommand() {
         Scanner keybd = new Scanner(System.in);
         return keybd.nextLine();
     }
+
     /**
      * Verify the validity of a given command.
      *
@@ -62,7 +68,8 @@ class Commands {
      * @return true if the command matches with one of the patterns, or else
      * false.
      */
-    private static boolean isCmdMatching(List<Pattern> patterns, String command){
+    private static boolean isCmdMatching(List<Pattern> patterns, 
+                                         String command) {
         boolean findMatch;
         findMatch = false;
 
@@ -75,8 +82,8 @@ class Commands {
         }
         return findMatch;
     }
-    
-        /**
+
+    /**
      * Assign an ID for each type of command. As types of command, we have:
      * 'show', 'help', 'score' and 'play'.
      *
@@ -86,8 +93,8 @@ class Commands {
      * @throws IllegalArgumentException if the command is not recognized, such
      * as it is a bad wrong shape or wrong command type.
      */
-    static int getCommandId(String[] cmdSplitted) 
-                                               throws IllegalArgumentException {
+    static int compareAndAssignID(String[] cmdSplitted)
+           throws IllegalArgumentException {
         int cmdId;
 
         switch (cmdSplitted[0]) {
@@ -104,21 +111,30 @@ class Commands {
                 cmdId = 4;
                 break;
             default:
-                throw new IllegalArgumentException("Unrecognized command. Should be"
-                        + " 'show', 'score', 'help' or 'play x y'");
+                throw new IllegalArgumentException("Unrecognized command. "
+                           + "Should be 'show', 'score', 'help' or 'play x y'");
         }
         return cmdId;
     }
-    
-    static boolean isPlayValuesCorrect(String command, OthelloImpl game) {
+
+    /**
+     * Verifies if the value of the x axis of play is not too long. Display 
+     * an error message if the value is too long.
+     * 
+     * @param command the command to verify.
+     * @param game the current game session.
+     * @return true if the value is not too long, or else false and display an 
+     * error message.
+     */
+    static boolean isPlayValueCorrect(String command, OthelloImpl game) {
         String[] cmdSplitted;
         int xMove;
         boolean correctValue;
-        
+
         correctValue = true;
         cmdSplitted = command.split(" ");
-        
-        if(cmdSplitted[0].equals("play")) {
+
+        if (cmdSplitted[0].equals("play")) {
             xMove = Integer.parseInt(cmdSplitted[1]);
             if (xMove >= game.getHeight()) {
                 View.displayTooLargeValue(command);
@@ -127,13 +143,20 @@ class Commands {
         }
         return correctValue;
     }
-    
-    static int useCommand(String command, OthelloImpl game) {
+
+    /**
+     * Finds the ID of a command.
+     * 
+     * @param command the command to check.
+     * @param game the current game session.
+     * @return the ID of the given command.
+     */
+    static int findCommandID(String command, OthelloImpl game) {
         String[] cmdSplitted;
         int cmdId;
 
         cmdSplitted = command.split(" ");
-        cmdId = Commands.getCommandId(cmdSplitted);
+        cmdId = Commands.compareAndAssignID(cmdSplitted);
         return cmdId;
     }
 }
