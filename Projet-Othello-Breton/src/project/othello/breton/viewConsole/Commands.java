@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import projet.othello.breton.model.OthelloImpl;
 
 /**
  * This class provides methods to manage the command-line interactions with the
@@ -85,24 +86,54 @@ class Commands {
      * @throws IllegalArgumentException if the command is not recognized, such
      * as it is a bad wrong shape or wrong command type.
      */
-    static int getCommandId(String[] cmdSplitted)
-            throws IllegalArgumentException {
+    static int getCommandId(String[] cmdSplitted) 
+                                               throws IllegalArgumentException {
         int cmdId;
 
-        if (cmdSplitted[0].matches("show")) {
-            cmdId = 1;
-        } else if (cmdSplitted[0].matches("score")) {
-            cmdId = 2;
-        } else if (cmdSplitted[0].matches("help")) {
-            cmdId = 3;
-        } else if (cmdSplitted[0].matches("play")) {
-            cmdId = 4;
-        } else {
-            throw new IllegalArgumentException("Unrecognized command. Should be"
-                                    + " 'show', 'score', 'help' or 'play x y'");
+        switch (cmdSplitted[0]) {
+            case "show":
+                cmdId = 1;
+                break;
+            case "score":
+                cmdId = 2;
+                break;
+            case "help":
+                cmdId = 3;
+                break;
+            case "play":
+                cmdId = 4;
+                break;
+            default:
+                throw new IllegalArgumentException("Unrecognized command. Should be"
+                        + " 'show', 'score', 'help' or 'play x y'");
         }
         return cmdId;
     }
     
+    static boolean isPlayValuesCorrect(String command, OthelloImpl game) {
+        String[] cmdSplitted;
+        int xMove;
+        boolean correctValue;
+        
+        correctValue = true;
+        cmdSplitted = command.split(" ");
+        
+        if(cmdSplitted[0].equals("play")) {
+            xMove = Integer.parseInt(cmdSplitted[1]);
+            if (xMove >= game.getHeight()) {
+                View.displayTooLargeValue(command);
+                correctValue = false;
+            }
+        }
+        return correctValue;
+    }
+    
+    static int useCommand(String command, OthelloImpl game) {
+        String[] cmdSplitted;
+        int cmdId;
 
+        cmdSplitted = command.split(" ");
+        cmdId = Commands.getCommandId(cmdSplitted);
+        return cmdId;
+    }
 }

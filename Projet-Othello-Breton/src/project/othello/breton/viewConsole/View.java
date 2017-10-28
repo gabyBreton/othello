@@ -157,4 +157,17 @@ public class View {
         System.out.println(ansiRed + "Enter 'help' for more informations" 
                            + ansiReset);
     }
+
+    static void displayTooLargeValue(String command) {
+        String ansiRed = "\u001B[31m";
+        String ansiReset = "\u001B[0m";
+        System.out.println(ansiRed + "You have entered a too large value: " 
+                          + ansiReset + command);
+    }
+    
+    static void displayStartMsg() {
+        System.out.println("Welcome in Othello Game !");
+    }
+    
+    
 }
