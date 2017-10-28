@@ -23,7 +23,7 @@ public class View {
         }
 
         System.out.println("");
-        System.out.print("   ");
+        System.out.print("    ");
         for (int i = 0; i < widht; i++) {
             System.out.print(" " + (i + 1) +" ");
         }
@@ -32,7 +32,7 @@ public class View {
     }
 
     private static void displayContent(OthelloImpl game) {
-        Color colorCell;
+        //Color colorCell;
 
         for (int i = 0; i < game.getWidht(); i++) {
 
@@ -45,47 +45,27 @@ public class View {
     }
 
     private static void printABoxContent(OthelloImpl game, int i, int j) {
-        String ansiCyan = "\u001B[46m";
-        String ansiMagenta = "\u001B[45m";
+        String ansiCyan = "\u001B[42m";
+        String ansiBlack = "\u001B[40m";
+        String ansiWhite = "\u001B[47m";
         String ansiReset = "\u001B[0m"; 
         Color colorCell;
-        String charToPrint;
         
         colorCell = game.getColor(i, j);
-        charToPrint = setPrintedColorPlayer(colorCell);
         
         if (null == colorCell) {
-            System.out.print(ansiCyan + charToPrint + ansiReset);
+            System.out.print(ansiCyan + "__|" + ansiReset);
         } else switch (colorCell) {
-            case BLACK: case WHITE:
-                System.out.print(ansiCyan + charToPrint + ansiReset);
-                break;
-            default:
-                System.out.print(ansiMagenta + charToPrint + ansiReset);
-                break;
-        }
-    }
-    
-    private static String setPrintedColorPlayer(Color colorCell) {
-        String ansiBlack = "\u001B[30m";
-        String ansiWhite = "\u001B[37m";
-        String ansiReset = "\u001B[0m"; 
-        String charToPrint;
-        
-        if (null == colorCell) {
-            charToPrint = " . ";
-        } else switch (colorCell) {
-            case BLACK:
-                charToPrint = ansiBlack + " B " + ansiReset;
+            case BLACK: 
+                System.out.print(ansiBlack + "   " + ansiReset);
                 break;
             case WHITE:
-                charToPrint= ansiWhite + " W " + ansiReset;
+                System.out.print(ansiWhite + "   " + ansiReset);
                 break;
-            default:
-                charToPrint = " . ";
+            case GREY:
+                System.out.print(ansiCyan + "_O|" + ansiReset);
                 break;
         }
-        return charToPrint;
     }
     
     private static void printSideNumerotation(int i) {
@@ -97,7 +77,7 @@ public class View {
     }
 
     private static void displayFooter(int widht) {
-        System.out.print("   ");
+        System.out.print("    ");
         for (int i = 0; i < widht; i++) {
             System.out.print(" " + (i + 1) + " ");
         }
