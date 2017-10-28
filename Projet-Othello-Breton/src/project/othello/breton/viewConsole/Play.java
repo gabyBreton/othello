@@ -37,7 +37,7 @@ public class Play {
         aCommand = View.newAction(othello);
 
         if (Commands.verifyCommand(aCommand)) {
-            if (Commands.isPlayValuesCorrect(aCommand, othello)) {
+            if (Commands.isPlayValueCorrect(aCommand, othello)) {
                 useTheCommand(aCommand, othello);
             }
         } else {
@@ -47,7 +47,7 @@ public class Play {
 
     private static void useTheCommand(String aCommand, OthelloImpl othello) {
         int cmdId;
-        cmdId = Commands.useCommand(aCommand, othello);
+        cmdId = Commands.findCommandID(aCommand, othello);
         useCommandId(cmdId, othello, aCommand);
     }
 
@@ -77,9 +77,6 @@ public class Play {
         cmdSplitted = command.split(" ");
         
         xMove = Integer.parseInt(cmdSplitted[1]);
-        if(xMove >= othello.getHeight()) {
-            View.displayWrongCmd(command);
-        }
         yMove = convertLetterToNumber(cmdSplitted[2]);
         othello.play(xMove - 1, yMove);
     }
@@ -92,7 +89,7 @@ public class Play {
     }
     public static void main(String[] args) {
         OthelloImpl game;
-        game = new OthelloImpl(26, 26);
+        game = new OthelloImpl(4, 4);
         play(game);
     }
 }

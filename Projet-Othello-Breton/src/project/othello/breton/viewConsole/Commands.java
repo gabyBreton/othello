@@ -136,7 +136,7 @@ class Commands {
 
         if (cmdSplitted[0].equals("play")) {
             xMove = Integer.parseInt(cmdSplitted[1]);
-            if (xMove >= game.getHeight()) {
+            if ((xMove - 1) >= game.getHeight()) {
                 View.displayTooLargeValue(command);
                 correctValue = false;
             }

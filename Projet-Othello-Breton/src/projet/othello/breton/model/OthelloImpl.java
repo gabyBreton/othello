@@ -32,8 +32,7 @@ public class OthelloImpl implements Othello {
 
     @Override
     public boolean isOver() {
-        return board.isFull();
-        //return board.isFull() && stillValidMoves() ;
+        return board.isFull() || !stillValidMoves() ;
     }
 
     @Override
@@ -268,40 +267,21 @@ public class OthelloImpl implements Othello {
     private List<Positions> getValidMoves() {
         List<Positions> emptyPositions = new ArrayList<>();
         List<Positions> listValidMoves = new ArrayList<>();
-        boolean isValidPosition;
         int x;
         int y;
 
         emptyPositions = getListEmptyPositions();
 
         for (Positions aPositionToTest : emptyPositions) {
-            List<Positions> flippablePawns = new ArrayList<>();
-
             x = aPositionToTest.getROW();
             y = aPositionToTest.getCOLUMN();
 
-            flippablePawns = getListPositionsToFlip(x, y);
-            isValidPosition = flippablePawns.size() > 0;
-            if (isValidPosition) {
+            if (getListPositionsToFlip(x, y).size() > 0) {
                 listValidMoves.add(aPositionToTest);
             }
         }
-
         return listValidMoves;
     }
-//
-//    private boolean stillValidMoves() {
-//        List<Positions> positionsToTest = new ArrayList<>();
-//        boolean validMove;
-//
-//        positionsToTest = getListEmptyPositions();
-//        for (Positions aPositionToTest : positionsToTest) {
-//            
-//            pawnsToFlip = getListPositionsToFlip(x, y, pawnsToFlip);
-//            validMove = pawnsToFlip.size() > 0;
-//        }
-//
-//    }
 
     private List<Positions> getListEmptyPositions() {
         List<Positions> emptyPositions = new ArrayList<>();
@@ -320,12 +300,27 @@ public class OthelloImpl implements Othello {
     }
 
     private void changeCurrentPlayer() {
-        if(!isOver()) {
+       // if(!isOver()) {
             if (currentColor == Color.BLACK) {
                 currentColor = Color.WHITE;
             } else {
                 currentColor = Color.BLACK;
             }
+       // }
+    }
+    
+    private boolean stillValidMoves() {
+        boolean stillMoves;
+        
+        stillMoves = true;
+        if (getListEmptyPositions().isEmpty()) {
+            changeCurrentPlayer();
+            if (getListEmptyPositions().isEmpty()) {
+                stillMoves = false;
+            }
+            changeCurrentPlayer();
         }
+        
+        return stillMoves;
     }
 }
