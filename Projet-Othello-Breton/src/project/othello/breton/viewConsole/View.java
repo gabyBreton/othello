@@ -17,6 +17,8 @@ public class View {
     }
 
     private static void displayHeader(int widht) {
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        
         System.out.print("  ");
         for (int i = 0; i < (widht * 3) + 1.5; i++) {
             System.out.print("=");
@@ -25,7 +27,7 @@ public class View {
         System.out.println("");
         System.out.print("    ");
         for (int i = 0; i < widht; i++) {
-            System.out.print(" " + (i + 1) +" ");
+            System.out.print(" " + alphabet[i] +" ");
         }
 
         System.out.println("");
@@ -36,10 +38,11 @@ public class View {
 
         for (int i = 0; i < game.getWidht(); i++) {
 
-            printSideNumerotation(i); 
+            printLeftSideNumerotation(i); 
             for (int j = 0; j < game.getHeight(); j++) {
                 printABoxContent(game, i, j);
             }
+            printRightSideNumerotation(i);
             System.out.println("");
         }
     }
@@ -68,7 +71,7 @@ public class View {
         }
     }
     
-    private static void printSideNumerotation(int i) {
+    private static void printLeftSideNumerotation(int i) {
         if ((i + 1) / 10 == 0) {
             System.out.print("  " + (i + 1) + " ");
         } else if ((i+1) / 10 >= 1) {
@@ -76,10 +79,16 @@ public class View {
         }
     }
 
+    private static void printRightSideNumerotation(int i) {
+        System.out.print(" " + (i + 1));
+    }
+
     private static void displayFooter(int widht) {
+        char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
         System.out.print("    ");
         for (int i = 0; i < widht; i++) {
-            System.out.print(" " + (i + 1) + " ");
+            System.out.print(" " + alphabet[i] + " ");
         }
         System.out.println("");
 
@@ -138,5 +147,14 @@ public class View {
     private static void setNewPossibilites(OthelloImpl game) {
         game.cleanLastPlayerPossibilities();
         game.setPossiblePositions();
+    }
+    
+    static void displayWrongCmd(String command) {
+        String ansiRed = "\u001B[31m";
+        String ansiReset = "\u001B[0m";
+        System.out.println(ansiRed + "You have entered a wrong command: " 
+                          + ansiReset + command);
+        System.out.println(ansiRed + "Enter 'help' for more informations" 
+                           + ansiReset);
     }
 }

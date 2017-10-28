@@ -21,6 +21,8 @@ public class Play {
                 aCommand = View.newAction(othello);
                 if (Commands.verifyCommand(aCommand)) {
                     useCommand(aCommand, othello);
+                } else {
+                    View.displayWrongCmd(aCommand);
                 }
                 gameOver = othello.isOver();
             }
@@ -67,14 +69,30 @@ public class Play {
                                   throws NumberFormatException {
         int xMove;
         int yMove;
+        //char letterMove;
+        
+        
         xMove = Integer.parseInt(cmdSplitted[1]);
-        yMove = Integer.parseInt(cmdSplitted[2]);
-        othello.play(xMove - 1, yMove - 1);
+        yMove = convertLetterToNumber(cmdSplitted[2]);
+        othello.play(xMove - 1, yMove);
     }
-
+    
+    private static int convertLetterToNumber(String letterMove){
+       // int number;
+        String alphabet;
+     //   List <String> alphabetList = new ArrayList<>();
+        alphabet = "abcdefghijklmnopqrstuvwxyz";
+//        for (int i = 0; i < 26; i++) {
+//            alphabetList.add(alphabet.);
+//        }
+//        alphabetList.addAll("abcdefghijklmnopqrstuvwxyz");
+   //     al
+        
+        return alphabet.indexOf(letterMove);
+    }
     public static void main(String[] args) {
         OthelloImpl game;
-        game = new OthelloImpl(8, 8);
+        game = new OthelloImpl(26, 26);
         play(game);
     }
 }
