@@ -167,7 +167,7 @@ class Commands {
      * @param min the minimal limit of the integer asked. 
      * @return the accepted odd integer.
      */
-    public static int verifyIntInput(int max, int min) {
+    static int verifyIntInput(int max, int min) {
         Scanner keybd = new Scanner(System.in);
         int theInput;
         theInput = -1;
