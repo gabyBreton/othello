@@ -19,9 +19,9 @@ public class MainConsole {
 
         View.displayStartMsg();
         System.out.print("Height --> ");
-        height = Commands.verifyIntInput(26, 0);
+        height = Commands.verifyIntInput(26, 4);
         System.out.print("Width --> ");
-        widht = Commands.verifyIntInput(26, 0);
+        widht = Commands.verifyIntInput(26, 4);
 
         game = new OthelloImpl(height, widht);
         Play.play(game);
