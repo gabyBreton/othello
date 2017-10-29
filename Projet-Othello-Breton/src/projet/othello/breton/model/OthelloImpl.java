@@ -80,10 +80,15 @@ public class OthelloImpl implements Othello {
         int x, y;
         
         listPossiblePositions = getValidMoves();
+        
         for(Positions aPosition : listPossiblePositions) {
             x = aPosition.getROW();
             y = aPosition.getCOLUMN();
             board.setColor(x, y, Color.GREY);
+        }
+        
+        if (listPossiblePositions.isEmpty()) {
+            changeCurrentPlayer();
         }
     }
     
@@ -313,9 +318,9 @@ public class OthelloImpl implements Othello {
         boolean stillMoves;
         
         stillMoves = true;
-        if (getListEmptyPositions().isEmpty()) {
+        if (getValidMoves().isEmpty()) {
             changeCurrentPlayer();
-            if (getListEmptyPositions().isEmpty()) {
+            if (getValidMoves().isEmpty()) {
                 stillMoves = false;
             }
             changeCurrentPlayer();
