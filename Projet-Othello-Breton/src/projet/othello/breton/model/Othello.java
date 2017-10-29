@@ -60,4 +60,15 @@ interface Othello {
      * @param y the position on the y axis.
      */
     void play(int x, int y);
+    
+    /**
+     * Cleans all the cells that have been set as possible positions for a pawn 
+     * placement.
+     */
+    void cleanLastPlayerPossibilities();
+    
+    /**
+     * Sets all the cell possible for a pawn placement to be recognized.
+     */
+    void setPossiblePositions();
 }

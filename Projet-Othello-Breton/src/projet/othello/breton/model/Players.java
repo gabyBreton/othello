@@ -35,7 +35,6 @@ public class Players {
      * @return the score of the player.
      */
     public int getScore() {
-        //WHERE CALCULATE SCORE ?
         return score;
     }
 

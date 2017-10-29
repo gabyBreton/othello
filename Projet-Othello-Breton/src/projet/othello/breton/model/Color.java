@@ -6,5 +6,19 @@ package projet.othello.breton.model;
  * @author Gabriel Breton - 43397
  */
 public enum Color {
-    BLACK, WHITE, GREY;
+    
+    /**
+     * For the player Black.
+     */
+    BLACK, 
+    
+    /**
+     * For the player White.
+     */
+    WHITE, 
+    
+    /**
+     * The color of the cell when a player can place a pawn on it.
+     */
+    GREY;
 }
