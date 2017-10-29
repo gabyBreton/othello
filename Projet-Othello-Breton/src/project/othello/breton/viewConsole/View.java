@@ -36,10 +36,10 @@ public class View {
     private static void displayContent(OthelloImpl game) {
         //Color colorCell;
 
-        for (int i = 0; i < game.getWidht(); i++) {
+        for (int i = 0; i < game.getHeight(); i++) {
 
             printLeftSideNumerotation(i); 
-            for (int j = 0; j < game.getHeight(); j++) {
+            for (int j = 0; j < game.getWidht(); j++) {
                 printABoxContent(game, i, j);
             }
             printRightSideNumerotation(i);
@@ -167,6 +167,8 @@ public class View {
     
     static void displayStartMsg() {
         System.out.println("Welcome in Othello Game !");
+        System.out.println("");
+        System.out.println("Enter the dimensions of the game board.");
     }
     
     

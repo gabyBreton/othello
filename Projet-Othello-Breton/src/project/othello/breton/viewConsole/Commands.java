@@ -159,4 +159,29 @@ class Commands {
         cmdId = Commands.compareAndAssignID(cmdSplitted);
         return cmdId;
     }
+    
+    /**
+     * Ask the user to enter an odd integer.
+     * 
+     * @param max the maximal limit of the integer asked.
+     * @param min the minimal limit of the integer asked. 
+     * @return the accepted odd integer.
+     */
+    public static int verifyIntInput(int max, int min) {
+        Scanner keybd = new Scanner(System.in);
+        int theInput;
+        theInput = -1;
+        
+        while (theInput > max || theInput < min || theInput % 2 != 0) {
+            System.out.print("Enter odd integer between " + min + " and " 
+                             + max + ": ");
+            while (!keybd.hasNextInt()) {
+                System.out.print("That's not an integer. Retry : ");
+                keybd.next();
+            }
+            theInput = keybd.nextInt();
+        }
+        
+        return theInput;
+    }   
 }

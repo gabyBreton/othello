@@ -27,7 +27,6 @@ public class Play {
     }
 
     private static void startTheGame(OthelloImpl othello) {
-        View.displayStartMsg();
         othello.setPossiblePositions();
         View.showGameBoard(othello);
     }
@@ -89,7 +88,15 @@ public class Play {
     }
     public static void main(String[] args) {
         OthelloImpl game;
-        game = new OthelloImpl(4, 4);
+        int height, widht;
+
+        View.displayStartMsg();
+        System.out.print("Height --> ");
+        height = Commands.verifyIntInput(26, 0);
+        System.out.print("Width --> ");
+        widht = Commands.verifyIntInput(26, 0);
+        
+        game = new OthelloImpl(height, widht);
         play(game);
     }
 }
