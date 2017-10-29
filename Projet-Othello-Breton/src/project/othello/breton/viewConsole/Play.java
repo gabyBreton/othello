@@ -10,19 +10,15 @@ public class Play {
 
     static void play(OthelloImpl othello) {
         boolean gameOver;
-        boolean beginNewPart;
-        
-        do {
-            gameOver = false;
-            startTheGame(othello);
-            while (!gameOver) {
-                getAndManageCommand(othello);
-                gameOver = othello.isOver();
-            }
-            beginNewPart = false;
-            System.out.println("Game is over !");
-            View.showFinalScoresAndWinner(othello);
-        } while (beginNewPart);
+
+        gameOver = false;
+        startTheGame(othello);
+        while (!gameOver) {
+            getAndManageCommand(othello);
+            gameOver = othello.isOver();
+        }
+        System.out.println("Game is over !");
+        View.showFinalScoresAndWinner(othello);
 
     }
 
@@ -50,9 +46,8 @@ public class Play {
         useCommandId(cmdId, othello, aCommand);
     }
 
-    private static void useCommandId(int cmdId, OthelloImpl othello, 
-                                     String command) 
-                                      {
+    private static void useCommandId(int cmdId, OthelloImpl othello,
+            String command) {
         switch (cmdId) {
             case 1:
                 View.showGameBoard(othello);
@@ -74,29 +69,18 @@ public class Play {
         int yMove;
         String[] cmdSplitted;
         cmdSplitted = command.split(" ");
-        
+
         xMove = Integer.parseInt(cmdSplitted[1]);
         yMove = convertLetterToNumber(cmdSplitted[2]);
         othello.play(xMove - 1, yMove);
     }
-    
-    private static int convertLetterToNumber(String letterMove){
+
+    private static int convertLetterToNumber(String letterMove) {
         String alphabet;
 
         alphabet = "abcdefghijklmnopqrstuvwxyz";
         return alphabet.indexOf(letterMove);
     }
-    public static void main(String[] args) {
-        OthelloImpl game;
-        int height, widht;
 
-        View.displayStartMsg();
-        System.out.print("Height --> ");
-        height = Commands.verifyIntInput(26, 0);
-        System.out.print("Width --> ");
-        widht = Commands.verifyIntInput(26, 0);
-        
-        game = new OthelloImpl(height, widht);
-        play(game);
-    }
+
 }
