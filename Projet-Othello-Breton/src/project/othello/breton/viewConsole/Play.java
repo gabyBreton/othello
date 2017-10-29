@@ -82,7 +82,10 @@ class Play {
                 View.showGameBoard(othello);
                 break;
             case 2:
-                View.showScores(othello);
+                int scoreBlack, scoreWhite;
+                scoreBlack = othello.getPlayers().get(0).getScore();
+                scoreWhite = othello.getPlayers().get(1).getScore();
+                View.showScores(scoreBlack, scoreWhite);
                 break;
             case 3:
                 //display help
