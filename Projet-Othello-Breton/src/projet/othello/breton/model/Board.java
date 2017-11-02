@@ -25,20 +25,8 @@ class Board {
         this.rows = rows;          // WHERE VERIFY IT ?
         this.columns = columns;
         board = new Color[rows][columns];
-        initBoardCells();
         placeFirstFourPawns();
         counterPawnsOnBoard = 4;
-    }
-
-    /**
-     * Initialize all the values of the board cells to null.
-     */
-    private void initBoardCells() {
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                board[i][j] = null;
-            }
-        }
     }
 
     /**

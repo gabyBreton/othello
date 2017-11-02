@@ -1,10 +1,5 @@
 package projet.othello.breton.model;
 
-import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -13,25 +8,6 @@ import static org.junit.Assert.*;
  * @author Gabriel Breton - 43397
  */
 public class OthelloImplTest {
-    
-    public OthelloImplTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of isOver method, of class OthelloImpl.
@@ -39,80 +15,161 @@ public class OthelloImplTest {
     @Test
     public void testIsOverFull() {
         OthelloImpl game = new OthelloImpl(2, 2);
-        assertTrue(game.isOver() == true);
+        assertTrue(game.isOver());
     }
 
-    
+    /**
+     * Test of isOver method, of class OthelloImpl.
+     */
+    @Test
+    public void testIsOverNotFull() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        assertFalse(game.isOver());
+    }
+
     /**
      * Test of getPlayers method, of class OthelloImpl.
      */
     @Test
     public void testGetPlayers() {
-        System.out.println("getPlayers");
-        OthelloImpl instance = null;
-        List<Players> expResult = null;
-        List<Players> result = instance.getPlayers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        OthelloImpl game = new OthelloImpl(4, 4);
+        Players playerBlack = game.getPlayers().get(0);
+        Players playerWhite = game.getPlayers().get(1);
+
+        assertTrue(playerBlack.getColor() == Color.BLACK
+                   && playerWhite.getColor() == Color.WHITE);
     }
 
     /**
-     * Test of getCurrentColor method, of class OthelloImpl.
+     * Test of getCurrentColor method, of class OthelloImpl, just after
+     * initialisation.
      */
     @Test
-    public void testGetCurrentColor() {
-        System.out.println("getCurrentColor");
-        OthelloImpl instance = null;
-        Color expResult = null;
-        Color result = instance.getCurrentColor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetCurrentColorInitial() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        Color currentColor = game.getCurrentColor();
+        assertEquals(Color.BLACK, currentColor);
+    }
+
+    /**
+     * Test of getCurrentColor method, of class OthelloImpl, after a change of
+     * the current color by adding a pawn on the board.
+     */
+    @Test
+    public void testGetCurrentColorAfterChange() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.play(1, 0);
+        Color currentColor = game.getCurrentColor();
+        assertEquals(Color.WHITE, currentColor);
     }
 
     /**
      * Test of getHeight method, of class OthelloImpl.
      */
     @Test
-    public void testGetHeight() {
-        System.out.println("getHeight");
-        OthelloImpl instance = null;
-        int expResult = 0;
-        int result = instance.getHeight();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetHeightEquals() {
+        OthelloImpl game = new OthelloImpl(4, 6);
+        assertEquals(4, game.getHeight());
+    }
+
+    /**
+     * Test of getHeight method, of class OthelloImpl.
+     */
+    @Test
+    public void testGetHeightNotEquals() {
+        OthelloImpl game = new OthelloImpl(4, 6);
+        assertNotEquals(6, game.getHeight());
     }
 
     /**
      * Test of getWidht method, of class OthelloImpl.
      */
     @Test
-    public void testGetWidht() {
-        System.out.println("getWidht");
-        OthelloImpl instance = null;
-        int expResult = 0;
-        int result = instance.getWidht();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetWidhtEquals() {
+        OthelloImpl game = new OthelloImpl(4, 6);
+        assertEquals(6, game.getWidht());
     }
 
     /**
-     * Test of getColor method, of class OthelloImpl.
+     * Test of getWidht method, of class OthelloImpl.
      */
     @Test
-    public void testGetColor() {
-        System.out.println("getColor");
-        int x = 0;
-        int y = 0;
-        OthelloImpl instance = null;
-        Color expResult = null;
-        Color result = instance.getColor(x, y);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetWidhtNotEquals() {
+        OthelloImpl game = new OthelloImpl(4, 6);
+        assertNotEquals(4, game.getWidht());
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of the
+     * first white pawn, placed at the start.
+     */
+    @Test
+    public void testGetColorFirstWhite() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        assertEquals(Color.WHITE, game.getColor(1, 1));
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of the
+     * first black pawn, placed at the start.
+     */
+    @Test
+    public void testGetColorFirstBlack() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        assertEquals(Color.BLACK,game.getColor(1, 2));
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of the
+     * second black pawn, placed at the start.
+     */
+    @Test
+    public void testGetColorSecondBlack() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        assertEquals(Color.BLACK, game.getColor(2, 1));
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of the
+     * second white pawn, placed at the start.
+     */
+    @Test
+    public void testGetColorSecondWhite() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        assertEquals(Color.WHITE, game.getColor(2, 2));
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of a cell
+     * where a pawn can be placed.
+     */
+    @Test
+    public void testGetColorPossibleMove() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.setPossiblePositions();
+        assertEquals(Color.GREY, game.getColor(1, 0));
+    }
+
+    /**
+     * Test of getColor method, of class OthelloImpl, to get the color of an
+     * empty place.
+     */
+    @Test
+    public void testGetColorEmptyPlace() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.setPossiblePositions();
+        assertEquals(null, game.getColor(0, 0));
+    }
+
+    /**
+     * Test of setPossiblePositions method, of class OthelloImpl. A possible
+     * positions is represented on the board by the color Grey.
+     */
+    @Test
+    public void testSetPossiblePositions() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.setPossiblePositions();
+        assertEquals(Color.GREY, game.getColor(1, 0));
     }
 
     /**
@@ -120,37 +177,100 @@ public class OthelloImplTest {
      */
     @Test
     public void testCleanLastPlayerPossibilities() {
-        System.out.println("cleanLastPlayerPossibilities");
-        OthelloImpl instance = null;
-        instance.cleanLastPlayerPossibilities();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.setPossiblePositions();
+        game.cleanLastPlayerPossibilities();
+        assertEquals(null, game.getColor(1, 0));
     }
 
     /**
-     * Test of setPossiblePositions method, of class OthelloImpl.
+     * Test of play method, of class OthelloImpl. Test to place a pawn on an 
+     * empty cell, but not a possible position.
      */
     @Test
-    public void testSetPossiblePositions() {
-        System.out.println("setPossiblePositions");
-        OthelloImpl instance = null;
-        instance.setPossiblePositions();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testPlayEmptyCellNotOk() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.setPossiblePositions();
+        game.play(0,0);
+        assertEquals(null, game.getColor(0, 0));
     }
 
     /**
-     * Test of play method, of class OthelloImpl.
+     * Test of play method, of class OthelloImpl. Test to place a pawn on a 
+     * possible position.
      */
     @Test
-    public void testPlay() {
-        System.out.println("play");
-        int x = 0;
-        int y = 0;
-        OthelloImpl instance = null;
-        instance.play(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testPlayPossibleMove() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.setPossiblePositions();        
+        game.play(2, 1);
+        assertEquals(Color.BLACK, game.getColor(2, 1));
     }
-    
+
+    /**
+     * Test of play method, of class OthelloImpl. Place a pawn on a possible 
+     * position and verifies if the adjacent pawn have been returned.
+     */
+    @Test
+    public void testPlayPossibleMoveFlipOk() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.setPossiblePositions();
+        game.play(2, 1);
+        assertEquals(Color.BLACK, game.getColor(2, 2)); 
+    }
+ 
+    /**
+     * Test of play method, of class OthelloImpl. Test to place a pawn on an
+     * already taked place.
+     */
+    @Test
+    public void testPlayTakedPlace() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.setPossiblePositions();
+        game.play(2, 2);
+        assertEquals(Color.WHITE, game.getColor(2, 2));
+    }
+
+    /**
+     * Test of play method, of class OthelloImpl. Test to place a pawn out of 
+     * the board out the minimal border.
+     */
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testPlayOutOfBoardMin() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.play(-1, -1);
+    }
+
+    /**
+     * Test of play method, of class OthelloImpl.Test to place a pawn out of 
+     * the board out the maximal border.
+     */
+    @Test(expected = ArrayIndexOutOfBoundsException.class)
+    public void testPlayOutOfBoardMax() {
+        OthelloImpl game = new OthelloImpl(6, 6);
+        game.play(6, 6);
+    }
+
+    /**
+     * Test of play method, of class OthelloImpl. Test to place a pawn on the 
+     * minimal inside limit border of the board, on a possible position.
+     */
+    @Test
+    public void testPlayLimitOfBoardMinOkMove() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.play(1, 0);
+        assertEquals(Color.BLACK, game.getColor(1, 0));
+    }
+
+    /**
+     * Test of play method, of class OthelloImpl. Test to place a pawn on the 
+     * maximal inside limit border of the board, on a possible position.
+     */
+    @Test
+    public void testPlayLimitOfBoardMaxOkMove() {
+        OthelloImpl game = new OthelloImpl(4, 4);
+        game.play(3, 2);
+        assertEquals(Color.BLACK, game.getColor(3, 2));
+    }
+
 }

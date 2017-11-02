@@ -93,7 +93,7 @@ public class OthelloImpl implements Othello {
     }
     
     @Override
-    public void play(int x, int y) {
+    public void play(int x, int y) throws ArrayIndexOutOfBoundsException {
         List<Positions> pawnsToFlip = new ArrayList<>();
         boolean validMove;
 
