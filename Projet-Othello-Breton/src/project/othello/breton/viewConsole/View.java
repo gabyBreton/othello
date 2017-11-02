@@ -1,8 +1,8 @@
 package project.othello.breton.viewConsole;
 
-import projet.othello.breton.model.Color;
-import projet.othello.breton.model.OthelloImpl;
-import projet.othello.breton.model.Players;
+import project.othello.breton.model.Color;
+import project.othello.breton.model.OthelloImpl;
+import project.othello.breton.model.Players;
 
 /**
  * This class provides methods related to the console view of the game.

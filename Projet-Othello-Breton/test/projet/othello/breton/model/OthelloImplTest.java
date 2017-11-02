@@ -1,5 +1,8 @@
 package projet.othello.breton.model;
 
+import project.othello.breton.model.Players;
+import project.othello.breton.model.Color;
+import project.othello.breton.model.OthelloImpl;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

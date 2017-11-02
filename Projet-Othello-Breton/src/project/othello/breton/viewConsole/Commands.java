@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import projet.othello.breton.model.OthelloImpl;
+import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class provides methods to manage the command-line interactions with the

@@ -1,6 +1,6 @@
 package project.othello.breton.viewConsole;
 
-import projet.othello.breton.model.OthelloImpl;
+import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class provides methods to connect the view with the model to play a 

@@ -1,4 +1,4 @@
-package projet.othello.breton.model;
+package project.othello.breton.model;
 
 /**
  * This class provides directions and their movements values on the board.

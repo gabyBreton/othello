@@ -1,4 +1,4 @@
-package projet.othello.breton.model;
+package project.othello.breton.model;
 
 /**
  * Enumeration of colors that are needed to distinguish players and pawns.

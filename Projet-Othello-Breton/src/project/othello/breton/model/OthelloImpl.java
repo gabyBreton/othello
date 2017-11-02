@@ -1,4 +1,4 @@
-package projet.othello.breton.model;
+package project.othello.breton.model;
 
 import java.util.ArrayList;
 import java.util.List;
