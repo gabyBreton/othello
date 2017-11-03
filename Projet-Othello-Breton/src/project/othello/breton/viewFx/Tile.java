@@ -17,10 +17,9 @@ import javafx.scene.shape.Rectangle;
  */
 class Tile extends StackPane {
     
-    private final PlayerColor pawnColor;
+    private Pawn pawn;
     
-    Tile(int i, int j, PlayerColor color) {
-        this.pawnColor = color;
+    Tile(int i, int j) {
         Rectangle border = new Rectangle(75, 75);
 
         if ((i == 0) || (j == 0)) {
@@ -28,14 +27,16 @@ class Tile extends StackPane {
             border.setStroke(null);
         } else {
             border.setFill(Color.GREEN);
+            border.setOpacity(0.5);
             border.setStroke(Color.BLACK);
         }
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(border);
     }
-
-    public PlayerColor getPawnColor() {
-        return pawnColor;
+    
+    void setPawn(Pawn pawn) {
+        this.pawn = pawn;
     }
+    
 }
