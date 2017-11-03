@@ -10,7 +10,7 @@ import java.util.List;
  */
 class Board {
 
-    private final Color[][] board;
+    private final PlayerColor[][] board;
     private final int rows;
     private final int columns;
     private int counterPawnsOnBoard;
@@ -24,7 +24,7 @@ class Board {
     Board(int rows, int columns) { // ROWS AND COLUMS SHOULD BE ODD NUMBERS, 
         this.rows = rows;          // WHERE VERIFY IT ?
         this.columns = columns;
-        board = new Color[rows][columns];
+        board = new PlayerColor[rows][columns];
         placeFirstFourPawns();
         counterPawnsOnBoard = 4;
     }
@@ -34,10 +34,10 @@ class Board {
      * and two white. They are positioned around the center of the board.
      */
     private void placeFirstFourPawns() {
-        board[(rows / 2) - 1][(columns / 2) - 1] = Color.WHITE;
-        board[(rows / 2) - 1][columns / 2] = Color.BLACK;
-        board[rows / 2][(columns / 2) - 1] = Color.BLACK;
-        board[rows / 2][columns / 2] = Color.WHITE;
+        board[(rows / 2) - 1][(columns / 2) - 1] = PlayerColor.WHITE;
+        board[(rows / 2) - 1][columns / 2] = PlayerColor.BLACK;
+        board[rows / 2][(columns / 2) - 1] = PlayerColor.BLACK;
+        board[rows / 2][columns / 2] = PlayerColor.WHITE;
     }
 
     /**
@@ -56,7 +56,7 @@ class Board {
      * @return true if the cell is free, or else false.
      */
     boolean isFree(int x, int y) {
-        return (board[x][y] == null) || (board[x][y] == Color.GREY);
+        return (board[x][y] == null) || (board[x][y] == PlayerColor.GREY);
     }
 
     /**
@@ -66,7 +66,7 @@ class Board {
      * @param y the position on the y axis.
      * @param color the color of the pawn.
      */
-    void placePawn(int x, int y, Color color) {
+    void placePawn(int x, int y, PlayerColor color) {
         board[x][y] = color;
     }
 
@@ -76,8 +76,8 @@ class Board {
      * @param pos the position of the cell to get the color.
      * @return the color of the cell.
      */
-    Color getColor(int x, int y) {
-        Color colorDebug = board[x][y];
+    PlayerColor getColor(int x, int y) {
+        PlayerColor colorDebug = board[x][y];
         return colorDebug;
     }
 
@@ -106,7 +106,7 @@ class Board {
      * @param y the position on the y axis.
      * @param color the color to set.
      */
-    void setColor(int x, int y, Color color) {
+    void setColor(int x, int y, PlayerColor color) {
         board[x][y] = color;
     }
 

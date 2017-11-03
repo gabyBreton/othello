@@ -13,7 +13,7 @@ public class OthelloImpl implements Othello {
     private final Board board;
     private final Players playerB;
     private final Players playerW;
-    private Color currentColor;
+    private PlayerColor currentColor;
 
     /**
      * Creates a new othello game.
@@ -23,9 +23,9 @@ public class OthelloImpl implements Othello {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB = new Players(Color.BLACK);
-        playerW = new Players(Color.WHITE);
-        currentColor = Color.BLACK;
+        playerB = new Players(PlayerColor.BLACK);
+        playerW = new Players(PlayerColor.WHITE);
+        currentColor = PlayerColor.BLACK;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class OthelloImpl implements Othello {
     }
 
     @Override
-    public Color getCurrentColor() {
+    public PlayerColor getCurrentColor() {
         return currentColor;
     }
 
@@ -59,7 +59,7 @@ public class OthelloImpl implements Othello {
     }
 
     @Override
-    public Color getColor(int x, int y) {
+    public PlayerColor getColor(int x, int y) {
         return board.getColor(x, y);
     }
     
@@ -67,7 +67,7 @@ public class OthelloImpl implements Othello {
     public void cleanLastPlayerPossibilities() {
         for(int i = 0; i < getHeight(); i++) {
             for(int j = 0; j < getWidht(); j++) {
-                if(board.getColor(i, j) == Color.GREY) {
+                if(board.getColor(i, j) == PlayerColor.GREY) {
                     board.setColor(i, j, null);
                 }
             }
@@ -84,7 +84,7 @@ public class OthelloImpl implements Othello {
         for(Positions aPosition : listPossiblePositions) {
             x = aPosition.getROW();
             y = aPosition.getCOLUMN();
-            board.setColor(x, y, Color.GREY);
+            board.setColor(x, y, PlayerColor.GREY);
         }
         
         if (listPossiblePositions.isEmpty()) {
@@ -135,7 +135,7 @@ public class OthelloImpl implements Othello {
      * @param nbFlippedPawns the number of pawns that have been flipped.
      */
     private void setPlayersScores(int nbFlippedPawns) {
-        if (currentColor == Color.BLACK) {
+        if (currentColor == PlayerColor.BLACK) {
             playerB.addPointsToScore(nbFlippedPawns + 1);
             playerW.addPointsToScore(-nbFlippedPawns);
         } else {
@@ -201,7 +201,7 @@ public class OthelloImpl implements Othello {
      */
     private void moveForwardLine(int xActual, int yActual, 
                                  Directions direction) {
-        Color otherColor = getOtherPlayerColor();
+        PlayerColor otherColor = getOtherPlayerColor();
 
         while (board.getColor(xActual, yActual) == otherColor) {
             xActual += direction.getxAxisMov();
@@ -223,7 +223,7 @@ public class OthelloImpl implements Othello {
      * position contains a pawns of the opposite player, or else false.
      */
     private boolean isOnBoardAndOppositeColor(int xActual, int yActual) {
-        Color otherColor = getOtherPlayerColor();
+        PlayerColor otherColor = getOtherPlayerColor();
 
         return board.isOnBoard(xActual, yActual)
                && (board.getColor(xActual, yActual) == otherColor);
@@ -234,12 +234,12 @@ public class OthelloImpl implements Othello {
      *
      * @return the color of the non current player.
      */
-    private Color getOtherPlayerColor() {
-        Color otherColor;
-        if (currentColor == Color.BLACK) {
-            otherColor = Color.WHITE;
+    private PlayerColor getOtherPlayerColor() {
+        PlayerColor otherColor;
+        if (currentColor == PlayerColor.BLACK) {
+            otherColor = PlayerColor.WHITE;
         } else {
-            otherColor = Color.BLACK;
+            otherColor = PlayerColor.BLACK;
         }
         return otherColor;
     }
@@ -303,14 +303,14 @@ public class OthelloImpl implements Othello {
      */
     private List<Positions> getListEmptyPositions() {
         List<Positions> emptyPositions = new ArrayList<>();
-        Color aColor;
+        PlayerColor aColor;
 
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
                 
                 aColor = board.getColor(i, j);
                 
-                if (aColor == null || aColor == Color.GREY) {
+                if (aColor == null || aColor == PlayerColor.GREY) {
                     emptyPositions.add(new Positions(i, j));
                 }
             }
@@ -323,10 +323,10 @@ public class OthelloImpl implements Othello {
      * Changes the current player.
      */
     private void changeCurrentPlayer() {
-            if (currentColor == Color.BLACK) {
-                currentColor = Color.WHITE;
+            if (currentColor == PlayerColor.BLACK) {
+                currentColor = PlayerColor.WHITE;
             } else {
-                currentColor = Color.BLACK;
+                currentColor = PlayerColor.BLACK;
             }
     }
     

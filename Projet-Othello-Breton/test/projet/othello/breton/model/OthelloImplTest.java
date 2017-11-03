@@ -1,7 +1,7 @@
 package projet.othello.breton.model;
 
 import project.othello.breton.model.Players;
-import project.othello.breton.model.Color;
+import project.othello.breton.model.PlayerColor;
 import project.othello.breton.model.OthelloImpl;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -39,8 +39,8 @@ public class OthelloImplTest {
         Players playerBlack = game.getPlayers().get(0);
         Players playerWhite = game.getPlayers().get(1);
 
-        assertTrue(playerBlack.getColor() == Color.BLACK
-                   && playerWhite.getColor() == Color.WHITE);
+        assertTrue(playerBlack.getColor() == PlayerColor.BLACK
+                   && playerWhite.getColor() == PlayerColor.WHITE);
     }
 
     /**
@@ -50,8 +50,8 @@ public class OthelloImplTest {
     @Test
     public void testGetCurrentColorInitial() {
         OthelloImpl game = new OthelloImpl(4, 4);
-        Color currentColor = game.getCurrentColor();
-        assertEquals(Color.BLACK, currentColor);
+        PlayerColor currentColor = game.getCurrentColor();
+        assertEquals(PlayerColor.BLACK, currentColor);
     }
 
     /**
@@ -62,8 +62,8 @@ public class OthelloImplTest {
     public void testGetCurrentColorAfterChange() {
         OthelloImpl game = new OthelloImpl(4, 4);
         game.play(1, 0);
-        Color currentColor = game.getCurrentColor();
-        assertEquals(Color.WHITE, currentColor);
+        PlayerColor currentColor = game.getCurrentColor();
+        assertEquals(PlayerColor.WHITE, currentColor);
     }
 
     /**
@@ -109,7 +109,7 @@ public class OthelloImplTest {
     @Test
     public void testGetColorFirstWhite() {
         OthelloImpl game = new OthelloImpl(4, 4);
-        assertEquals(Color.WHITE, game.getColor(1, 1));
+        assertEquals(PlayerColor.WHITE, game.getColor(1, 1));
     }
 
     /**
@@ -119,7 +119,7 @@ public class OthelloImplTest {
     @Test
     public void testGetColorFirstBlack() {
         OthelloImpl game = new OthelloImpl(4, 4);
-        assertEquals(Color.BLACK,game.getColor(1, 2));
+        assertEquals(PlayerColor.BLACK,game.getColor(1, 2));
     }
 
     /**
@@ -129,7 +129,7 @@ public class OthelloImplTest {
     @Test
     public void testGetColorSecondBlack() {
         OthelloImpl game = new OthelloImpl(4, 4);
-        assertEquals(Color.BLACK, game.getColor(2, 1));
+        assertEquals(PlayerColor.BLACK, game.getColor(2, 1));
     }
 
     /**
@@ -139,7 +139,7 @@ public class OthelloImplTest {
     @Test
     public void testGetColorSecondWhite() {
         OthelloImpl game = new OthelloImpl(4, 4);
-        assertEquals(Color.WHITE, game.getColor(2, 2));
+        assertEquals(PlayerColor.WHITE, game.getColor(2, 2));
     }
 
     /**
@@ -150,7 +150,7 @@ public class OthelloImplTest {
     public void testGetColorPossibleMove() {
         OthelloImpl game = new OthelloImpl(4, 4);
         game.setPossiblePositions();
-        assertEquals(Color.GREY, game.getColor(1, 0));
+        assertEquals(PlayerColor.GREY, game.getColor(1, 0));
     }
 
     /**
@@ -172,7 +172,7 @@ public class OthelloImplTest {
     public void testSetPossiblePositions() {
         OthelloImpl game = new OthelloImpl(4, 4);
         game.setPossiblePositions();
-        assertEquals(Color.GREY, game.getColor(1, 0));
+        assertEquals(PlayerColor.GREY, game.getColor(1, 0));
     }
 
     /**
@@ -207,7 +207,7 @@ public class OthelloImplTest {
         OthelloImpl game = new OthelloImpl(6, 6);
         game.setPossiblePositions();        
         game.play(2, 1);
-        assertEquals(Color.BLACK, game.getColor(2, 1));
+        assertEquals(PlayerColor.BLACK, game.getColor(2, 1));
     }
 
     /**
@@ -219,7 +219,7 @@ public class OthelloImplTest {
         OthelloImpl game = new OthelloImpl(6, 6);
         game.setPossiblePositions();
         game.play(2, 1);
-        assertEquals(Color.BLACK, game.getColor(2, 2)); 
+        assertEquals(PlayerColor.BLACK, game.getColor(2, 2)); 
     }
  
     /**
@@ -231,7 +231,7 @@ public class OthelloImplTest {
         OthelloImpl game = new OthelloImpl(6, 6);
         game.setPossiblePositions();
         game.play(2, 2);
-        assertEquals(Color.WHITE, game.getColor(2, 2));
+        assertEquals(PlayerColor.WHITE, game.getColor(2, 2));
     }
 
     /**
@@ -262,7 +262,7 @@ public class OthelloImplTest {
     public void testPlayLimitOfBoardMinOkMove() {
         OthelloImpl game = new OthelloImpl(4, 4);
         game.play(1, 0);
-        assertEquals(Color.BLACK, game.getColor(1, 0));
+        assertEquals(PlayerColor.BLACK, game.getColor(1, 0));
     }
 
     /**
@@ -273,7 +273,7 @@ public class OthelloImplTest {
     public void testPlayLimitOfBoardMaxOkMove() {
         OthelloImpl game = new OthelloImpl(4, 4);
         game.play(3, 2);
-        assertEquals(Color.BLACK, game.getColor(3, 2));
+        assertEquals(PlayerColor.BLACK, game.getColor(3, 2));
     }
 
 }

@@ -5,7 +5,7 @@ package project.othello.breton.model;
  *
  * @author Gabriel Breton - 43397
  */
-public enum Color {
+public enum PlayerColor {
     
     /**
      * For the player Black.

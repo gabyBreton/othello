@@ -28,7 +28,7 @@ interface Othello {
      * 
      * @return the current player color.
      */
-    Color getCurrentColor();
+    PlayerColor getCurrentColor();
     
     /**
      * Gives the height of the board.
@@ -51,7 +51,7 @@ interface Othello {
      * @param y the position on the y axis.
      * @return the color of the cell, or null if the cell is free.
      */
-    Color getColor(int x, int y);
+    PlayerColor getColor(int x, int y);
     
     /**
      * Place a pawn on a position on the game board.

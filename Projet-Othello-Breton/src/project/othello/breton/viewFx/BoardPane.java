@@ -5,7 +5,9 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import project.othello.breton.model.PlayerColor;
 import javafx.scene.shape.Rectangle;
+import project.othello.breton.model.OthelloImpl;
 
 /**
  *
@@ -19,19 +21,31 @@ public class BoardPane {
     private Label rowNumber;
     private Label columnLetter;
 
-    BoardPane() {
+    BoardPane(OthelloImpl game) {
+        PlayerColor pawnColor;
         board = new GridPane();
-        board.setPrefSize(600, 600);
+        board.setPrefSize(675, 675);
         
         for (int i = 0; i < width + 1; i++) {
             for (int j = 0; j < height + 1; j++) {
-                Tile tile = new Tile(i, j);
+                pawnColor = getColorPawn(i, j, game);
+                Tile tile = new Tile(i, j, pawnColor);
                 tile.setTranslateX(j * 75);
                 tile.setTranslateY(i * 75);
                 initSideNumbering(i, j, tile);
                 board.getChildren().add(tile);                
             }
         }
+    }
+
+    private PlayerColor getColorPawn(int i, int j, OthelloImpl game) {
+        PlayerColor pawnColor;
+        if ((i >= width) || (j >= height)) {
+            pawnColor = null;
+        } else {
+            pawnColor = game.getColor(j, i);
+        }
+        return pawnColor;
     }
 
     private void initSideNumbering(int i, int j, Tile tile) {
@@ -54,23 +68,4 @@ public class BoardPane {
     GridPane getBoard() {
         return board;
     }
-
-    private class Tile extends StackPane {
-
-        private Tile(int i, int j) {
-            Rectangle border = new Rectangle(75, 75);
-
-            if ((i == 0) || (j == 0)) {
-                border.setFill(null);
-                border.setStroke(null);
-            } else {
-                border.setFill(Color.GREEN);
-                border.setStroke(Color.BLACK);
-            }
-
-            setAlignment(Pos.CENTER);
-            getChildren().addAll(border);
-        }
-    }
-
 }

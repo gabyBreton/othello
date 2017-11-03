@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import project.othello.breton.model.OthelloImpl;
+import project.othello.breton.model.PlayerColor;
 
 /**
  *
@@ -12,52 +13,51 @@ import project.othello.breton.model.OthelloImpl;
 public class ScoresInfos {
 
     private GridPane sidePane;
-    private Label scoreBlack;
-    private Label scoreWhite;
-
+    private Label scoreB;
+    private Label scoreW;
+    private Label scores;
+    private Pawn black;
+    private Pawn white;
+    
     ScoresInfos(OthelloImpl game) {
         initAndSet();
         addScore(game);
+        sidePane.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
     }
 
     private void initAndSet() {
         sidePane = new GridPane();
-        sidePane.setPadding(new Insets(200));
+        sidePane.setPadding(new Insets(75, 50, 0, 50));
         sidePane.setHgap(10);
         sidePane.setVgap(15);
     }
 
     private void addScore(OthelloImpl game) {
-        Label scores = new Label("Scores");
+        scores = new Label("Scores");
         scores.setUnderline(true);
-        Label nameB = new Label("Black:");
-        Label nameW = new Label("White:");
-
-        scoreBlack = new Label();
-        scoreBlack.setText(String.valueOf(game.getPlayers().get(0).getScore()));
-        scoreWhite = new Label();
-        scoreWhite.setText(String.valueOf(game.getPlayers().get(1).getScore()));
-        setStylesLabels(scores, nameB, nameW);
-        addScoresToPane(scores, nameB, nameW);
+        black = new Pawn(PlayerColor.BLACK);
+        white = new Pawn(PlayerColor.WHITE);
+        scoreB = new Label();
+        scoreB.setText(String.valueOf(game.getPlayers().get(0).getScore()));
+        scoreW = new Label();
+        scoreW.setText(String.valueOf(game.getPlayers().get(1).getScore()));
+        setIDLabels();
+        addScoresToPane();
 
     }
 
-    private void setStylesLabels(Label scores, Label nameB, Label nameW) {
-        String style = "-fx-font-size: 18px;\n"
-                       + "-fx-font-weight: bold;\n";
-        scores.setStyle(style);
-        nameB.setStyle(style);
-        nameW.setStyle(style);
-        scoreBlack.setStyle(style);
-        scoreWhite.setStyle(style);
+    private void setIDLabels() {
+        scores.setId("scores");
+        scoreB.setId("scoreB");
+        scoreW.setId("scoreW");
     }
 
-    private void addScoresToPane(Label scores, Label nameB, Label nameW) {
+    private void addScoresToPane() {
         sidePane.add(scores, 0, 0);
-        sidePane.add(nameB, 0, 1);
-        sidePane.add(scoreBlack, 1, 1);
-        sidePane.add(nameW, 0, 2);
-        sidePane.add(scoreWhite, 1, 2);
+        sidePane.add(black, 0, 1);
+        sidePane.add(scoreB, 1, 1);
+        sidePane.add(white, 0, 2);
+        sidePane.add(scoreW, 1, 2);
     }
     
     GridPane getSidePane() {

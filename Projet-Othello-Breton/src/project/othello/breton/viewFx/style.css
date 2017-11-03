@@ -1,0 +1,19 @@
+/* 
+    Created on : Nov 3, 2017, 2:04:37 PM
+    Author     : Gabriel Breton - 43397
+*/
+#pane{
+    -fx-background-image: url('old-wallpaper.jpg');
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#scores{
+    -fx-font: 40px "Serif";
+    -fx-font-weight: bold;
+}
+
+#scoreB, #scoreW{
+    -fx-font: 30px "Serif";
+    -fx-font-weight: bold;
+}

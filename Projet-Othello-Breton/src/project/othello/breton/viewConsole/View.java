@@ -1,6 +1,6 @@
 package project.othello.breton.viewConsole;
 
-import project.othello.breton.model.Color;
+import project.othello.breton.model.PlayerColor;
 import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.model.Players;
 
@@ -92,7 +92,7 @@ class View {
         String ansiBlack = "\u001B[40m";
         String ansiWhite = "\u001B[47m";
         String ansiReset = "\u001B[0m"; 
-        Color colorCell;
+        PlayerColor colorCell;
         
         colorCell = game.getColor(x, y);
         if (null == colorCell) {
