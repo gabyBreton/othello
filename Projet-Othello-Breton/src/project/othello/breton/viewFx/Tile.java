@@ -8,7 +8,6 @@ package project.othello.breton.viewFx;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import project.othello.breton.model.PlayerColor;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -33,6 +32,10 @@ class Tile extends StackPane {
 
         setAlignment(Pos.CENTER);
         getChildren().addAll(border);
+    }
+    
+    Pawn getPanw() {
+        return pawn;
     }
     
     void setPawn(Pawn pawn) {
