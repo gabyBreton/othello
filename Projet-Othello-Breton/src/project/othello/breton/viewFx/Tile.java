@@ -15,7 +15,6 @@ import javafx.scene.shape.Rectangle;
  * @author Gabriel Breton - 43397
  */
 class Tile extends StackPane {
-    
     private Pawn pawn;
     
     Tile(int i, int j) {

@@ -7,11 +7,11 @@ import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.model.PlayerColor;
 
 /**
- *
+ * This classes manages the scores view.
+ * 
  * @author Gabriel Breton - 43397
  */
 public class ScoresInfos {
-
     private GridPane sidePane;
     private Label scoreB;
     private Label scoreW;
@@ -19,12 +19,20 @@ public class ScoresInfos {
     private Pawn black;
     private Pawn white;
     
+    /**
+     * The creates the pane with all the elements of the score.
+     * 
+     * @param game the current session of Othello.
+     */
     ScoresInfos(OthelloImpl game) {
         initAndSet();
         addScore(game);
         sidePane.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
     }
 
+    /**
+     * Initialize and set the gridpane of the score.
+     */
     private void initAndSet() {
         sidePane = new GridPane();
         sidePane.setPadding(new Insets(75, 50, 0, 50));
@@ -32,6 +40,10 @@ public class ScoresInfos {
         sidePane.setVgap(15);
     }
 
+    /**
+     * Add the elements of the score.
+     * @param game 
+     */
     private void addScore(OthelloImpl game) {
         scores = new Label("Scores");
         scores.setUnderline(true);
