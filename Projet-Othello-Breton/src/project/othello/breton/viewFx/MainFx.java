@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
@@ -15,7 +16,6 @@ import project.othello.breton.model.OthelloImpl;
  */
 public class MainFx extends Application {
     private OthelloImpl game;
-    private GridPane board;
  
     @Override
     public void start(Stage primaryStage) {
@@ -27,9 +27,12 @@ public class MainFx extends Application {
         
         game = new OthelloImpl(8, 8);
         VBox root = new VBox();
+
+        GridPane sideZone = new ScoresInfos(game).getSidePane();
+        GridPane board = new BoardPane().getBoard();
         
-        board = new BoardPane().getBoard();
-        root.getChildren().addAll(board);
+        sideZone.setAlignment(Pos.TOP_RIGHT);
+        root.getChildren().addAll(board, sideZone);
         
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
