@@ -7,7 +7,7 @@ import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class creates a board with the four start pawns.
- * 
+ *
  * @author Gabriel Breton - 43397
  */
 public class BoardPane {
@@ -19,12 +19,12 @@ public class BoardPane {
     private Label rowNumber;
     private Label columnLetter;
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
-                                       //a specific tile.
-   
+    //a specific tile.
+
     /**
      * Creates a new Othello board, with the first four pawns and the sides
      * numbering.
-     * 
+     *
      * @param game the current game of Othello.
      */
     BoardPane(OthelloImpl game) {
@@ -33,14 +33,13 @@ public class BoardPane {
 
         board.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         board.setPrefSize(675, 675);
-        addTiles();
-        placeFirstFourPawns();
+        addTiles(game);
     }
 
     /**
      * Creates and add all the tiles of the board.
      */
-    private void addTiles() {
+    private void addTiles(OthelloImpl game) {
         for (int i = 0; i < width + 1; i++) {
             for (int j = 0; j < height + 1; j++) {
                 Tile tile = new Tile(i, j);
@@ -49,23 +48,37 @@ public class BoardPane {
                 tile.setTranslateY(i * 75);
                 createSideNumbering(i, j, tile);
                 board.getChildren().add(tile);
+                verifyIfHaveToPlacePawn(game, j, i);
             }
         }
     }
 
     /**
-     * Places the first four pawns of the game.
+     * Verifies if a pawn have to be placed on the board while creating the 
+     * board.
+     * 
+     * @param game the current session of Othello.
+     * @param j the number of the row.
+     * @param i the number of the column.
      */
-    private void placeFirstFourPawns() {
-        placeAPawn(PlayerColor.WHITE, 4, 4);
-        placeAPawn(PlayerColor.BLACK, 4, 5);
-        placeAPawn(PlayerColor.BLACK, 5, 4);
-        placeAPawn(PlayerColor.WHITE, 5, 5);
+    private void verifyIfHaveToPlacePawn(OthelloImpl game, int j, int i) {
+        if ((i < height - 1) && (i < width - 1)
+             && (j < height - 1) && (j < width - 1)) {
+            
+            if ((i > 0) && (j > 0)) {
+                
+                if ((game.getColor(j - 1, i - 1) == PlayerColor.BLACK)
+                     || (game.getColor(j - 1, i - 1) == PlayerColor.WHITE)) {
+                    
+                    placeAPawn(game.getColor(j - 1, i - 1), j, i);
+                }
+            }
+        }
     }
 
     /**
      * Permits to place a pawn on the board.
-     * 
+     *
      * @param color the color of the pawn.
      * @param x the number of the row.
      * @param y the number of the column.
@@ -78,7 +91,7 @@ public class BoardPane {
 
     /**
      * Creates the sides numbering, with letters and numbers.
-     * 
+     *
      * @param i the number of the line.
      * @param j the number of the column.
      * @param tile the tile where place the numbering.
@@ -99,6 +112,7 @@ public class BoardPane {
 
     /**
      * Gives the game board.
+     *
      * @return the game board.
      */
     GridPane getBoard() {
