@@ -36,7 +36,7 @@ public class ScoresInfos {
      */
     private void initAndSet() {
         sidePane = new GridPane();
-        sidePane.setPadding(new Insets(75, 50, 0, 50));
+//        sidePane.setPadding(new Insets(75, 50, 0, 50));
         sidePane.setHgap(10);
         sidePane.setVgap(15);
     }
