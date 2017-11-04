@@ -40,7 +40,7 @@
     -fx-padding: 10 20 10 20;
 }
 
-#btnQuit:pressed {
+#btnQuit:hover {
       -fx-background-color: 
         #000000,
         linear-gradient(#000000 0%, #000000 20%, #000000 100%),

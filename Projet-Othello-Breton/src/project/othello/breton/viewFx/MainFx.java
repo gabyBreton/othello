@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -57,8 +58,11 @@ public class MainFx extends Application {
         GridPane board = new BoardPane(game).getBoard();
         GridPane scoreInfos = new ScoresInfos(game).getSidePane();
   //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
-        
+//        Label currentPlayer = new Label();
+//        currentPlayer.setText(game.getCurrentColor().toString());
+//        currentPlayer.setId("currentPlayer");
         Button btnQuit = makeButtonQuit();
+        //GridPane sideZone = makeSideZone(scoreInfos, btnQuit, currentPlayer);
         GridPane sideZone = makeSideZone(scoreInfos, btnQuit);
         
         root.setLeft(board);
@@ -96,6 +100,7 @@ public class MainFx extends Application {
         sideZone.setVgap(15);
         //  sideZone.setGridLinesVisible(true); // FOR DEBUG!
         sideZone.add(scoreInfos, 0, 0);
+        //sideZone.add(currentPlayer, 0, 5);
         sideZone.add(btnQuit, 0, 10);
         return sideZone;
     }
