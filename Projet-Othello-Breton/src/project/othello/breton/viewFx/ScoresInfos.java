@@ -27,7 +27,8 @@ public class ScoresInfos {
     ScoresInfos(OthelloImpl game) {
         initAndSet();
         addScore(game);
-        sidePane.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        sidePane.getStylesheets().addAll(
+                     this.getClass().getResource("style.css").toExternalForm());
     }
 
     /**
@@ -42,7 +43,8 @@ public class ScoresInfos {
 
     /**
      * Add the elements of the score.
-     * @param game 
+     * 
+     * @param game the current session of Othello.
      */
     private void addScore(OthelloImpl game) {
         scores = new Label("Scores");
@@ -58,12 +60,18 @@ public class ScoresInfos {
 
     }
 
+    /**
+     * Set the ID's of the score's labels.
+     */
     private void setIDLabels() {
         scores.setId("scores");
         scoreB.setId("scoreB");
         scoreW.setId("scoreW");
     }
 
+    /**
+     * Adds the scores elements on the pane.
+     */
     private void addScoresToPane() {
         sidePane.add(scores, 0, 0);
         sidePane.add(black, 0, 1);
@@ -72,6 +80,11 @@ public class ScoresInfos {
         sidePane.add(scoreW, 1, 2);
     }
     
+    /**
+     * Gives the score infos pane.
+     * 
+     * @return the score infos pane.
+     */
     GridPane getSidePane() {
         return sidePane;
     }

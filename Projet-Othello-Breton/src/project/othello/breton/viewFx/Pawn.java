@@ -61,7 +61,8 @@ public class Pawn extends StackPane {
      * @param bckgrnd the lower part of the pawn.
      * @param ellipse the upper part of the pawn.
      */
-    private void setColorsPawn(PlayerColor color, Ellipse bckgrnd, Ellipse ellipse) {
+    private void setColorsPawn(PlayerColor color, Ellipse bckgrnd, 
+                               Ellipse ellipse) {
         if (color == PlayerColor.BLACK) {
             bckgrnd.setFill(Color.WHITE);
             bckgrnd.setStroke(Color.WHITE);

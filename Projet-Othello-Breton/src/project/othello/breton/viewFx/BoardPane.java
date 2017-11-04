@@ -19,7 +19,7 @@ public class BoardPane {
     private Label rowNumber;
     private Label columnLetter;
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
-    //a specific tile.
+                                       //the specific tile where to place it.
 
     /**
      * Creates a new Othello board, with the first four pawns and the sides
@@ -31,7 +31,8 @@ public class BoardPane {
         tilesArray = new Tile[width + 1][height + 1];
         board = new GridPane();
 
-        board.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
+        board.getStylesheets().addAll(
+                     this.getClass().getResource("style.css").toExternalForm());
         board.setPrefSize(675, 675);
         addTiles(game);
     }
