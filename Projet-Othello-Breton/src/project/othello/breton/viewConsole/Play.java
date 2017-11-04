@@ -88,7 +88,7 @@ class Play {
                 View.showScores(scoreBlack, scoreWhite);
                 break;
             case 3:
-                //display help
+                View.displayHelp();
                 break;
             case 4:
                 playAMove(command, othello);

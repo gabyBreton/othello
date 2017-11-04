@@ -252,4 +252,16 @@ class View {
         System.out.println("");
         System.out.println("Enter the dimensions of the game board.");
     }
+    
+    static void displayHelp() {
+        System.out.println("");
+        System.out.println("HELP:");
+        System.out.println("- To show the game board enter: 'show'");
+        System.out.println("- To place a pawn enter: 'play x y'");
+        System.out.println("    In the command 'play x y' 'x' is the number of "
+                           + "the row and 'y' the letter of the column.");
+        System.out.println("- To display this help enter: 'help'");
+        System.out.println("For the rules of Othello, ask DuckDuckGo.");
+        System.out.println("");
+    }
 }
