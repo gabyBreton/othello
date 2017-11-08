@@ -13,7 +13,12 @@
     -fx-font-weight: bold;
 }
 
-#scoreB, #scoreW {
+#scoreB, #scoreW, #cptWall{
+    -fx-font: 30px "Serif";
+    -fx-font-weight: bold;
+}
+
+#nbWall {
     -fx-font: 30px "Serif";
     -fx-font-weight: bold;
 }

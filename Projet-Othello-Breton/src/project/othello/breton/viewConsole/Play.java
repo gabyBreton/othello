@@ -99,6 +99,12 @@ class Play {
         }
     }
 
+    /**
+     * Place a wall on a given cell, if the cell is free.
+     * 
+     * @param command the command entered.
+     * @param othello the session of Othello.
+     */
     private static void placeWall(String command, OthelloImpl othello) {
         int xMove;
         int yMove;

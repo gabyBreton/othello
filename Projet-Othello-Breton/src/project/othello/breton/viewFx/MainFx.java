@@ -55,6 +55,8 @@ public class MainFx extends Application {
         root.setId("pane");
 
         game = new OthelloImpl(8, 8);
+        game.wall(0, 0); // To verify if we see a wall
+
         GridPane board = new BoardPane(game).getBoard();
         GridPane scoreInfos = new ScoresInfos(game).getSidePane();
   //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
@@ -62,14 +64,41 @@ public class MainFx extends Application {
 //        currentPlayer.setText(game.getCurrentColor().toString());
 //        currentPlayer.setId("currentPlayer");
         Button btnQuit = makeButtonQuit();
+        Label cptWall = makeCptWall();
+        //Label nbWall = makeNbWall();
+        Label nbWall = makeNbWall();
         //GridPane sideZone = makeSideZone(scoreInfos, btnQuit, currentPlayer);
-        GridPane sideZone = makeSideZone(scoreInfos, btnQuit);
+        GridPane sideZone = makeSideZone(scoreInfos, btnQuit, cptWall, nbWall);
         
         root.setLeft(board);
         root.setCenter(sideZone);
         return root;
     }
 
+    /**
+     * Make the view of the number of wall on the board.
+     * 
+     * @return the label for the number of wall.
+     */
+    private Label makeNbWall() {
+        Label nbWall = new Label();
+        nbWall.setText(String.valueOf(game.getCounterWallsOnBoard()));
+        nbWall.setId("nbWall");
+        return nbWall;
+    }
+
+    /**
+     * Make the label who say how many walls there is on the board.
+     * 
+     * @return the label who say how many walls there is on the board.
+     */
+    private Label makeCptWall() {
+        Label cptWall = new Label();
+        cptWall.setText("Walls:");
+        cptWall.setId("cptWall");
+        return cptWall;
+    }
+    
     /**
      * Creates a button to quit the game.
      * 
@@ -93,13 +122,16 @@ public class MainFx extends Application {
      * @param btnQuit the button quit.
      * @return 
      */
-    private GridPane makeSideZone(GridPane scoreInfos, Button btnQuit) {
+    private GridPane makeSideZone(GridPane scoreInfos, Button btnQuit, 
+                                  Label cptWall, Label nbWall) {
         GridPane sideZone = new GridPane();
         sideZone.setPadding(new Insets(75, 50, 0, 50));
         sideZone.setHgap(10);
         sideZone.setVgap(15);
-        //  sideZone.setGridLinesVisible(true); // FOR DEBUG!
+        sideZone.setGridLinesVisible(true); // FOR DEBUG!
         sideZone.add(scoreInfos, 0, 0);
+        sideZone.add(cptWall, 0, 5);   
+        sideZone.add(nbWall, 0, 6);   
         //sideZone.add(currentPlayer, 0, 5);
         sideZone.add(btnQuit, 0, 10);
         return sideZone;

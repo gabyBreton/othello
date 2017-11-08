@@ -11,14 +11,16 @@ import project.othello.breton.model.OthelloImpl;
  * @author Gabriel Breton - 43397
  */
 public class BoardPane {
+
     private final GridPane board;
     private final int width = 8;
     private final int height = 8;
     private final String alphabet = "abcdefghijklmnopqrstuvwxyz";
     private Label rowNumber;
     private Label columnLetter;
+    private int cptWallOnBoard = 0;
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
-                                       //the specific tile where to place it.
+    //the specific tile where to place it.
 
     /**
      * Creates a new Othello board, with the first four pawns and the sides
@@ -31,7 +33,7 @@ public class BoardPane {
         board = new GridPane();
 
         board.getStylesheets().addAll(
-                     this.getClass().getResource("style.css").toExternalForm());
+                this.getClass().getResource("style.css").toExternalForm());
         board.setPrefSize(675, 675);
         addTiles(game);
     }
@@ -40,9 +42,11 @@ public class BoardPane {
      * Creates and add all the tiles of the board.
      */
     private void addTiles(OthelloImpl game) {
+        PlayerColor cellColor;
         for (int i = 0; i < width + 1; i++) {
             for (int j = 0; j < height + 1; j++) {
-                Tile tile = new Tile(i, j);
+                cellColor = getCellColor(game, j, i);
+                Tile tile = new Tile(i, j, cellColor);
                 tilesArray[j][i] = tile;
                 tile.setTranslateX(j * 75);
                 tile.setTranslateY(i * 75);
@@ -54,26 +58,40 @@ public class BoardPane {
     }
 
     /**
-     * Verifies if a pawn have to be placed on the board while creating the 
+     * Verifies if a pawn have to be placed on the board while creating the
      * board.
-     * 
+     *
      * @param game the current session of Othello.
      * @param j the number of the row.
      * @param i the number of the column.
      */
     private void verifyIfHaveToPlacePawn(OthelloImpl game, int j, int i) {
         if ((i < height - 1) && (i < width - 1)
-             && (j < height - 1) && (j < width - 1)) {
-            
+                && (j < height - 1) && (j < width - 1)) {
+
             if ((i > 0) && (j > 0)) {
-                
+
                 if ((game.getColor(j - 1, i - 1) == PlayerColor.BLACK)
-                     || (game.getColor(j - 1, i - 1) == PlayerColor.WHITE)) {
-                    
+                        || (game.getColor(j - 1, i - 1) == PlayerColor.WHITE)) {
+
                     placeAPawn(game.getColor(j - 1, i - 1), j, i);
                 }
             }
         }
+    }
+
+    private PlayerColor getCellColor(OthelloImpl game, int j, int i) {
+        PlayerColor cellColor;
+        cellColor = null;
+        
+        if ((i < height - 1) && (i < width - 1)
+                && (j < height - 1) && (j < width - 1)) {
+
+            if ((i > 0) && (j > 0)) {
+                cellColor = game.getColor(j - 1, i - 1);
+            }
+        } 
+        return cellColor;
     }
 
     /**
@@ -117,5 +135,9 @@ public class BoardPane {
      */
     GridPane getBoard() {
         return board;
+    }
+
+    public int getCptWallOnBoard() {
+        return cptWallOnBoard;
     }
 }

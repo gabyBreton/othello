@@ -9,7 +9,8 @@ import java.util.List;
  * @author Gabriel Breton - 43397
  */
 public class OthelloImpl implements Othello {
-
+    
+    private int counterWallsOnBoard;
     private final Board board;
     private final Players playerB;
     private final Players playerW;
@@ -26,6 +27,7 @@ public class OthelloImpl implements Othello {
         playerB = new Players(PlayerColor.BLACK);
         playerW = new Players(PlayerColor.WHITE);
         currentColor = PlayerColor.BLACK;
+        counterWallsOnBoard = 0;
     }
 
     @Override
@@ -361,6 +363,21 @@ public class OthelloImpl implements Othello {
         if(board.isFree(x, y)) {
             board.setColor(x, y, PlayerColor.RED);
             changeCurrentPlayer();
+            incCounterWallsOnBoard();
         }
+    }
+        /**
+     * Gives the number of wall on the board.
+     * 
+     * @return the number of wall on the board.
+     */
+    public int getCounterWallsOnBoard() {
+        return counterWallsOnBoard;
+    }
+        /**
+     * Increments the counter of walls on the board.
+     */
+    private void incCounterWallsOnBoard() {
+        counterWallsOnBoard += 1;
     }
 }
