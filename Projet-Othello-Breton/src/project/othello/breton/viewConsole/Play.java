@@ -47,7 +47,7 @@ class Play {
         
         aCommand = View.newAction(othello);
         if (Commands.verifyCommand(aCommand)) {
-            if (Commands.isPlayValueCorrect(aCommand, othello)) {
+            if (Commands.areCmdValuesCorrect(aCommand, othello)) {
                 execTheCmd(aCommand, othello);
             }
         } else {
@@ -93,9 +93,24 @@ class Play {
             case 4:
                 playAMove(command, othello);
                 break;
+            case 5:
+                placeWall(command, othello);
+                break;
         }
     }
 
+    private static void placeWall(String command, OthelloImpl othello) {
+        int xMove;
+        int yMove;
+        String[] cmdSplitted;
+        
+        cmdSplitted = command.split(" ");
+        xMove = Integer.parseInt(cmdSplitted[1]);
+        yMove = convertLetterToNumber(cmdSplitted[2]);
+        
+        othello.wall(xMove - 1, yMove);
+    }
+    
     /**
      * Takes the value from the command and play a move with it.
      * 

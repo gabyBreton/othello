@@ -20,5 +20,10 @@ public enum PlayerColor {
     /**
      * The color of the cell when a player can place a pawn on it.
      */
-    GREY;
+    GREY,
+    
+    /**
+     * The color of a cell that contains a wall.
+     */
+    RED;
 }

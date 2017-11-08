@@ -54,6 +54,7 @@ class Commands {
         patterns.add(Pattern.compile("show[\\s]*"));
         patterns.add(Pattern.compile("score[\\s]*"));
         patterns.add(Pattern.compile("^play[\\s][\\d]+[\\s][a-z][\\s]*$"));
+        patterns.add(Pattern.compile("^wall[\\s][\\d]+[\\s][a-z][\\s]*$"));
         patterns.add(Pattern.compile("help[\\s]*"));
 
         return patterns;
@@ -68,8 +69,8 @@ class Commands {
      * @return true if the command matches with one of the patterns, or else
      * false.
      */
-    private static boolean isCmdMatching(List<Pattern> patterns, 
-                                         String command) {
+    private static boolean isCmdMatching(List<Pattern> patterns,
+            String command) {
         boolean findMatch;
         findMatch = false;
 
@@ -94,7 +95,7 @@ class Commands {
      * as it is a bad wrong shape or wrong command type.
      */
     static int compareAndAssignID(String[] cmdSplitted)
-           throws IllegalArgumentException {
+            throws IllegalArgumentException {
         int cmdId;
 
         switch (cmdSplitted[0]) {
@@ -110,43 +111,83 @@ class Commands {
             case "play":
                 cmdId = 4;
                 break;
+            case "wall":
+                cmdId = 5;
+                break;
             default:
                 throw new IllegalArgumentException("Unrecognized command. "
-                           + "Should be 'show', 'score', 'help' or 'play x y'");
+                        + "Should be 'show', 'score', 'help' or 'play x y'");
         }
         return cmdId;
     }
 
     /**
-     * Verifies if the value of the x axis of play is not too long. Display 
-     * an error message if the value is too long.
-     * 
+     * Verifies if the value of the x axis of play is not too long. Display an
+     * error message if the value is too long.
+     *
      * @param command the command to verify.
      * @param game the current game session.
-     * @return true if the value is not too long, or else false and display an 
+     * @return true if the value is not too long, or else false and display an
      * error message.
      */
-    static boolean isPlayValueCorrect(String command, OthelloImpl game) {
-        String[] cmdSplitted;
-        int xMove;
+    static boolean areCmdValuesCorrect(String command, OthelloImpl game) {
         boolean correctValue;
+        String[] cmdSplitted;
 
-        correctValue = true;
         cmdSplitted = command.split(" ");
-
-        if (cmdSplitted[0].equals("play")) {
-            xMove = Integer.parseInt(cmdSplitted[1]);
-            if ((xMove - 1) >= game.getHeight()) {
-                View.displayTooLargeValue(command);
-                correctValue = false;
-            }
+        correctValue = true;
+        if (cmdSplitted[0].equals("play")
+                || cmdSplitted[0].equals("wall")) {
+            correctValue = verifyValuePlayWall(game, command);
         }
+
         return correctValue;
     }
 
     /**
+     * Verifies if the value of X in the play command is valid.
+     *
+     * @param game the current session of Othello.
+     * @param command the command to verify.
+     * @return true if the value of X is correct, or else false.
+     *
+     * @throws NumberFormatException
+     */
+    private static boolean verifyValuePlayWall(OthelloImpl game, String command)
+            throws NumberFormatException {
+        String[] cmdSplitted;
+        boolean correctValue;
+        int xMove, yMove;
+        correctValue = true;
+        cmdSplitted = command.split(" ");
+
+        xMove = Integer.parseInt(cmdSplitted[1]);
+        yMove = convertLetterToNumber(command);
+        if ((xMove - 1) >= game.getHeight()
+                || yMove >= game.getWidht()) {
+            View.displayTooLargeValue(command);
+            correctValue = false;
+        }
+
+        return correctValue;
+    }
+
+    /**
+     * Converts a letter entered by the user to its corresponding index value.
+     *
+     * @param letterMove the letter entered.
+     * @return the corresponding value of the letter.
+     */
+    private static int convertLetterToNumber(String letterMove) {
+        String alphabet;
+
+        alphabet = "abcdefghijklmnopqrstuvwxyz";
+        return alphabet.indexOf(letterMove);
+    }
+
+    /**
      * Finds the ID of a command.
-     * 
+     *
      * @param command the command to check.
      * @param game the current game session.
      * @return the ID of the given command.
@@ -159,29 +200,29 @@ class Commands {
         cmdId = Commands.compareAndAssignID(cmdSplitted);
         return cmdId;
     }
-    
+
     /**
      * Ask the user to enter an odd integer.
-     * 
+     *
      * @param max the maximal limit of the integer asked.
-     * @param min the minimal limit of the integer asked. 
+     * @param min the minimal limit of the integer asked.
      * @return the accepted odd integer.
      */
     static int verifyIntInput(int max, int min) {
         Scanner keybd = new Scanner(System.in);
         int theInput;
         theInput = -1;
-        
+
         while (theInput > max || theInput < min || theInput % 2 != 0) {
-            System.out.print("Enter odd integer between " + min + " and " 
-                             + max + ": ");
+            System.out.print("Enter odd integer between " + min + " and "
+                    + max + ": ");
             while (!keybd.hasNextInt()) {
                 System.out.print("That's not an integer. Retry : ");
                 keybd.next();
             }
             theInput = keybd.nextInt();
         }
-        
+
         return theInput;
-    }   
+    }
 }

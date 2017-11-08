@@ -350,4 +350,17 @@ public class OthelloImpl implements Othello {
         
         return stillMoves;
     }
+    
+    /**
+     * Add a wall on the board, on an empty cell.
+     * 
+     * @param x the number of the line.
+     * @param y the number of the column.
+     */
+    public void wall(int x, int y) {
+        if(board.isFree(x, y)) {
+            board.setColor(x, y, PlayerColor.RED);
+            changeCurrentPlayer();
+        }
+    }
 }
