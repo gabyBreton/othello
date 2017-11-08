@@ -13,7 +13,7 @@ class View {
 
     /**
      * Shows the Othello game board.
-     * 
+     *
      * @param game a session of Othello.
      */
     static void showGameBoard(OthelloImpl game) {
@@ -24,19 +24,19 @@ class View {
 
     /**
      * Displays the header part of the game board.
-     * 
+     *
      * @param width the width of the game board.
      */
     private static void displayHeader(int width) {
         char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-        
+
         displaySeparationLine(width);
         displayAlphabetLine(width, alphabet);
     }
 
     /**
      * Displays the alphabet numerotation line when showing the game board.
-     * 
+     *
      * @param width the width of the game board.
      * @param alphabet an array with all letters of the alphabet.
      */
@@ -50,7 +50,7 @@ class View {
 
     /**
      * Displays the separation line when showing the game board.
-     * 
+     *
      * @param width the width of the game board.
      */
     private static void displaySeparationLine(int width) {
@@ -63,13 +63,13 @@ class View {
 
     /**
      * Displays the content of the game board.
-     * 
+     *
      * @param game a session of Othello.
      */
     private static void displayContent(OthelloImpl game) {
         for (int i = 0; i < game.getHeight(); i++) {
 
-            displayLeftNumerotation(i); 
+            displayLeftNumerotation(i);
 
             for (int j = 0; j < game.getWidht(); j++) {
                 printABoxContent(game, i, j);
@@ -82,7 +82,7 @@ class View {
 
     /**
      * Displays the contents of a box of the board.
-     * 
+     *
      * @param game a session of the Othello.
      * @param x the position of the box on the x axis.
      * @param y the position of the box on the y axis.
@@ -91,28 +91,34 @@ class View {
         String ansiCyan = "\u001B[42m";
         String ansiBlack = "\u001B[40m";
         String ansiWhite = "\u001B[47m";
-        String ansiReset = "\u001B[0m"; 
+        String ansiRed = "\u001B[41m";
+        String ansiReset = "\u001B[0m";
         PlayerColor colorCell;
-        
+
         colorCell = game.getColor(x, y);
         if (null == colorCell) {
             System.out.print(ansiCyan + "__|" + ansiReset);
-        } else switch (colorCell) {
-            case BLACK: 
-                System.out.print(ansiBlack + "   " + ansiReset);
-                break;
-            case WHITE:
-                System.out.print(ansiWhite + "   " + ansiReset);
-                break;
-            case GREY:
-                System.out.print(ansiCyan + "_O|" + ansiReset);
-                break;
+        } else {
+            switch (colorCell) {
+                case BLACK:
+                    System.out.print(ansiBlack + "   " + ansiReset);
+                    break;
+                case WHITE:
+                    System.out.print(ansiWhite + "   " + ansiReset);
+                    break;
+                case GREY:
+                    System.out.print(ansiCyan + "_O|" + ansiReset);
+                    break;
+                case RED:
+                    System.out.print(ansiRed + " X|" + ansiReset);
+                    break;
+            }
         }
     }
-    
+
     /**
      * Displays the left side numerotation.
-     * 
+     *
      * @param i the number of the row.
      */
     private static void displayLeftNumerotation(int i) {
@@ -122,10 +128,10 @@ class View {
             System.out.print(" " + (i + 1) + " ");
         }
     }
-    
+
     /**
      * Displays the right side numerotation.
-     * 
+     *
      * @param i the number of the row.
      */
     private static void displayRightNumerotation(int i) {
@@ -134,7 +140,7 @@ class View {
 
     /**
      * Displays the footer part of the game.
-     * 
+     *
      * @param width the width of the game board.
      */
     private static void displayFooter(int width) {
@@ -146,7 +152,7 @@ class View {
 
     /**
      * Displays the final scores and the winner.
-     * 
+     *
      * @param game the session of Othello.
      */
     static void showFinalScoresAndWinner(OthelloImpl game) {
@@ -155,7 +161,7 @@ class View {
         playerBlack = game.getPlayers().get(0);
         playerWhite = game.getPlayers().get(1);
         showScores(playerBlack.getScore(), playerWhite.getScore());
-        
+
         if (playerBlack.getScore() > playerWhite.getScore()) {
             System.out.println("The winner is Black");
         } else if (playerWhite.getScore() > playerBlack.getScore()) {
@@ -167,7 +173,7 @@ class View {
 
     /**
      * Displays the scores of the players.
-     * 
+     *
      * @param game the session of Othello.
      */
     static void showScores(int scoreBlack, int scoreWhite) {
@@ -175,17 +181,17 @@ class View {
         System.out.println("White: " + scoreWhite);
 
     }
-    
+
     /**
-     * This methods is use to display to move possibilities and ask a new 
+     * This methods is use to display to move possibilities and ask a new
      * command.
-     * 
+     *
      * @param game the session of Othello.
      * @return the command of the user.
      */
     static String newAction(OthelloImpl game) {
         String command;
-        
+
         setNewPossibilites(game);
         System.out.println("*-*-*-*-*-*-*-*-*-*");
         askForACommand(game);
@@ -196,54 +202,54 @@ class View {
 
     /**
      * Asks the player Black or White to enter a command.
-     * 
+     *
      * @param game the session of Othello.
      */
     static void askForACommand(OthelloImpl game) {
         String currentPlayer;
         currentPlayer = game.getCurrentColor().toString();
-        currentPlayer =  currentPlayer.charAt(0) 
-                         + currentPlayer.substring(1).toLowerCase();
-                
+        currentPlayer = currentPlayer.charAt(0)
+                + currentPlayer.substring(1).toLowerCase();
+
         System.out.println(currentPlayer + " enter a command:");
     }
-    
+
     /**
      * Set on the board the possibles positions of moves.
-     * 
+     *
      * @param game the session of Othello.
      */
     private static void setNewPossibilites(OthelloImpl game) {
         game.cleanLastPlayerPossibilities();
         game.setPossiblePositions();
     }
-    
+
     /**
      * Displays an error message with the wrong command entered.
-     * 
+     *
      * @param command the command entered.
      */
     static void displayWrongCmd(String command) {
         String ansiRed = "\u001B[31m";
         String ansiReset = "\u001B[0m";
-        System.out.println(ansiRed + "You have entered a wrong command: " 
-                          + ansiReset + command);
-        System.out.println(ansiRed + "Enter 'help' for more informations" 
-                           + ansiReset);
+        System.out.println(ansiRed + "You have entered a wrong command: "
+                + ansiReset + command);
+        System.out.println(ansiRed + "Enter 'help' for more informations"
+                + ansiReset);
     }
 
     /**
      * Displays an error message because the value entered is to large.
-     * 
+     *
      * @param command the command entered.
      */
     static void displayTooLargeValue(String command) {
         String ansiRed = "\u001B[31m";
         String ansiReset = "\u001B[0m";
-        System.out.println(ansiRed + "You have entered a too large value: " 
-                          + ansiReset + command);
+        System.out.println(ansiRed + "You have entered a too large value: "
+                + ansiReset + command);
     }
-    
+
     /**
      * Displays the start messages for the beginning of the game.
      */
@@ -252,14 +258,14 @@ class View {
         System.out.println("");
         System.out.println("Enter the dimensions of the game board.");
     }
-    
+
     static void displayHelp() {
         System.out.println("");
         System.out.println("HELP:");
         System.out.println("- To show the game board enter: 'show'");
         System.out.println("- To place a pawn enter: 'play x y'");
         System.out.println("    In the command 'play x y' 'x' is the number of "
-                           + "the row and 'y' the letter of the column.");
+                + "the row and 'y' the letter of the column.");
         System.out.println("- To display this help enter: 'help'");
         System.out.println("For the rules of Othello, ask DuckDuckGo.");
         System.out.println("");
