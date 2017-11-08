@@ -11,7 +11,6 @@ import project.othello.breton.model.OthelloImpl;
  * @author Gabriel Breton - 43397
  */
 public class BoardPane {
-
     private final GridPane board;
     private final int width = 8;
     private final int height = 8;
