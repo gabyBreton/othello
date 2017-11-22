@@ -1,6 +1,9 @@
 package project.othello.breton.viewConsole;
 
+//import project.othello.breton.model.OthelloImpl;
+
 import project.othello.breton.model.OthelloImpl;
+
 
 /**
  * This class is use for it main function to launch the Othello game.

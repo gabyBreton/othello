@@ -1,9 +1,12 @@
 package project.othello.breton.viewFx;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.model.PlayerColor;
 
 /**
@@ -14,18 +17,23 @@ import project.othello.breton.model.PlayerColor;
 class Tile extends StackPane {
 
     private Pawn pawn;
-
+    int row;
+    int col;
+    Rectangle border;
+    
     /**
      * Creates a new tile.
      *
-     * @param i the number of the row.
-     * @param j the number of the column.
+     * @param row the number of the row.
+     * @param col the number of the column.
      */
-    Tile(int i, int j, PlayerColor color) {
-        Rectangle border = new Rectangle(75, 75);
+    Tile(int row, int col, PlayerColor color, OthelloImpl game) {
+        border = new Rectangle(75, 75);
         pawn = null;
-
-        if ((i == 0) || (j == 0)) {
+        this.row = row;
+        this.col = col;
+        
+        if ((row == 0) || (col == 0)) {
             border.setFill(null);
             border.setStroke(null);
         } else {
@@ -39,6 +47,7 @@ class Tile extends StackPane {
         }
 
         setAlignment(Pos.CENTER);
+     //   setMouseEvent(game);
         getChildren().addAll(border);
     }
 
@@ -59,5 +68,11 @@ class Tile extends StackPane {
     void setPawn(Pawn pawn) {
         this.pawn = pawn;
     }
-
+//
+//    void setMouseEvent(OthelloImpl game) {
+//        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
+//            if (game.ge)
+//        };
+//        addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+//    }
 }

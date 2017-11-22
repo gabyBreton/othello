@@ -13,7 +13,8 @@ class Board {
     private final PlayerColor[][] board;
     private final int rows;
     private final int columns;
-    private int counterPawnsOnBoard;
+    private int counterPawnsOnBoard = 4;
+    private int counterWallsOnBoard = 0;
 
     /**
      * Creates a new game board.
@@ -26,7 +27,7 @@ class Board {
         this.columns = columns;
         board = new PlayerColor[rows][columns];
         placeFirstFourPawns();
-        counterPawnsOnBoard = 4;
+        //counterPawnsOnBoard = 4;
     }
 
     /**
@@ -52,32 +53,35 @@ class Board {
     /**
      * Evaluates if a board cell is free or not.
      *
-     * @param pos the position to verify.
+     * @param row the number of the row.
+     * @param col the number of the col.
      * @return true if the cell is free, or else false.
      */
-    boolean isFree(int x, int y) {
-        return (board[x][y] == null) || (board[x][y] == PlayerColor.GREY);
+    boolean isFree(int row, int col) {
+        return (board[row][col] == null)
+                || (board[row][col] == PlayerColor.GREY);
     }
 
     /**
      * Places a pawn on a cell of the board.
      *
-     * @param x the position on the x axis.
-     * @param y the position on the y axis.
+     * @param row the number of the row.
+     * @param col //TODO !!!!!!!!!!!!!!!
      * @param color the color of the pawn.
      */
-    void placePawn(int x, int y, PlayerColor color) {
-        board[x][y] = color;
+    void placePawn(int row, int col, PlayerColor color) {
+        board[row][col] = color;
     }
 
     /**
      * Gives the color of a cell on the board.
      *
-     * @param pos the position of the cell to get the color.
+     * //@TODO !!!!!!!!!!!!!
+     *
      * @return the color of the cell.
      */
-    PlayerColor getColor(int x, int y) {
-        PlayerColor colorDebug = board[x][y];
+    PlayerColor getColor(int row, int col) {
+        PlayerColor colorDebug = board[row][col];
         return colorDebug;
     }
 
@@ -102,25 +106,25 @@ class Board {
     /**
      * Set the color of a position on the board.
      *
-     * @param x the position on the x axis.
-     * @param y the position on the y axis.
+     * @param row TODO
+     * @param col TODO
      * @param color the color to set.
      */
-    void setColor(int x, int y, PlayerColor color) {
-        board[x][y] = color;
+    void setColor(int row, int col, PlayerColor color) {
+        board[row][col] = color;
     }
 
     /**
      * Verifies if a position is on the game board.
      *
-     * @param x the position on the x axis.
-     * @param y the position on the y axis.
+     * @param row the position on the x axis.
+     * @param col the position on the y axis.
      * @return true if the position is on the board, or else false.
      */
-    boolean isOnBoard(int x, int y) {
-        boolean onBoardDebug = ((x >= 0) && (x <= rows - 1)
-                                && (y >= 0) && (y <= columns - 1));
-        return onBoardDebug;
+    boolean isOnBoard(int row, int col) {
+        boolean onBoard = ((row >= 0) && (row <= rows - 1)
+                && (col >= 0) && (col <= columns - 1));
+        return onBoard;
     }
 
     /**
@@ -129,4 +133,21 @@ class Board {
     void incCounterPawnsOnBoard() {
         counterPawnsOnBoard += 1;
     }
+
+    /**
+     * Gives the number of wall on the board.
+     *
+     * @return the number of wall on the board.
+     */
+    int getCounterWallsOnBoard() {
+        return counterWallsOnBoard;
+    }
+
+    /**
+     * Increments the counter of walls on the board.
+     */
+    void incCounterWallsOnBoard() {
+        counterWallsOnBoard += 1;
+    }
+
 }

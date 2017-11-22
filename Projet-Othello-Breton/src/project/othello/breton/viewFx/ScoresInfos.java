@@ -11,8 +11,8 @@ import project.othello.breton.model.PlayerColor;
  * 
  * @author Gabriel Breton - 43397
  */
-public class ScoresInfos {
-    private GridPane sidePane;
+public class ScoresInfos extends GridPane{
+  //  private GridPane sidePane;
     private Label scoreB;
     private Label scoreW;
     private Label scores;
@@ -25,20 +25,21 @@ public class ScoresInfos {
      * @param game the current session of Othello.
      */
     ScoresInfos(OthelloImpl game) {
+        super();
         initAndSet();
         addScore(game);
-        sidePane.getStylesheets().addAll(
-                     this.getClass().getResource("style.css").toExternalForm());
+        getStylesheets().addAll(this.getClass().getResource("style.css")
+                                               .toExternalForm());
     }
 
     /**
      * Initialize and set the gridpane of the score.
      */
     private void initAndSet() {
-        sidePane = new GridPane();
+        //sidePane = new GridPane();
 //        sidePane.setPadding(new Insets(75, 50, 0, 50));
-        sidePane.setHgap(10);
-        sidePane.setVgap(15);
+        setHgap(10);
+        setVgap(15);
     }
 
     /**
@@ -52,9 +53,9 @@ public class ScoresInfos {
         black = new Pawn(PlayerColor.BLACK);
         white = new Pawn(PlayerColor.WHITE);
         scoreB = new Label();
-        scoreB.setText(String.valueOf(game.getPlayers().get(0).getScore()));
+        scoreB.setText(String.valueOf(game.getScoreBlack()));
         scoreW = new Label();
-        scoreW.setText(String.valueOf(game.getPlayers().get(1).getScore()));
+        scoreW.setText(String.valueOf(game.getScoreWhite()));
         setIDLabels();
         addScoresToPane();
 
@@ -73,19 +74,19 @@ public class ScoresInfos {
      * Adds the scores elements on the pane.
      */
     private void addScoresToPane() {
-        sidePane.add(scores, 0, 0);
-        sidePane.add(black, 0, 1);
-        sidePane.add(scoreB, 1, 1);
-        sidePane.add(white, 0, 2);
-        sidePane.add(scoreW, 1, 2);
+        add(scores, 0, 0);
+        add(black, 0, 1);
+        add(scoreB, 1, 1);
+        add(white, 0, 2);
+        add(scoreW, 1, 2);
     }
-    
-    /**
-     * Gives the score infos pane.
-     * 
-     * @return the score infos pane.
-     */
-    GridPane getSidePane() {
-        return sidePane;
-    }
+//    
+//    /**
+//     * Gives the score infos pane.
+//     * 
+//     * @return the score infos pane.
+//     */
+//    GridPane getSidePane() {
+//        return sidePane;
+//    }
 }

@@ -21,7 +21,9 @@ import project.othello.breton.model.OthelloImpl;
 public class MainFx extends Application {
 
     private OthelloImpl game;
-
+    private final int rows = 8;
+    private final int columns = 8;
+    
     /**
      * Starts and sets all the components of the game.
      *
@@ -54,11 +56,11 @@ public class MainFx extends Application {
         BorderPane root = new BorderPane();
         root.setId("pane");
 
-        game = new OthelloImpl(8, 8);
+        game = new OthelloImpl(rows, columns);
         game.wall(0, 0); // To verify if we see a wall
 
-        GridPane board = new BoardPane(game).getBoard();
-        GridPane scoreInfos = new ScoresInfos(game).getSidePane();
+        GridPane board = new BoardPane(game);
+        GridPane scoreInfos = new ScoresInfos(game);
   //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
 //        Label currentPlayer = new Label();
 //        currentPlayer.setText(game.getCurrentColor().toString());

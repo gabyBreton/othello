@@ -71,4 +71,8 @@ interface Othello {
      * Sets all the cell possible for a pawn placement to be recognized.
      */
     void setPossiblePositions();
+    
+    int getScoreBlack();
+    
+    int getScoreWhite();
 }
