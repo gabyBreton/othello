@@ -1,13 +1,10 @@
 package project.othello.breton.viewFx;
 
-import com.sun.java.accessibility.util.EventID;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
 import project.othello.breton.model.PlayerColor;
 import project.othello.breton.model.OthelloImpl;
+import project.othello.breton.util.Observer;
 
 /**
  * This class creates a board with the four start pawns.
@@ -46,17 +43,17 @@ public class BoardPane extends GridPane {
     private void addTiles(OthelloImpl game) {
         PlayerColor cellColor;
         for (int row = 0; row < rows + 1; row++) {
-            
+
             for (int col = 0; col < columns + 1; col++) {
                 cellColor = getCellColor(game, row, col);
-                
+
                 Tile tile = new Tile(col, row, cellColor, game);
                 tilesArray[row][col] = tile;
                 tile.setTranslateX(row * 75);
                 tile.setTranslateY(col * 75);
-                
-                createSideNumbering(col, row, tile); 
-                
+
+                createSideNumbering(col, row, tile);
+
                 getChildren().add(tile);
                 verifyIfHaveToPlacePawn(game, row, col);
             }
@@ -78,7 +75,7 @@ public class BoardPane extends GridPane {
             if ((col > 0) && (row > 0)) {
 
                 if ((game.getColor(row - 1, col - 1) == PlayerColor.BLACK)
-                        || (game.getColor(row - 1, col - 1) == PlayerColor.WHITE)) {
+                    || (game.getColor(row - 1, col - 1) == PlayerColor.WHITE)) {
 
                     placeAPawn(game.getColor(row - 1, col - 1), row, col);
                 }
@@ -89,14 +86,14 @@ public class BoardPane extends GridPane {
     private PlayerColor getCellColor(OthelloImpl game, int row, int col) {
         PlayerColor cellColor;
         cellColor = null;
-        
+
         if ((col < columns - 1) && (col < rows - 1)
                 && (row < columns - 1) && (row < rows - 1)) {
 
             if ((col > 0) && (row > 0)) {
                 cellColor = game.getColor(row - 1, col - 1);
             }
-        } 
+        }
         return cellColor;
     }
 
@@ -134,24 +131,24 @@ public class BoardPane extends GridPane {
         columnLetter = new Label();
         columnLetter.setText("" + alphabet.charAt(col - 1));
         columnLetter.setId("columnLetter");
-    }    
-    
+    }
+
     private void makeRowsNumerotation(int row) {
         rowNumber = new Label();
         rowNumber.setText(String.valueOf(row));
         rowNumber.setId("rowNumber");
     }
 
-    public int getCptWallOnBoard() {
+    int getCptWallOnBoard() {
         return cptWallOnBoard;
     }
-    
-//    void setMouseEvent() {
-//        Tile tile;
-//        tile =
-//        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
-//            if
-//        };
-//        addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-//    }
+
+    public void refresh(OthelloImpl game) {
+        for (Tile[] tiles : tilesArray) {
+            for (Tile tile : tiles) {
+                tile.getChildren().clear();
+            }
+        }
+        addTiles(game);
+    }
 }

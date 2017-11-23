@@ -2,18 +2,21 @@ package project.othello.breton.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import project.othello.breton.util.Observable;
+import project.othello.breton.util.Observer;
 
 /**
  * This class is the facade of Othello.
  *
  * @author Gabriel Breton - 43397
  */
-public class OthelloImpl implements Othello {
+public class OthelloImpl implements Othello, Observable {
 
     private final Board board;
     private final Players playerB;
     private final Players playerW;
     private PlayerColor currentColor;
+    private final List<Observer> listObs;
 
     /**
      * Creates a new othello game.
@@ -26,6 +29,7 @@ public class OthelloImpl implements Othello {
         playerB = new Players(PlayerColor.BLACK);
         playerW = new Players(PlayerColor.WHITE);
         currentColor = PlayerColor.BLACK;
+        listObs = new ArrayList<>();
     }
 
     @Override
@@ -118,6 +122,8 @@ public class OthelloImpl implements Othello {
             placeFlipAndSetScore(pawnsToFlip, row, col);
             changeCurrentPlayer();
         }
+        
+        notifyObservers();
     }
 
     /**
@@ -152,6 +158,8 @@ public class OthelloImpl implements Othello {
             playerW.addPointsToScore(nbFlippedPawns + 1);
             playerB.addPointsToScore(-nbFlippedPawns);
         }
+        notifyObservers();
+        
     }
 
     /**
@@ -372,6 +380,7 @@ public class OthelloImpl implements Othello {
             board.setColor(row, col, PlayerColor.RED);
             changeCurrentPlayer();
             board.incCounterWallsOnBoard();
+            notifyObservers();
         }
     }
 
@@ -382,5 +391,48 @@ public class OthelloImpl implements Othello {
      */
     public int getCounterWallsOnBoard() {
         return board.getCounterWallsOnBoard();
+    }
+
+    /**
+     * Add an observer in the list of observers.
+     * 
+     * @param o the observer to add.
+     */
+    @Override
+    public void addObserver(Observer o) {
+        if (!listObs.contains(o)) {
+            listObs.add(o);
+        }
+    }
+
+    /**
+     * Add a variable number of observers.
+     * 
+     * @param o the differents observers.
+     */
+    @Override
+    public void addAllObserver(Observer... o) {
+        for (Observer obs : o) {
+            addObserver(obs);
+        }
+    }
+
+    /**
+     * Deletes an observer from the list of observers.
+     * 
+     * @param o the observer to delete.
+     */
+    @Override
+    public void deleteObserver(Observer o) {
+        listObs.remove(o);
+    }
+
+    /**
+     * Notifies of an update the observers of the list.
+     */
+    private void notifyObservers() {
+        listObs.forEach((obs) -> {
+            obs.update();
+        });
     }
 }

@@ -72,7 +72,17 @@ interface Othello {
      */
     void setPossiblePositions();
     
+    /**
+     * Gives the score of the player black.
+     * 
+     * @return the score of the player black.
+     */
     int getScoreBlack();
-    
+
+    /**
+     * Gives the score of the player white.
+     * 
+     * @return the score of the player white.
+     */    
     int getScoreWhite();
 }
