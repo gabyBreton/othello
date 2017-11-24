@@ -2,6 +2,8 @@ package project.othello.breton.viewFx;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -20,7 +22,7 @@ class Tile extends StackPane {
     int row;
     int col;
     Rectangle border;
-    
+
     /**
      * Creates a new tile.
      *
@@ -32,8 +34,16 @@ class Tile extends StackPane {
         pawn = null;
         this.row = row;
         this.col = col;
-        
-        if ((row == 0) || (col == 0)) {
+
+        setTileRendering(row, col, color);
+
+        setAlignment(Pos.CENTER);
+     //   setMouseEvent(game);
+        getChildren().addAll(border);
+    }
+
+    private void setTileRendering(int row1, int col1, PlayerColor color) {
+        if ((row1 == 0) || (col1 == 0)) {
             border.setFill(null);
             border.setStroke(null);
         } else {
@@ -45,10 +55,6 @@ class Tile extends StackPane {
             border.setOpacity(0.5);
             border.setStroke(Color.BLACK);
         }
-
-        setAlignment(Pos.CENTER);
-     //   setMouseEvent(game);
-        getChildren().addAll(border);
     }
 
     /**
@@ -68,11 +74,19 @@ class Tile extends StackPane {
     void setPawn(Pawn pawn) {
         this.pawn = pawn;
     }
-//
+
 //    void setMouseEvent(OthelloImpl game) {
-//        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
-//            if (game.ge)
+//        InnerShadow innerShadow = new InnerShadow();
+//        innerShadow.setChoke(0.4);
+//
+//        EventHandler<MouseEvent> mouseEnter = (MouseEvent e) -> {
+//            border.setEffect(innerShadow);
 //        };
-//        addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+//        addEventFilter(MouseEvent.MOUSE_ENTERED, mouseEnter);
+//
+//        EventHandler<MouseEvent> mouseExit = (MouseEvent e) -> {
+//            border.setEffect(null);
+//        };
+//        addEventFilter(MouseEvent.MOUSE_EXITED, mouseExit);
 //    }
 }

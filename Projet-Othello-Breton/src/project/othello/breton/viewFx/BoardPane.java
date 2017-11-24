@@ -4,7 +4,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import project.othello.breton.model.PlayerColor;
 import project.othello.breton.model.OthelloImpl;
-import project.othello.breton.util.Observer;
 
 /**
  * This class creates a board with the four start pawns.
@@ -18,9 +17,9 @@ public class BoardPane extends GridPane {
     private final String alphabet = "abcdefghijklmnopqrstuvwxyz";
     private Label rowNumber;
     private Label columnLetter;
-    private int cptWallOnBoard = 0; // WHY ?
+    private int cptWallOnBoard; 
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
-    //the specific tile where to place it.
+                                       //the specific tile where to place it.
 
     /**
      * Creates a new Othello board, with the first four pawns and the sides
@@ -30,11 +29,20 @@ public class BoardPane extends GridPane {
      */
     BoardPane(OthelloImpl game) {
         super();
+        setStyle();
         tilesArray = new Tile[rows + 1][columns + 1];
+        cptWallOnBoard = game.getCounterWallsOnBoard();
+        addTiles(game);
+    }
+
+    private void setStyle() {
+        getStyleSheets();
+        setPrefSize(675, 675);
+    }
+
+    private void getStyleSheets() {
         getStylesheets().addAll(
                 this.getClass().getResource("style.css").toExternalForm());
-        setPrefSize(675, 675);
-        addTiles(game);
     }
 
     /**
@@ -46,11 +54,7 @@ public class BoardPane extends GridPane {
 
             for (int col = 0; col < columns + 1; col++) {
                 cellColor = getCellColor(game, row, col);
-
-                Tile tile = new Tile(col, row, cellColor, game);
-                tilesArray[row][col] = tile;
-                tile.setTranslateX(row * 75);
-                tile.setTranslateY(col * 75);
+                Tile tile = makeTile(col, row, cellColor, game);
 
                 createSideNumbering(col, row, tile);
 
@@ -58,6 +62,14 @@ public class BoardPane extends GridPane {
                 verifyIfHaveToPlacePawn(game, row, col);
             }
         }
+    }
+
+    private Tile makeTile(int col, int row, PlayerColor cellColor, OthelloImpl game) {
+        Tile tile = new Tile(col, row, cellColor, game);
+        tilesArray[row][col] = tile;
+        tile.setTranslateX(row * 75);
+        tile.setTranslateY(col * 75);
+        return tile;
     }
 
     /**
@@ -139,16 +151,17 @@ public class BoardPane extends GridPane {
         rowNumber.setId("rowNumber");
     }
 
-    int getCptWallOnBoard() {
+    int getCounterWallsOnBoard() {
         return cptWallOnBoard;
     }
 
-    public void refresh(OthelloImpl game) {
+    void refresh(OthelloImpl game) {
         for (Tile[] tiles : tilesArray) {
             for (Tile tile : tiles) {
                 tile.getChildren().clear();
             }
         }
         addTiles(game);
+        cptWallOnBoard = game.getCounterWallsOnBoard();
     }
 }

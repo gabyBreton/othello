@@ -24,7 +24,7 @@ public class Pawn extends StackPane {
         Ellipse bckgrnd = makeBackground();
         Ellipse ellipse = makeEllipse();
         setColorsPawn(color, bckgrnd, ellipse);
-
+        
         getChildren().addAll(bckgrnd, ellipse);
     }
 
@@ -74,5 +74,9 @@ public class Pawn extends StackPane {
             ellipse.setFill(Color.WHITE);
             ellipse.setStroke(Color.WHITE);
         }
+    }
+
+    PlayerColor getColor() {
+        return color;
     }
 }

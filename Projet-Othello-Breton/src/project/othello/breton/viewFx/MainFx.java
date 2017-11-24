@@ -1,10 +1,13 @@
 package project.othello.breton.viewFx;
 
+import java.util.Optional;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -24,7 +27,7 @@ public class MainFx extends Application implements Observer {
     private final int columns = 8;
     private ScoresInfos scoreInfos;
     private BoardPane board;
-    
+
     /**
      * Starts and sets all the components of the game.
      *
@@ -42,7 +45,7 @@ public class MainFx extends Application implements Observer {
 
         Scene scene = new Scene(root);
         scene.getStylesheets().addAll(
-                     this.getClass().getResource("style.css").toExternalForm());
+                this.getClass().getResource("style.css").toExternalForm());
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -58,18 +61,17 @@ public class MainFx extends Application implements Observer {
         root.setId("pane");
 
         game = new OthelloImpl(rows, columns);
-      //  game.wall(0, 0); // To verify if we see a wall
+        game.wall(0, 0); // To verify if we see a wall
 
         board = new BoardPane(game);
         scoreInfos = new ScoresInfos(game);
-  //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
-        
-        
+        //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
+
         game.addObserver(this);
-        Button btnQuit = makeButtonQuit();
+        Button btnAbandon = makeButtonAbandon();
         Label cptWall = makeCptWall();
         Label nbWall = makeNbWall();
-        GridPane sideZone = makeSideZone(scoreInfos, btnQuit, cptWall, nbWall);
+        GridPane sideZone = makeSideZone(scoreInfos, btnAbandon, cptWall, nbWall);
         root.setLeft(board);
         root.setCenter(sideZone);
         return root;
@@ -77,19 +79,19 @@ public class MainFx extends Application implements Observer {
 
     /**
      * Make the view of the number of wall on the board.
-     * 
+     *
      * @return the label for the number of wall.
      */
     private Label makeNbWall() {
         Label nbWall = new Label();
-        nbWall.setText(String.valueOf(game.getCounterWallsOnBoard()));
+        nbWall.setText(String.valueOf(board.getCounterWallsOnBoard()));
         nbWall.setId("nbWall");
         return nbWall;
     }
 
     /**
      * Make the label who say how many walls there is on the board.
-     * 
+     *
      * @return the label who say how many walls there is on the board.
      */
     private Label makeCptWall() {
@@ -98,35 +100,62 @@ public class MainFx extends Application implements Observer {
         cptWall.setId("cptWall");
         return cptWall;
     }
-    
+
     /**
-     * Creates a button to quit the game.
-     * 
-     * @return the quit button.
+     * Creates a button to abandon the game.
+     *
+     * @return the abandon button.
      */
-    private Button makeButtonQuit() {
-        Button btnQuit = new Button("Quit");
-        btnQuit.setMaxWidth(100);
-        btnQuit.setMinHeight(50);
-        btnQuit.setId("btnQuit");
-        btnQuit.setOnAction((ActionEvent t) -> {
-            System.exit(0);
+    private Button makeButtonAbandon() {
+        Button btnAbandon = new Button("Abandon");
+        btnAbandon.setMaxWidth(150);
+        btnAbandon.setMinHeight(50);
+        btnAbandon.setId("btnAbandon");
+        btnAbandon.setOnAction((ActionEvent t) -> {
+            makeAlertAbandon();
         });
-        return btnQuit;
+        return btnAbandon;
     }
-    
+
+    private void makeAlertAbandon() {
+        Alert alertAbandon = setAlertAbandon();
+        ButtonType buttonTypeSure = new ButtonType("Yes I give up ...");
+        ButtonType buttonTypeNo = new ButtonType("No !");
+
+        alertAbandon.getButtonTypes().setAll(buttonTypeNo, buttonTypeSure);
+        
+        makeResultConfirmation(alertAbandon, buttonTypeSure);
+    }
+
+    private void makeResultConfirmation(Alert alertAbandon, ButtonType buttonTypeSure) {
+        Optional<ButtonType> result = alertAbandon.showAndWait();
+        if (result.get() == buttonTypeSure) {
+            // ... display final score etc ...
+        } else {
+            alertAbandon.close();
+        }
+    }
+
+    private Alert setAlertAbandon() {
+        Alert alertAbandon = new Alert(Alert.AlertType.CONFIRMATION);
+        alertAbandon.setTitle("Abandon");
+        alertAbandon.setHeaderText(null);
+        alertAbandon.setContentText("Is it the moment to give up ?");
+        return alertAbandon;
+    }
+
     /**
      * Creates the side zone with the scores infos and the buttons.
-     * 
+     *
      * @param scoreInfos the scores infos.
-     * @param btnQuit the button quit.
-     * @return 
+     * @param btnAbandon the button abandon.
+     * @return
      */
-    private GridPane makeSideZone(GridPane scoreInfos, Button btnQuit, 
-                                  Label cptWall, Label nbWall) {
+    private GridPane makeSideZone(GridPane scoreInfos, Button btnAbandon,
+            Label cptWall, Label nbWall) {
         GridPane sideZone = new GridPane();
         setPaddingAndGap(sideZone);
-        addElements(sideZone, scoreInfos, cptWall, nbWall, btnQuit);
+        addElements(sideZone, scoreInfos, cptWall, nbWall, btnAbandon);
         return sideZone;
     }
 
@@ -135,15 +164,15 @@ public class MainFx extends Application implements Observer {
         sideZone.setHgap(10);
         sideZone.setVgap(15);
     }
-   
-    private void addElements(GridPane sideZone, GridPane scoreInfos, 
-                             Label cptWall, Label nbWall, Button btnQuit) {
+
+    private void addElements(GridPane sideZone, GridPane scoreInfos,
+            Label cptWall, Label nbWall, Button btnAbandon) {
         //  sideZone.setGridLinesVisible(true); // FOR DEBUG!
         sideZone.add(scoreInfos, 0, 0);
         sideZone.add(cptWall, 0, 5);
         sideZone.add(nbWall, 0, 6);
         //sideZone.add(currentPlayer, 0, 5);
-        sideZone.add(btnQuit, 0, 10);
+        sideZone.add(btnAbandon, 0, 10);
     }
 
     /**
