@@ -2,7 +2,6 @@ package project.othello.breton.viewFx;
 
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -38,7 +37,7 @@ class Tile extends StackPane {
         setTileRendering(row, col, color);
 
         setAlignment(Pos.CENTER);
-     //   setMouseEvent(game);
+        setMouseEvent(game);
         getChildren().addAll(border);
     }
 
@@ -75,18 +74,18 @@ class Tile extends StackPane {
         this.pawn = pawn;
     }
 
-//    void setMouseEvent(OthelloImpl game) {
-//        InnerShadow innerShadow = new InnerShadow();
-//        innerShadow.setChoke(0.4);
-//
-//        EventHandler<MouseEvent> mouseEnter = (MouseEvent e) -> {
-//            border.setEffect(innerShadow);
-//        };
-//        addEventFilter(MouseEvent.MOUSE_ENTERED, mouseEnter);
-//
-//        EventHandler<MouseEvent> mouseExit = (MouseEvent e) -> {
-//            border.setEffect(null);
-//        };
-//        addEventFilter(MouseEvent.MOUSE_EXITED, mouseExit);
-//    }
+    void setMouseEvent(OthelloImpl game) {
+        InnerShadow innerShadow = new InnerShadow();
+        innerShadow.setChoke(0.4);
+
+        EventHandler<MouseEvent> mouseEnter = (MouseEvent e) -> {
+            border.setEffect(innerShadow);
+        };
+        addEventFilter(MouseEvent.MOUSE_ENTERED, mouseEnter);
+
+        EventHandler<MouseEvent> mouseExit = (MouseEvent e) -> {
+            border.setEffect(null);
+        };
+        addEventFilter(MouseEvent.MOUSE_EXITED, mouseExit);
+    }
 }

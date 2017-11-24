@@ -435,4 +435,8 @@ public class OthelloImpl implements Othello, Observable {
             obs.update();
         });
     }
+    
+    public void pass() {
+        
+    }
 }
