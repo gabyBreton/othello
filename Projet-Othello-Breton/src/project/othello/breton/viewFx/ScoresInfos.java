@@ -35,7 +35,6 @@ public class ScoresInfos extends GridPane {
      * Initialize and set the gridpane of the score.
      */
     private void initAndSet() {
-        //sidePane = new GridPane();
 //        sidePane.setPadding(new Insets(75, 50, 0, 50));
         setHgap(10);
         setVgap(15);
@@ -79,8 +78,8 @@ public class ScoresInfos extends GridPane {
         add(white, 0, 2);
         add(scoreW, 1, 2);
     }
-
-    public void refresh(int scoreBlack, int scoreWhite) {
+    
+    void refresh(int scoreBlack, int scoreWhite) {        
         scoreB.setText(String.valueOf(scoreBlack));
         scoreW.setText(String.valueOf(scoreWhite));
     }

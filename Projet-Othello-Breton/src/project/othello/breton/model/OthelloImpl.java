@@ -436,7 +436,12 @@ public class OthelloImpl implements Othello, Observable {
         });
     }
     
+    /**
+     * To pass a turn.
+     */
     public void pass() {
-        
+        changeCurrentPlayer();
+        cleanLastPlayerPossibilities();
+        setPossiblePositions();
     }
 }

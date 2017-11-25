@@ -87,5 +87,20 @@ class Tile extends StackPane {
             border.setEffect(null);
         };
         addEventFilter(MouseEvent.MOUSE_EXITED, mouseExit);
+
+        EventHandler<MouseEvent> placePawn = (MouseEvent e) -> {
+            game.play(row, col);
+        };
+
+        addEventFilter(MouseEvent.MOUSE_PRESSED, (event) -> {
+            if (col > 0 && row > 0) {
+                if (event.isPrimaryButtonDown()) {
+                    game.play(col - 1, row - 1);
+                } else if (event.isSecondaryButtonDown()) {
+                    game.wall(col - 1, row - 1);
+                }
+            }
+        });
+
     }
 }

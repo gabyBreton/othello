@@ -17,14 +17,11 @@ import project.othello.breton.model.OthelloImpl;
  */
 public class Layout extends BorderPane {
 
-   // private OthelloImpl game;
- //   private final int rows = 8;
-   // private final int columns = 8;
-
-    private ScoresInfos scoreInfos;
-    private BoardPane board;
+    private final ScoresInfos scoreInfos;
+    private final BoardPane board;
     private GridPane rightSideZone;
-
+    private GridPane paneWalls;
+    
     private Button btnAbandon;
     private Button btnPass;
     private Button btnRestart;
@@ -32,16 +29,12 @@ public class Layout extends BorderPane {
     private Label cptWall;
     private Label nbWall;
 
-    Layout(OthelloImpl game) {
+    Layout(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         super();
         setId("pane");
-
-        //    game = new OthelloImpl(rows, columns);
-        //  game.wall(0, 0); // To verify if we see a wall
-        board = new BoardPane(game);
-        //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG !
-
-        //      game.addObserver(this);
+        
+        this.board = board;
+        this.scoreInfos = scoreInfos;
         rightSideZone = makeRightSideZone(game);
 
         setLeft(board);
@@ -71,7 +64,8 @@ public class Layout extends BorderPane {
 
     private void makeElementsOfRightSideZone(OthelloImpl game) {
         makeButtons(game);
-        scoreInfos = new ScoresInfos(game);
+        scoreInfos.setGridLinesVisible(true); // FOR DEBUG!
+        
         cptWall = makeCptWall();
         nbWall = makeNbWall();
     }
@@ -136,7 +130,7 @@ public class Layout extends BorderPane {
         btnPass.setMinHeight(50);
         btnPass.setId("btnPass");
         btnPass.setOnAction((ActionEvent t) -> {
-            game.pass(); //A IMPLEMENTER !
+            game.pass(); 
         });
         return btnPass;
     }
@@ -182,13 +176,20 @@ public class Layout extends BorderPane {
     }
 
     private void addElements() {
-        //  sideZone.setGridLinesVisible(true); // FOR DEBUG!
+        rightSideZone.setGridLinesVisible(true); // FOR DEBUG!
         rightSideZone.add(scoreInfos, 0, 0);
         rightSideZone.add(cptWall, 0, 5);
         rightSideZone.add(nbWall, 0, 6);
-        //sideZone.add(currentPlayer, 0, 5);
         rightSideZone.add(btnPass, 0, 10);
         rightSideZone.add(btnRestart, 0, 12);
         rightSideZone.add(btnAbandon, 0, 14);
+    }
+
+    public ScoresInfos getScoreInfos() {
+        return scoreInfos;
+    }
+
+    public BoardPane getBoard() {
+        return board;
     }
 }

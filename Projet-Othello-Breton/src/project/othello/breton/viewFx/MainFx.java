@@ -64,8 +64,10 @@ public class MainFx extends Application implements Observer {
      */
     private BorderPane makeLayout() {
         game = new OthelloImpl(rows, columns);
-        root = new Layout(game);        
-        game.wall(0, 0); // To verify if we see a wall
+        scoreInfos = new ScoresInfos(game);
+        board = new BoardPane(game);
+        root = new Layout(game, scoreInfos, board); 
+
         game.addObserver(this);
         return root;
     }

@@ -13,8 +13,8 @@ class Board {
     private final PlayerColor[][] board;
     private final int rows;
     private final int columns;
-    private int counterPawnsOnBoard = 4;
-    private int counterWallsOnBoard = 0;
+    private int counterPawnsOnBoard;
+    private int counterWallsOnBoard;
 
     /**
      * Creates a new game board.
@@ -27,7 +27,8 @@ class Board {
         this.columns = columns;
         board = new PlayerColor[rows][columns];
         placeFirstFourPawns();
-        //counterPawnsOnBoard = 4;
+        counterPawnsOnBoard = 4;
+        counterWallsOnBoard = 0;
     }
 
     /**
