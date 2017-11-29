@@ -158,7 +158,6 @@ public class OthelloImpl implements Othello, Observable {
             playerW.addPointsToScore(nbFlippedPawns + 1);
             playerB.addPointsToScore(-nbFlippedPawns);
         }
-        notifyObservers();
         
     }
 
@@ -444,4 +443,36 @@ public class OthelloImpl implements Othello, Observable {
         cleanLastPlayerPossibilities();
         setPossiblePositions();
     }
+    
+    /**
+     * Set the pseudo of the black player.
+     * 
+     * @param pseudo the pseudo to set.
+     */
+    public void setPseudoBlack(String pseudo) {
+        playerB.setPseudo(pseudo);
+    }
+
+    /**
+     * Set the pseudo of the white player.
+     * 
+     * @param pseudo the pseudo to set.
+     */    
+    public void setPseudoWhite(String pseudo) {
+        playerW.setPseudo(pseudo);
+    }
+    
+    /**
+     * Gives the pseudo of the black player.
+     */
+    public String getPseudoBlack() {
+        return playerB.getPseudo();
+    }
+
+    /**
+     * Gives the pseudo of the white player.
+     */    
+    public String getPseudoWhite() {
+        return playerW.getPseudo();
+    }    
 }

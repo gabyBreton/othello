@@ -49,7 +49,7 @@ class Tile extends StackPane {
             if (color == PlayerColor.RED) {
                 border.setFill(Color.RED);
             } else {
-                border.setFill(Color.GREEN);
+                border.setFill(Color.GREY);
             }
             border.setOpacity(0.5);
             border.setStroke(Color.BLACK);

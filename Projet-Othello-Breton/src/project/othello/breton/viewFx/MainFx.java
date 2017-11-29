@@ -1,16 +1,7 @@
 package project.othello.breton.viewFx;
 
-import java.util.Optional;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.util.Observer;
@@ -28,7 +19,8 @@ public class MainFx extends Application implements Observer {
     
     private ScoresInfos scoreInfos;
     private BoardPane board;
-    private BorderPane root;
+    private StartLayout root;
+    private GameLayout gameRoot;
     
     /**
      * Starts and sets all the components of the game.
@@ -37,19 +29,40 @@ public class MainFx extends Application implements Observer {
      */
     @Override
     public void start(Stage primaryStage) {
-        setLayyoutPrimaryStage(primaryStage);
+        setLayoutPrimaryStage(primaryStage);
 
-        root = makeLayout();
+        Scene startScene = makeLayoutsAndScenes(primaryStage);
 
-        Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(
-                this.getClass().getResource("style.css").toExternalForm());
-
-        primaryStage.setScene(scene);
+        primaryStage.setScene(startScene);
         primaryStage.show();
     }
 
-    private void setLayyoutPrimaryStage(Stage primaryStage) {
+    private Scene makeLayoutsAndScenes(Stage primaryStage) {
+        gameRoot = makeGameLayout();
+        gameRoot.setMinHeight(750);
+        gameRoot.setMinWidth(1000);
+        Scene gameScene = makeGameScene();
+        
+        root = new StartLayout(game, primaryStage, gameScene);
+        Scene startScene = makeStartScene();
+        return startScene;
+    }
+
+    private Scene makeStartScene() {
+        Scene startScene = new Scene(root);
+        startScene.getStylesheets().addAll(
+                this.getClass().getResource("style.css").toExternalForm());
+        return startScene;
+    }
+
+    private Scene makeGameScene() {
+        Scene gameScene = new Scene(gameRoot);
+        gameScene.getStylesheets().addAll(
+                this.getClass().getResource("style.css").toExternalForm());
+        return gameScene;
+    }
+
+    private void setLayoutPrimaryStage(Stage primaryStage) {
         primaryStage.setTitle("Othello");
         primaryStage.setMinWidth(1000);
         primaryStage.setMaxWidth(1000);
@@ -62,14 +75,14 @@ public class MainFx extends Application implements Observer {
      *
      * @return a ready to use root.
      */
-    private BorderPane makeLayout() {
+    private GameLayout makeGameLayout() {
         game = new OthelloImpl(rows, columns);
         scoreInfos = new ScoresInfos(game);
         board = new BoardPane(game);
-        root = new Layout(game, scoreInfos, board); 
+        gameRoot = new GameLayout(game, scoreInfos, board); 
 
         game.addObserver(this);
-        return root;
+        return gameRoot;
     }
     
     /**
@@ -84,6 +97,7 @@ public class MainFx extends Application implements Observer {
     @Override
     public void update() {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite());
+        gameRoot.refresh(game.getCounterWallsOnBoard()); 
         board.refresh(game);
     }
 }

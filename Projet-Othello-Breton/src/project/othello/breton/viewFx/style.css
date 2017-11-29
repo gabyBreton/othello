@@ -2,8 +2,21 @@
     Created on : Nov 3, 2017, 2:04:37 PM
     Author     : Gabriel Breton - 43397
 */
-#pane {
-    -fx-background-image: url('old-wallpaper.jpg');
+
+#startPane {
+    -fx-background-image: url('darkBckground.jpg');
+    -fx-background-repeat: stretch;
+    -fx-background-position: center center;
+}
+
+#gameName {
+    -fx-font: 80px "Serif";
+    -fx-font-weight: bold;
+    -fx-text-fill: grey;
+}
+
+#gamePane {
+    -fx-background-image: url('blueGreySpace.jpeg');
     -fx-background-repeat: stretch;
     -fx-background-position: center center;
 }
@@ -11,24 +24,29 @@
 #scores {
     -fx-font: 40px "Serif";
     -fx-font-weight: bold;
+    -fx-text-fill: grey;    
 }
 
-#scoreB, #scoreW, #cptWall{
+#scoreB, #scoreW, #cptWall, #tfdPseudoB, #tfdPseudoW, #lblPseudoBlack, 
+#lblPseudoWhite {
     -fx-font: 30px "Serif";
     -fx-font-weight: bold;
+    -fx-text-fill: #E6E6E6;
 }
 
 #nbWall {
     -fx-font: 30px "Serif";
     -fx-font-weight: bold;
+    -fx-text-fill: #E6E6E6;
 }
 
 #rowNumber, #columnLetter {
     -fx-font: 25px "Serif";
     -fx-font-weight: bold;
+    -fx-text-fill: #E6E6E6;
 }
 
-#btnAbandon, #btnPass, #btnRestart {
+#btnAbandon, #btnPass, #btnRestart, #btnPlay {
     -fx-background-color: 
         #090a0c,
         linear-gradient(#38424b 0%, #1f2429 20%, #191d22 100%),
@@ -45,7 +63,7 @@
     -fx-padding: 10 20 10 20;
 }
 
-#btnAbandon:hover, #btnPass:hover, #btnRestart:hover {
+#btnAbandon:hover, #btnPass:hover, #btnRestart:hover, #btnPlay:hover {
       -fx-background-color: 
         #000000,
         linear-gradient(#000000 0%, #000000 20%, #000000 100%),

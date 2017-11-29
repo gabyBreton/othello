@@ -14,7 +14,7 @@ public class BoardPane extends GridPane {
 
     private final int rows = 8;
     private final int columns = 8;
-    private final String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Label rowNumber;
     private Label columnLetter;
     private int cptWallOnBoard; 
