@@ -53,6 +53,7 @@ class Tile extends StackPane {
             }
             border.setOpacity(0.5);
             border.setStroke(Color.BLACK);
+            border.setStrokeWidth(3);
         }
     }
 

@@ -19,7 +19,7 @@ public class MainFx extends Application implements Observer {
     
     private ScoresInfos scoreInfos;
     private BoardPane board;
-    private StartLayout root;
+    private StartLayout startRoot;
     private GameLayout gameRoot;
     
     /**
@@ -43,13 +43,13 @@ public class MainFx extends Application implements Observer {
         gameRoot.setMinWidth(1000);
         Scene gameScene = makeGameScene();
         
-        root = new StartLayout(game, primaryStage, gameScene);
+        startRoot = new StartLayout(primaryStage, gameScene, gameRoot);
         Scene startScene = makeStartScene();
         return startScene;
     }
 
     private Scene makeStartScene() {
-        Scene startScene = new Scene(root);
+        Scene startScene = new Scene(startRoot);
         startScene.getStylesheets().addAll(
                 this.getClass().getResource("style.css").toExternalForm());
         return startScene;

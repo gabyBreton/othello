@@ -2,6 +2,7 @@ package project.othello.breton.viewFx;
 
 import java.util.Optional;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -32,57 +33,6 @@ public class GameLayout extends BorderPane {
 
     private Label nameCptWalls;
     private Label nbWalls;
-
-//    GameLayout(OthelloImpl game, Stage primaryStage, Scene gameScene) {
-//        super();
-//        setId("startPane");
-//        board = null;
-//        scoreInfos = null;
-//
-//        //------ BOX GAME NAME ------
-//        VBox gameNameBox = new VBox();
-//        gameNameBox.setPadding(new Insets(100, 50, 50, 300));
-//        Label gameName = new Label("Ot.hello() ");
-//        gameName.setId("gameName");
-//        gameNameBox.getChildren().add(gameName);
-//        setTop(gameNameBox);
-//        
-//        
-//        //---- BOX PSEUDO -----------
-//        VBox pseudosBox = new VBox();
-//        pseudosBox.setSpacing(40);
-//        pseudosBox.setPadding(new Insets(50, 0, 0, 350));
-//        
-//        TextField tfdPseudoBlack = new TextField();
-//        tfdPseudoBlack.setId("tfdPseudoB");
-//        tfdPseudoBlack.setPromptText("Black player");
-//        tfdPseudoBlack.setMaxWidth(300);
-//        
-//        TextField tfdPseudoWhite = new TextField();
-//        tfdPseudoWhite.setId("tfdPseudoW");
-//        tfdPseudoWhite.setPromptText("White player");
-//        tfdPseudoWhite.setMaxWidth(300);
-//        
-//        pseudosBox.getChildren().add(tfdPseudoBlack);
-//        pseudosBox.getChildren().add(tfdPseudoWhite);
-//        
-//        setCenter(pseudosBox);
-//        
-//        //----- BOX BOUTON ---//
-//        VBox buttonsBox = new VBox();
-//        buttonsBox.setPadding(new Insets(50, 50, 120, 425));
-//        Button btnPlay = new Button("Play");
-//        btnPlay.setMaxWidth(150);
-//        btnPlay.setMinHeight(50);
-//        btnPlay.setId("btnPlay");
-//        btnPlay.setOnAction(e -> {
-//            game.setPseudoBlack(tfdPseudoBlack.getText());
-//            game.setPseudoWhite(tfdPseudoWhite.getText());
-//            primaryStage.setScene(gameScene);
-//        });
-//        buttonsBox.getChildren().add(btnPlay);
-//        setBottom(buttonsBox);
-//    }
     
     GameLayout(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         super();
@@ -119,14 +69,20 @@ public class GameLayout extends BorderPane {
 
     private void makeElementsOfRightSideZone(OthelloImpl game) {
         makeButtons(game);
-        scoreInfos.setGridLinesVisible(true); // FOR DEBUG!
+  //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG!
         makeGridPaneWalls();
     }
     
     private void makeButtons(OthelloImpl game) {
-        btnAbandon = makeButtonAbandon();
-        btnPass = makeButtonPass(game);
-        btnRestart = makeButtonRestart();
+        btnAbandon = makeAButton("Abandon", "btnAbandon", (event) -> {
+            makeAlertAbandon();
+        });
+        btnPass = makeAButton("Pass", "btnPass", (event) -> {
+            game.pass(); 
+        });
+        btnRestart = makeAButton("Restart", "btnRestart", (event) -> {
+            //restart
+        });
     }
 
     private void makeGridPaneWalls() {
@@ -135,28 +91,12 @@ public class GameLayout extends BorderPane {
         gridPaneWalls.setHgap(10);
         gridPaneWalls.setVgap(15);
         
-        nameCptWalls = makeCptWall();
-        nbWalls = makeNbWall();
+        nameCptWalls = makeLabelWithId("Walls:", "cptWall");
+        nbWalls = makeLabelWithId(String.valueOf(board.getCounterWallsOnBoard()), "nbWall");
         gridPaneWalls.add(nbWalls, 1, 0);
         gridPaneWalls.add(nameCptWalls, 0, 0);
     }
     
-    /**
-     * Creates a button to abandon the game.
-     *
-     * @return the abandon button.
-     */
-    private Button makeButtonAbandon() {
-        btnAbandon = new Button("Abandon");
-        btnAbandon.setMaxWidth(150);
-        btnAbandon.setMinHeight(50);
-        btnAbandon.setId("btnAbandon");
-        btnAbandon.setOnAction((ActionEvent t) -> {
-            makeAlertAbandon();
-        });
-        return btnAbandon;
-    }
-
     private void makeAlertAbandon() {
         Alert alertAbandon = setAlertAbandon();
         ButtonType buttonTypeSure = new ButtonType("Yes I give up ...");
@@ -184,60 +124,27 @@ public class GameLayout extends BorderPane {
         return alertAbandon;
     }
 
-    /**
-     * Creates a button to abandon the game.
-     *
-     * @return the abandon button.
-     */
-    private Button makeButtonPass(OthelloImpl game) {
-        btnPass = new Button("Pass");
-        btnPass.setMaxWidth(150);
-        btnPass.setMinHeight(50);
-        btnPass.setId("btnPass");
-        btnPass.setOnAction((ActionEvent t) -> {
-            game.pass(); 
-        });
-        return btnPass;
+
+    private Button makeAButton(String text, String id, 
+                               EventHandler<ActionEvent> value) {
+        Button button = new Button(text);
+        button.setMaxWidth(150);
+        button.setMinHeight(50);
+        button.setId(id);
+        button.setOnAction(value);
+        return button;
     }
 
     /**
-     * Creates a button to restart the game.
+     * Makes a label and set its Id.
      *
-     * @return the restart button.
+     * @return the label.
      */
-    private Button makeButtonRestart() {
-        btnRestart = new Button("Restart");
-        btnRestart.setMaxWidth(150);
-        btnRestart.setMinHeight(50);
-        btnRestart.setId("btnRestart");
-        btnRestart.setOnAction((ActionEvent t) -> {
-            //make the game restart
-        });
-        return btnRestart;
-    }    
-    
-    /**
-     * Make the label who say how many walls there is on the board.
-     *
-     * @return the label who say how many walls there is on the board.
-     */
-    private Label makeCptWall() {
-        nameCptWalls = new Label();
-        nameCptWalls.setText("Walls:");
-        nameCptWalls.setId("cptWall");
-        return nameCptWalls;
-    }
-
-    /**
-     * Make the view of the number of wall on the board.
-     *
-     * @return the label for the number of wall.
-     */
-    private Label makeNbWall() {
-        nbWalls = new Label();
-        nbWalls.setText(String.valueOf(board.getCounterWallsOnBoard()));
-        nbWalls.setId("nbWall");
-        return nbWalls;
+    private Label makeLabelWithId(String text, String id) {
+        Label label = new Label();
+        label.setText(text);
+        label.setId(id);
+        return label;
     }
 
     private void addElements() {
@@ -260,4 +167,5 @@ public class GameLayout extends BorderPane {
     public void refresh(int nbWallsOnBoard) {
         nbWalls.setText(String.valueOf(nbWallsOnBoard));
     }
+   
 }

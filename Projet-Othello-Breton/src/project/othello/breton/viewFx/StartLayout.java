@@ -18,20 +18,20 @@ import project.othello.breton.model.OthelloImpl;
  */
 public class StartLayout extends BorderPane {
     
-    StartLayout(OthelloImpl game, Stage primaryStage, Scene gameScene) {
+    StartLayout(Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         super();
         setId("startPane");
 
         makeGameNameBox();
 
         VBox pseudosBox = makePseudoBox();
-        TextField tfdPseudoBlack = makePseudoBlack();
-        TextField tfdPseudoWhite = makePseudoWhite();
+        TextField tfdPseudoBlack = makeAPseudo("tfdPseudoB", "Black player");
+        TextField tfdPseudoWhite = makeAPseudo("tfdPseudoW", "White player");
 
         pseudosBox.getChildren().addAll(tfdPseudoBlack,tfdPseudoWhite);
         setCenter(pseudosBox);
 
-        makeButton(game,tfdPseudoBlack,tfdPseudoWhite,primaryStage,gameScene);
+        makeButton(tfdPseudoBlack,tfdPseudoWhite,primaryStage,gameScene, gameRoot);
     }
 
     private void makeGameNameBox() {
@@ -49,24 +49,16 @@ public class StartLayout extends BorderPane {
         pseudosBox.setPadding(new Insets(50, 0, 0, 350));
         return pseudosBox;
     }
-
-    private TextField makePseudoWhite() {
-        TextField tfdPseudoWhite = new TextField();
-        tfdPseudoWhite.setId("tfdPseudoW");
-        tfdPseudoWhite.setPromptText("White player");
-        tfdPseudoWhite.setMaxWidth(300);
-        return tfdPseudoWhite;
+    
+    private TextField makeAPseudo(String id, String promptText) {
+        TextField tfdPseudo = new TextField();
+        tfdPseudo.setId(id);
+        tfdPseudo.setPromptText(promptText);
+        tfdPseudo.setMaxWidth(300);
+        return tfdPseudo;
     }
-
-    private TextField makePseudoBlack() {
-        TextField tfdPseudoBlack = new TextField();
-        tfdPseudoBlack.setId("tfdPseudoB");
-        tfdPseudoBlack.setPromptText("Black player");
-        tfdPseudoBlack.setMaxWidth(300);
-        return tfdPseudoBlack;
-    }
-
-    private void makeButton(OthelloImpl game, TextField tfdPseudoBlack, TextField tfdPseudoWhite, Stage primaryStage, Scene gameScene) {
+    
+    private void makeButton(TextField tfdPseudoBlack, TextField tfdPseudoWhite, Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         VBox buttonsBox = new VBox();
         buttonsBox.setPadding(new Insets(50, 50, 120, 425));
         Button btnPlay = new Button("Play");
@@ -74,8 +66,9 @@ public class StartLayout extends BorderPane {
         btnPlay.setMinHeight(50);
         btnPlay.setId("btnPlay");
         btnPlay.setOnAction(e -> {
-            game.setPseudoBlack(tfdPseudoBlack.getText());
-            game.setPseudoWhite(tfdPseudoWhite.getText());
+//            game.setPseudoBlack(tfdPseudoBlack.getText());
+//            game.setPseudoWhite(tfdPseudoWhite.getText());
+            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             primaryStage.setScene(gameScene);
         });
         buttonsBox.getChildren().add(btnPlay);

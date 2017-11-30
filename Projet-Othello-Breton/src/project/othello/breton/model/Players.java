@@ -7,7 +7,7 @@ package project.othello.breton.model;
  */
 public class Players {
 
-    private String pseudo;
+    //private String pseudo;
     private final PlayerColor color;
     private int score;
 
@@ -48,16 +48,16 @@ public class Players {
         score += pointsToAdd;
     }
     
-    /**
-     * Sets the pseudo of the player.
-     * 
-     * @param pseudoPlayer the pseudo to set.
-     */
-    public void setPseudo(String pseudoPlayer) {
-        this.pseudo = pseudoPlayer; //DOES NOT WORK
-    }
-
-    public String getPseudo() {
-        return pseudo;
-    }
+//    /**
+//     * Sets the pseudo of the player.
+//     * 
+//     * @param pseudoPlayer the pseudo to set.
+//     */
+//    public void setPseudo(String pseudoPlayer) {
+//        this.pseudo = pseudoPlayer; //DOES NOT WORK
+//    }
+//
+//    public String getPseudo() {
+//        return pseudo;
+//    }
 }
