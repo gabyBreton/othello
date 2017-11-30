@@ -142,13 +142,13 @@ public class BoardPane extends GridPane {
     private void makeColumnsNumerotation(int col) {
         columnLetter = new Label();
         columnLetter.setText("" + alphabet.charAt(col - 1));
-        columnLetter.setId("columnLetter");
+        columnLetter.setId("numerotation");
     }
 
     private void makeRowsNumerotation(int row) {
         rowNumber = new Label();
         rowNumber.setText(String.valueOf(row));
-        rowNumber.setId("rowNumber");
+        rowNumber.setId("numerotation");
     }
 
     int getCounterWallsOnBoard() {

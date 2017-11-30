@@ -392,6 +392,10 @@ public class OthelloImpl implements Othello, Observable {
         return board.getCounterWallsOnBoard();
     }
 
+    public int getCounterPawnsOnBoard() {
+        return board.getCounterPawnsOnBoard();
+    }
+
     /**
      * Add an observer in the list of observers.
      * 

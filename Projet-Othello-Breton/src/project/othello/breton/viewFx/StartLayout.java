@@ -25,8 +25,8 @@ public class StartLayout extends BorderPane {
         makeGameNameBox();
 
         VBox pseudosBox = makePseudoBox();
-        TextField tfdPseudoBlack = makeAPseudo("tfdPseudoB", "Black player");
-        TextField tfdPseudoWhite = makeAPseudo("tfdPseudoW", "White player");
+        TextField tfdPseudoBlack = makeAPseudo("pseudoInput", "Black player");
+        TextField tfdPseudoWhite = makeAPseudo("pseudoInput", "White player");
 
         pseudosBox.getChildren().addAll(tfdPseudoBlack,tfdPseudoWhite);
         setCenter(pseudosBox);
@@ -64,10 +64,8 @@ public class StartLayout extends BorderPane {
         Button btnPlay = new Button("Play");
         btnPlay.setMaxWidth(150);
         btnPlay.setMinHeight(50);
-        btnPlay.setId("btnPlay");
+        btnPlay.setId("button");
         btnPlay.setOnAction(e -> {
-//            game.setPseudoBlack(tfdPseudoBlack.getText());
-//            game.setPseudoWhite(tfdPseudoWhite.getText());
             gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             primaryStage.setScene(gameScene);
         });

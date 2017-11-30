@@ -135,6 +135,10 @@ class Board {
         counterPawnsOnBoard += 1;
     }
 
+    int getCounterPawnsOnBoard() {
+        return counterPawnsOnBoard;
+    }
+
     /**
      * Gives the number of wall on the board.
      *

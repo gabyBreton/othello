@@ -1,6 +1,7 @@
 package project.othello.breton.viewFx;
 
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
@@ -41,25 +42,18 @@ public class MainFx extends Application implements Observer {
         gameRoot = makeGameLayout();
         gameRoot.setMinHeight(750);
         gameRoot.setMinWidth(1000);
-        Scene gameScene = makeGameScene();
+        Scene gameScene = makeScene(gameRoot);
         
         startRoot = new StartLayout(primaryStage, gameScene, gameRoot);
-        Scene startScene = makeStartScene();
+        Scene startScene = makeScene(startRoot);
         return startScene;
     }
 
-    private Scene makeStartScene() {
-        Scene startScene = new Scene(startRoot);
-        startScene.getStylesheets().addAll(
+    private Scene makeScene(Parent root) {
+        Scene scene = new Scene(root);
+        scene.getStylesheets().addAll(
                 this.getClass().getResource("style.css").toExternalForm());
-        return startScene;
-    }
-
-    private Scene makeGameScene() {
-        Scene gameScene = new Scene(gameRoot);
-        gameScene.getStylesheets().addAll(
-                this.getClass().getResource("style.css").toExternalForm());
-        return gameScene;
+        return scene;
     }
 
     private void setLayoutPrimaryStage(Stage primaryStage) {
@@ -97,7 +91,8 @@ public class MainFx extends Application implements Observer {
     @Override
     public void update() {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite());
-        gameRoot.refresh(game.getCounterWallsOnBoard()); 
+        //scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), game.getCurrentColor());
+        gameRoot.refresh(game); 
         board.refresh(game);
     }
 }
