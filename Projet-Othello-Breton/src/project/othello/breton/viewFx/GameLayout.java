@@ -35,6 +35,7 @@ public class GameLayout extends BorderPane {
     private final BoardPane board;
     private GridPane centerZone;
     private GridPane gridPaneWalls;
+    private VBox rightZone;
 
     private Button btnAbandon;
     private Button btnPass;
@@ -55,19 +56,17 @@ public class GameLayout extends BorderPane {
         this.board = board;
         this.scoreInfos = scoreInfos;
         makeCenterZone(game);
-        makeRightZone();
+        rightZone = new VBox();
+        rightZone.setPadding(new Insets(70, 10, 10, 10));
+        rightZone.setSpacing(40);
         table = new ActionsHistoryTable();
         
         setLeft(board);
         setCenter(centerZone);
-        setRight(table);
+        rightZone.getChildren().addAll(scoreInfos, table);
+        setRight(rightZone);
     }
 
-    void makeRightZone() {
-        VBox rightZone = new VBox();
-        
-    }
-    
     /**
      * Creates the side zone with the scores infos and the buttons.
      *
@@ -174,6 +173,7 @@ public class GameLayout extends BorderPane {
     private Button makeAButton(String text, String id,
             EventHandler<ActionEvent> value) {
         Button button = new Button(text);
+        //button.setPadding(new Insets(1000, 1000, 1000, 700));
         button.setMaxWidth(150);
         button.setMinHeight(50);
         button.setId(id);
@@ -195,7 +195,6 @@ public class GameLayout extends BorderPane {
 
     private void addElements() {
         centerZone.setGridLinesVisible(true); // FOR DEBUG!
-        centerZone.add(scoreInfos, 0, 0);
         centerZone.add(gridPaneWalls, 0, 1);
         centerZone.add(btnPass, 0, 3);
         centerZone.add(btnRestart, 0, 5);

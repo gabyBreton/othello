@@ -15,10 +15,10 @@ import project.othello.breton.model.PlayerColor;
  *
  * @author Gabriel Breton - 43397
  */
-public class ScoresInfos extends VBox {
+public class ScoresInfos extends HBox {
 
-    //private PlayerColor currentColor;
-  //  private Label arrowCurrent;
+    private PlayerColor currentColor;
+
     private Label scoreB;
     private Label scoreW;
     private Label pseudoB;
@@ -27,7 +27,10 @@ public class ScoresInfos extends VBox {
     private Pawn pawnW;
     private HBox boxPawnScoreBlack;
     private HBox boxPawnScoreWhite;
-    
+
+    private GridPane paneBlack;
+    private GridPane paneWhite;
+
     /**
      * The creates the pane with all the elements of the score.
      *
@@ -35,10 +38,16 @@ public class ScoresInfos extends VBox {
      */
     ScoresInfos(OthelloImpl game) {
         super();
-        addElements(game);
+        this.currentColor = game.getCurrentColor();
+        setSpacing(60);
+
+        createElements(game);
+        getChildren().addAll(paneBlack, paneWhite);
+        setIDLabels();
+        addElementsToPane();
+        setBackgroundColors();
         getStylesheets().addAll(this.getClass().getResource("style.css")
                 .toExternalForm());
-        setSpacing(30);
     }
 
     /**
@@ -46,7 +55,20 @@ public class ScoresInfos extends VBox {
      *
      * @param game the current session of Othello.
      */
-    private void addElements(OthelloImpl game) {
+    private void createElements(OthelloImpl game) {
+        paneBlack = new GridPane();
+        paneBlack.setPadding(new Insets(20, 20, 20, 20));
+        paneBlack.setHgap(20);
+        paneBlack.setId("paneScore");
+
+        paneWhite = new GridPane();
+        paneWhite.setPadding(new Insets(20, 20, 20, 20));
+        paneWhite.setHgap(20);
+        paneWhite.setId("paneScore");
+
+        boxPawnScoreBlack = new HBox();
+        boxPawnScoreWhite = new HBox();
+
         pseudoB = new Label();
         pseudoW = new Label();
 
@@ -58,12 +80,6 @@ public class ScoresInfos extends VBox {
 
         scoreW = new Label();
         scoreW.setText(String.valueOf(game.getScoreWhite()));
-
-//        arrowCurrent = new Label();
-//        arrowCurrent.setId("arrow");
-
-        setIDLabels();
-        addScoresToPane();
     }
 
     /**
@@ -76,29 +92,19 @@ public class ScoresInfos extends VBox {
         pseudoW.setId("pseudo");
     }
 
-    private void addScoresToPane() {
-        boxPawnScoreBlack = new HBox();
-        boxPawnScoreWhite = new HBox();
-
+    private void addElementsToPane() {
         boxPawnScoreBlack.setSpacing(30);
         boxPawnScoreWhite.setSpacing(30);
 
-        boxPawnScoreBlack.getChildren().addAll(pseudoB, pawnB, scoreB);
-        boxPawnScoreWhite.getChildren().addAll(pseudoW, pawnW, scoreW);
+        boxPawnScoreBlack.getChildren().addAll(pawnB, scoreB);
+        boxPawnScoreWhite.getChildren().addAll(pawnW, scoreW);
 
-      //  setCurrentArrow();
-        getChildren().addAll(boxPawnScoreBlack, boxPawnScoreWhite);
+        paneBlack.add(pseudoB, 0, 0);
+        paneBlack.add(boxPawnScoreBlack, 1, 0);
+
+        paneWhite.add(pseudoW, 0, 0);
+        paneWhite.add(boxPawnScoreWhite, 1, 0);
     }
-
-//    void setCurrentArrow() {
-//        if (currentColor == PlayerColor.BLACK) {
-//            boxPawnScoreBlack.getChildren().add(0, arrowCurrent);
-//            //  boxPawnScoreWhite.getChildren().add(0, null);
-//        } else {
-//            boxPawnScoreWhite.getChildren().add(0, arrowCurrent);
-//            //boxPawnScoreBlack.getChildren().add(0, null);
-//        }
-//    }
 
 //    void refresh(int scoreBlack, int scoreWhite, PlayerColor currentColor) {
 //        scoreB.setText(String.valueOf(scoreBlack));
@@ -106,9 +112,21 @@ public class ScoresInfos extends VBox {
 //   //     this.currentColor = currentColor;
 // //       setCurrentArrow();
 //    }
-    void refresh(int scoreBlack, int scoreWhite) {
+    void refresh(int scoreBlack, int scoreWhite, PlayerColor currentColor) {
         scoreB.setText(String.valueOf(scoreBlack));
         scoreW.setText(String.valueOf(scoreWhite));
+        this.currentColor = currentColor;
+        setBackgroundColors();
+    }
+
+    private void setBackgroundColors() {
+        if (this.currentColor == PlayerColor.BLACK) {
+            paneBlack.setStyle("-fx-background-color: green;");
+            paneWhite.setStyle("-fx-background-color: transparent;");
+        } else {
+            paneBlack.setStyle("-fx-background-color: transparent;");
+            paneWhite.setStyle("-fx-background-color: green;");
+        }
     }
 
     void setPseudos(String pseudoBlack, String pseudoWhite) {

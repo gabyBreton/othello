@@ -90,8 +90,8 @@ public class MainFx extends Application implements Observer {
 
     @Override
     public void update() {
-        scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite());
-        //scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), game.getCurrentColor());
+        //scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite());
+        scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), game.getCurrentColor());
         gameRoot.refresh(game); 
         board.refresh(game);
     }

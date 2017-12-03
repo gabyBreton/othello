@@ -1,5 +1,9 @@
 package project.othello.breton.viewFx;
 
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.effect.InnerShadow;
@@ -7,6 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+import javafx.util.Duration;
 import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.model.PlayerColor;
 
@@ -76,6 +82,7 @@ class Tile extends StackPane {
     }
 
     void setMouseEvent(OthelloImpl game) {
+        ScaleTransition stHideFront;
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setChoke(0.4);
 

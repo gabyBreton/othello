@@ -446,6 +446,7 @@ public class OthelloImpl implements Othello, Observable {
         changeCurrentPlayer();
         cleanLastPlayerPossibilities();
         setPossiblePositions();
+        notifyObservers();
     }
     
 //    /**
