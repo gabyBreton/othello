@@ -18,7 +18,7 @@
 #gamePane {
     -fx-background-image: url('blueGreySpace.jpeg');
     -fx-background-repeat: stretch;
-    -fx-background-position: center center;
+    -fx-background-position: left;
 }
 
 #scores {

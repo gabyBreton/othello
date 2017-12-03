@@ -1,6 +1,10 @@
 package project.othello.breton.viewFx;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -11,7 +15,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -26,7 +33,7 @@ public class GameLayout extends BorderPane {
 
     private final ScoresInfos scoreInfos;
     private final BoardPane board;
-    private GridPane rightSideZone;
+    private GridPane centerZone;
     private GridPane gridPaneWalls;
 
     private Button btnAbandon;
@@ -38,6 +45,8 @@ public class GameLayout extends BorderPane {
 
     private ProgressBar pBar;
     private ProgressIndicator pIndicator;
+    
+    private ActionsHistoryTable table;
 
     GameLayout(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         super();
@@ -45,12 +54,20 @@ public class GameLayout extends BorderPane {
 
         this.board = board;
         this.scoreInfos = scoreInfos;
-        rightSideZone = makeRightSideZone(game);
-
+        makeCenterZone(game);
+        makeRightZone();
+        table = new ActionsHistoryTable();
+        
         setLeft(board);
-        setCenter(rightSideZone);
+        setCenter(centerZone);
+        setRight(table);
     }
 
+    void makeRightZone() {
+        VBox rightZone = new VBox();
+        
+    }
+    
     /**
      * Creates the side zone with the scores infos and the buttons.
      *
@@ -58,22 +75,21 @@ public class GameLayout extends BorderPane {
      * @param btnAbandon the button abandon.
      * @return
      */
-    private GridPane makeRightSideZone(OthelloImpl game) {
-        rightSideZone = new GridPane();
+    private void makeCenterZone(OthelloImpl game) {
+        centerZone = new GridPane();
         setPaddingAndGap();
-        makeElementsOfRightSideZone(game);
+        makeElementsOfCenter(game);
         addElements();
-        return rightSideZone;
     }
 
     private void setPaddingAndGap() {
-        rightSideZone.setPadding(new Insets(75, 50, 0, 50));
+        centerZone.setPadding(new Insets(75, 50, 0, 50));
         setMinWidth(200);
-        rightSideZone.setHgap(10);
-        rightSideZone.setVgap(15);
+        centerZone.setHgap(10);
+        centerZone.setVgap(15);
     }
 
-    private void makeElementsOfRightSideZone(OthelloImpl game) {
+    private void makeElementsOfCenter(OthelloImpl game) {
         makeButtons(game);
         makeProgressBar(game);
         makeProgressIndicator(game);
@@ -98,7 +114,6 @@ public class GameLayout extends BorderPane {
         pBar.setMinWidth(250);
         pBar.setMinHeight(10);
         pBar.setId("pBar");
-        //pBar.setStyle("-fx-accent: black;");
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
     }
     
@@ -109,7 +124,6 @@ public class GameLayout extends BorderPane {
     private void makeProgressIndicator(OthelloImpl game) {
         pIndicator = new ProgressIndicator();
         pIndicator.setId("pIndicator");
-        //pIndicator.setStyle("-fx-accent: grey;");
         pIndicator.setMinSize(100, 100);
         refreshProgressIndicator(game.getCounterPawnsOnBoard());
     }
@@ -180,14 +194,14 @@ public class GameLayout extends BorderPane {
     }
 
     private void addElements() {
-        rightSideZone.setGridLinesVisible(true); // FOR DEBUG!
-        rightSideZone.add(scoreInfos, 0, 0);
-        rightSideZone.add(gridPaneWalls, 0, 1);
-        rightSideZone.add(btnPass, 0, 3);
-        rightSideZone.add(btnRestart, 0, 5);
-        rightSideZone.add(btnAbandon, 0, 7);
-        rightSideZone.add(pIndicator, 0, 9);
-        rightSideZone.add(pBar, 0, 11);
+        centerZone.setGridLinesVisible(true); // FOR DEBUG!
+        centerZone.add(scoreInfos, 0, 0);
+        centerZone.add(gridPaneWalls, 0, 1);
+        centerZone.add(btnPass, 0, 3);
+        centerZone.add(btnRestart, 0, 5);
+        centerZone.add(btnAbandon, 0, 7);
+        centerZone.add(pIndicator, 0, 9);
+        centerZone.add(pBar, 0, 11);
     }
 
     ScoresInfos getScoreInfos() {
@@ -203,6 +217,6 @@ public class GameLayout extends BorderPane {
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
         refreshProgressIndicator(game.getCounterPawnsOnBoard() 
                                  + game.getCounterWallsOnBoard());
+        
     }
-
 }

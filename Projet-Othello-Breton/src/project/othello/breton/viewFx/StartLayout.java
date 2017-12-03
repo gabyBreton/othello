@@ -17,10 +17,11 @@ import project.othello.breton.model.OthelloImpl;
  * @author Gabriel Breton - 43397
  */
 public class StartLayout extends BorderPane {
-    
+
     StartLayout(Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         super();
         setId("startPane");
+        setSizeStage(primaryStage);
 
         makeGameNameBox();
 
@@ -28,10 +29,17 @@ public class StartLayout extends BorderPane {
         TextField tfdPseudoBlack = makeAPseudo("pseudoInput", "Black player");
         TextField tfdPseudoWhite = makeAPseudo("pseudoInput", "White player");
 
-        pseudosBox.getChildren().addAll(tfdPseudoBlack,tfdPseudoWhite);
+        pseudosBox.getChildren().addAll(tfdPseudoBlack, tfdPseudoWhite);
         setCenter(pseudosBox);
 
-        makeButton(tfdPseudoBlack,tfdPseudoWhite,primaryStage,gameScene, gameRoot);
+        makeButton(tfdPseudoBlack, tfdPseudoWhite, primaryStage, gameScene, gameRoot);
+    }
+
+    void setSizeStage(Stage primaryStage) {
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMaxWidth(1000);
+        primaryStage.setMinHeight(750);
+        primaryStage.setMaxHeight(750);
     }
 
     private void makeGameNameBox() {
@@ -49,7 +57,7 @@ public class StartLayout extends BorderPane {
         pseudosBox.setPadding(new Insets(50, 0, 0, 350));
         return pseudosBox;
     }
-    
+
     private TextField makeAPseudo(String id, String promptText) {
         TextField tfdPseudo = new TextField();
         tfdPseudo.setId(id);
@@ -57,7 +65,7 @@ public class StartLayout extends BorderPane {
         tfdPseudo.setMaxWidth(300);
         return tfdPseudo;
     }
-    
+
     private void makeButton(TextField tfdPseudoBlack, TextField tfdPseudoWhite, Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         VBox buttonsBox = new VBox();
         buttonsBox.setPadding(new Insets(50, 50, 120, 425));
@@ -68,6 +76,8 @@ public class StartLayout extends BorderPane {
         btnPlay.setOnAction(e -> {
             gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             primaryStage.setScene(gameScene);
+            primaryStage.setMinWidth(1500);
+            primaryStage.setMaxWidth(1500);
         });
         buttonsBox.getChildren().add(btnPlay);
         setBottom(buttonsBox);
