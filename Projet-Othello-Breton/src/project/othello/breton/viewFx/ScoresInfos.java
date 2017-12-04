@@ -121,11 +121,11 @@ public class ScoresInfos extends HBox {
 
     private void setBackgroundColors() {
         if (this.currentColor == PlayerColor.BLACK) {
-            paneBlack.setStyle("-fx-background-color: green;");
+            paneBlack.setStyle("-fx-background-color: green; -fx-opacity: 0.5");
             paneWhite.setStyle("-fx-background-color: transparent;");
         } else {
             paneBlack.setStyle("-fx-background-color: transparent;");
-            paneWhite.setStyle("-fx-background-color: green;");
+            paneWhite.setStyle("-fx-background-color: green; -fx-opacity: 0.5");
         }
     }
 

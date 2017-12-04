@@ -1,4 +1,4 @@
-package project.othello.breton.viewFx;
+package project.othello.breton.model;
 
 /**
  * This class represents an action on the game.
@@ -8,14 +8,14 @@ package project.othello.breton.viewFx;
 public class Action {
 
     private final int id;
-    private final String pseudo;
+    private final String color;
     private final String action;
     private final String position;
     private final int taking;
 
     public Action(int id, String pseudo, String action, String position, int taking) {
         this.id = id;
-        this.pseudo = pseudo;
+        this.color = pseudo;
         this.action = action;
         this.position = position;
         this.taking = taking;
@@ -25,8 +25,8 @@ public class Action {
         return id;
     }
 
-    public String getPseudo() {
-        return pseudo;
+    public String getColor() {
+        return color;
     }
 
     public String getAction() {

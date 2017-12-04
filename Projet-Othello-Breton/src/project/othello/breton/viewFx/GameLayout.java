@@ -1,28 +1,18 @@
 package project.othello.breton.viewFx;
 
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 
 /**
@@ -35,7 +25,7 @@ public class GameLayout extends BorderPane {
     private final BoardPane board;
     private GridPane centerZone;
     private GridPane gridPaneWalls;
-    private VBox rightZone;
+    private final VBox rightZone;
 
     private Button btnAbandon;
     private Button btnPass;
@@ -47,7 +37,7 @@ public class GameLayout extends BorderPane {
     private ProgressBar pBar;
     private ProgressIndicator pIndicator;
     
-    private ActionsHistoryTable table;
+    private final ActionsHistoryTable table;
 
     GameLayout(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         super();
@@ -59,7 +49,7 @@ public class GameLayout extends BorderPane {
         rightZone = new VBox();
         rightZone.setPadding(new Insets(70, 10, 10, 10));
         rightZone.setSpacing(40);
-        table = new ActionsHistoryTable();
+        table = new ActionsHistoryTable(game);
         
         setLeft(board);
         setCenter(centerZone);
@@ -92,7 +82,6 @@ public class GameLayout extends BorderPane {
         makeButtons(game);
         makeProgressBar(game);
         makeProgressIndicator(game);
-        //      scoreInfos.setGridLinesVisible(true); // FOR DEBUG!
         makeGridPaneWalls();
     }
 
@@ -173,7 +162,6 @@ public class GameLayout extends BorderPane {
     private Button makeAButton(String text, String id,
             EventHandler<ActionEvent> value) {
         Button button = new Button(text);
-        //button.setPadding(new Insets(1000, 1000, 1000, 700));
         button.setMaxWidth(150);
         button.setMinHeight(50);
         button.setId(id);

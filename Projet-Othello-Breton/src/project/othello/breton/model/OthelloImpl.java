@@ -2,6 +2,8 @@ package project.othello.breton.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import project.othello.breton.util.Observable;
 import project.othello.breton.util.Observer;
 
@@ -17,6 +19,8 @@ public class OthelloImpl implements Othello, Observable {
     private final Players playerW;
     private PlayerColor currentColor;
     private final List<Observer> listObs;
+    private final ObservableList<Action> actionsHistory;
+    private int actionId;
 
     /**
      * Creates a new othello game.
@@ -30,6 +34,9 @@ public class OthelloImpl implements Othello, Observable {
         playerW = new Players(PlayerColor.WHITE);
         currentColor = PlayerColor.BLACK;
         listObs = new ArrayList<>();
+        actionId = 0;
+        actionsHistory = FXCollections.observableArrayList();
+        actionsHistory.add(new Action(actionId, " ", "New game", " ", 0));
     }
 
     @Override
@@ -46,17 +53,17 @@ public class OthelloImpl implements Othello, Observable {
 
         return listPlayers;
     }
-    
+
     @Override
     public int getScoreBlack() {
         return playerB.getScore();
     }
-    
+
     @Override
     public int getScoreWhite() {
         return playerW.getScore();
     }
-    
+
     @Override
     public PlayerColor getCurrentColor() {
         return currentColor;
@@ -75,6 +82,10 @@ public class OthelloImpl implements Othello, Observable {
     @Override
     public PlayerColor getColor(int row, int col) {
         return board.getColor(row, col);
+    }
+
+    public ObservableList<Action> getActionsHistory() {
+        return actionsHistory;
     }
 
     @Override
@@ -121,9 +132,16 @@ public class OthelloImpl implements Othello, Observable {
         if (validMove) {
             placeFlipAndSetScore(pawnsToFlip, row, col);
             changeCurrentPlayer();
+            actionId++;
+            actionsHistory.add(new Action(actionId, playerColorToString(),
+                                          "Place a wall", row + " - " + col,
+                                          pawnsToFlip.size()));
+            notifyObservers();
         }
-        
-        notifyObservers();
+    }
+
+    private String playerColorToString() {
+        return currentColor == PlayerColor.BLACK ? "Black" : "White";
     }
 
     /**
@@ -158,7 +176,7 @@ public class OthelloImpl implements Othello, Observable {
             playerW.addPointsToScore(nbFlippedPawns + 1);
             playerB.addPointsToScore(-nbFlippedPawns);
         }
-        
+
     }
 
     /**
@@ -379,6 +397,10 @@ public class OthelloImpl implements Othello, Observable {
             board.setColor(row, col, PlayerColor.RED);
             changeCurrentPlayer();
             board.incCounterWallsOnBoard();
+            actionId++;
+            actionsHistory.add(new Action(actionId, playerColorToString(),
+                                          "Place a wall", row + " - " + col,
+                                          0));
             notifyObservers();
         }
     }
@@ -398,7 +420,7 @@ public class OthelloImpl implements Othello, Observable {
 
     /**
      * Add an observer in the list of observers.
-     * 
+     *
      * @param o the observer to add.
      */
     @Override
@@ -410,7 +432,7 @@ public class OthelloImpl implements Othello, Observable {
 
     /**
      * Add a variable number of observers.
-     * 
+     *
      * @param o the differents observers.
      */
     @Override
@@ -422,7 +444,7 @@ public class OthelloImpl implements Othello, Observable {
 
     /**
      * Deletes an observer from the list of observers.
-     * 
+     *
      * @param o the observer to delete.
      */
     @Override
@@ -438,7 +460,7 @@ public class OthelloImpl implements Othello, Observable {
             obs.update();
         });
     }
-    
+
     /**
      * To pass a turn.
      */
@@ -446,38 +468,9 @@ public class OthelloImpl implements Othello, Observable {
         changeCurrentPlayer();
         cleanLastPlayerPossibilities();
         setPossiblePositions();
+        actionId++;
+        actionsHistory.add(new Action(actionId, playerColorToString(),
+                                      "Pass", "  ", 0));
         notifyObservers();
     }
-    
-//    /**
-//     * Set the pseudo of the black player.
-//     * 
-//     * @param pseudo the pseudo to set.
-//     */
-//    public void setPseudoBlack(String pseudo) {
-//        playerB.setPseudo(pseudo);
-//    }
-//
-//    /**
-//     * Set the pseudo of the white player.
-//     * 
-//     * @param pseudo the pseudo to set.
-//     */    
-//    public void setPseudoWhite(String pseudo) {
-//        playerW.setPseudo(pseudo);
-//    }
-//    
-//    /**
-//     * Gives the pseudo of the black player.
-//     */
-//    public String getPseudoBlack() {
-//        return playerB.getPseudo();
-//    }
-//
-//    /**
-//     * Gives the pseudo of the white player.
-//     */    
-//    public String getPseudoWhite() {
-//        return playerW.getPseudo();
-//    }    
 }

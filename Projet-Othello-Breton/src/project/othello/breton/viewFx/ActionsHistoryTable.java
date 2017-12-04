@@ -1,10 +1,12 @@
 package project.othello.breton.viewFx;
 
+import project.othello.breton.model.Action;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import project.othello.breton.model.OthelloImpl;
 
 /**
  *
@@ -12,19 +14,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ActionsHistoryTable extends TableView {
 
-    private final ObservableList<Action> actions;
     private TableColumn<Action, Integer> idColumn;
-    private TableColumn<Action, String> pseudoColumn;
+    private TableColumn<Action, String> colorColumn;
     private TableColumn<Action, String> actionColumn;
     private TableColumn<Action, String> positionColumn;
     private TableColumn<Action, Integer> takingColumn;
 
-    public ActionsHistoryTable() {
+    public ActionsHistoryTable(OthelloImpl game) {
         super();
-        actions = FXCollections.observableArrayList();
         makeColumns();
-        setItems(actions);
-        getColumns().addAll(idColumn, pseudoColumn, actionColumn);
+        setItems(game.getActionsHistory());
+        getColumns().addAll(idColumn, colorColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
     }
 
@@ -32,8 +32,8 @@ public class ActionsHistoryTable extends TableView {
         idColumn = new TableColumn<>("ID");
         setTableColumn(idColumn, 10, "id");
 
-        pseudoColumn = new TableColumn<>("Pseudo");
-        setTableColumn(pseudoColumn, 100, "pseudo");
+        colorColumn = new TableColumn<>("Color");
+        setTableColumn(colorColumn, 100, "color");
         
         actionColumn = new TableColumn<>("Action");
         setTableColumn(actionColumn, 200, "action");
@@ -51,8 +51,8 @@ public class ActionsHistoryTable extends TableView {
         column.setCellValueFactory(new PropertyValueFactory<>(property));
     }
     
-    void addAction(Action action) {
-        actions.add(action);
-    }
+//    void addAction(Action action) {
+//        actionsHistory.add(action);
+//    }
     
 }
