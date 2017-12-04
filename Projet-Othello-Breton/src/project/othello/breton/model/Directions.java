@@ -47,12 +47,12 @@ public enum Directions {
      */
     NW (-1, -1);
     
-    private final int xAxisMov;
-    private final int yAxisMov;
+    private final int movOnAxisY;
+    private final int movOnAxisX;
 
-    private Directions(int xAxisMov, int yAxisMov) {
-        this.xAxisMov = xAxisMov;
-        this.yAxisMov = yAxisMov;
+    private Directions(int movOnAxisY, int movOnAxisX) {
+        this.movOnAxisY = movOnAxisY;
+        this.movOnAxisX = movOnAxisX;
     }
 
     /**
@@ -60,8 +60,8 @@ public enum Directions {
      * 
      * @return the movement value on the x axis.
      */
-    public int getxAxisMov() {
-        return xAxisMov;
+    public int movOnAxisY() {
+        return movOnAxisY;
     }
 
     /**
@@ -69,7 +69,7 @@ public enum Directions {
      * 
      * @return the movement value on the y axis.
      */
-    public int getyAxisMov() {
-        return yAxisMov;
+    public int movOnAxisX() {
+        return movOnAxisX;
     }
 }

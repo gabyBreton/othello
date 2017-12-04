@@ -7,8 +7,8 @@ package project.othello.breton.model;
  */
 class Positions {
 
-    private final int ROW;
-    private final int COLUMN;
+    private final int row;
+    private final int column;
 
     /**
      * Creates a new position.
@@ -17,8 +17,8 @@ class Positions {
      * @param column the position on the column axis.
      */
     Positions(int row, int column) {
-        this.ROW = row;
-        this.COLUMN = column;
+        this.row = row;
+        this.column = column;
     }
 
     /**
@@ -26,8 +26,8 @@ class Positions {
      *
      * @return the position on the row axis.
      */
-    int getROW() {
-        return ROW;
+    int getRow() {
+        return row;
     }
 
     /**
@@ -35,7 +35,7 @@ class Positions {
      *
      * @return the position on the row axis.
      */
-    int getCOLUMN() {
-        return COLUMN;
+    int getColumn() {
+        return column;
     }
 }

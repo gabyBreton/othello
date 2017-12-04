@@ -88,7 +88,7 @@ public class OthelloImplTest {
      * Test of getWidht method, of class OthelloImpl.
      */
     @Test
-    public void testGetWidhtEquals() {
+    public void testGetWidthEquals() {
         OthelloImpl game = new OthelloImpl(4, 6);
         assertEquals(6, game.getWidht());
     }
@@ -97,7 +97,7 @@ public class OthelloImplTest {
      * Test of getWidht method, of class OthelloImpl.
      */
     @Test
-    public void testGetWidhtNotEquals() {
+    public void testGetWidthNotEquals() {
         OthelloImpl game = new OthelloImpl(4, 6);
         assertNotEquals(4, game.getWidht());
     }
@@ -210,6 +210,8 @@ public class OthelloImplTest {
         assertEquals(PlayerColor.BLACK, game.getColor(2, 1));
     }
 
+    ////  CE SONT LES MEMES TEST ^^  vv
+    
     /**
      * Test of play method, of class OthelloImpl. Place a pawn on a possible 
      * position and verifies if the adjacent pawn have been returned.

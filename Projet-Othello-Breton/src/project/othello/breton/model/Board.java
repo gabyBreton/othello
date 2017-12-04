@@ -59,8 +59,8 @@ class Board {
      * @return true if the cell is free, or else false.
      */
     boolean isFree(int row, int col) {
-        return (board[row][col] == null)
-                || (board[row][col] == PlayerColor.GREY);
+        return (board[row][col] == null)                   
+                || (board[row][col] == PlayerColor.GREY); 
     }
 
     /**
@@ -82,8 +82,8 @@ class Board {
      * @return the color of the cell.
      */
     PlayerColor getColor(int row, int col) {
-        PlayerColor colorDebug = board[row][col];
-        return colorDebug;
+        PlayerColor color = board[row][col];
+        return color;
     }
 
     /**

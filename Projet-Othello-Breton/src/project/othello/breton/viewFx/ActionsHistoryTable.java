@@ -1,8 +1,6 @@
 package project.othello.breton.viewFx;
 
 import project.othello.breton.model.Action;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,6 +24,7 @@ public class ActionsHistoryTable extends TableView {
         setItems(game.getActionsHistory());
         getColumns().addAll(idColumn, colorColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
+     //   setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     private void makeColumns() {
@@ -50,9 +49,4 @@ public class ActionsHistoryTable extends TableView {
         column.setMinWidth(minWidth);
         column.setCellValueFactory(new PropertyValueFactory<>(property));
     }
-    
-//    void addAction(Action action) {
-//        actionsHistory.add(action);
-//    }
-    
 }

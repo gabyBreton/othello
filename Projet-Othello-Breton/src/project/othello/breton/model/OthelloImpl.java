@@ -107,8 +107,8 @@ public class OthelloImpl implements Othello, Observable {
         listPossiblePositions = getValidMoves();
 
         for (Positions aPosition : listPossiblePositions) {
-            row = aPosition.getROW();
-            col = aPosition.getCOLUMN();
+            row = aPosition.getRow();
+            col = aPosition.getColumn();
             board.setColor(row, col, PlayerColor.GREY);
         }
 
@@ -134,8 +134,8 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             actionId++;
             actionsHistory.add(new Action(actionId, playerColorToString(),
-                                          "Place a wall", row + " - " + col,
-                                          pawnsToFlip.size()));
+                    "Place a wall", row + " - " + col,
+                    pawnsToFlip.size()));
             notifyObservers();
         }
     }
@@ -193,18 +193,29 @@ public class OthelloImpl implements Othello, Observable {
             int rowActual = row;
             int colActual = col;
 
-            rowActual += direction.getxAxisMov();
-            colActual += direction.getyAxisMov();
+            rowActual += direction.movOnAxisY();
+            colActual += direction.movOnAxisX();
 
             if (isOnBoardAndOppositeColor(rowActual, colActual)) {
-                rowActual += direction.getxAxisMov();
-                colActual += direction.getyAxisMov();
+                rowActual += direction.movOnAxisY();
+                colActual += direction.movOnAxisX();
 
                 if (!board.isOnBoard(rowActual, colActual)) {
                     continue;
                 }
 
-                moveForwardLine(rowActual, colActual, direction);
+                PlayerColor otherColor = getOtherPlayerColor();
+
+                while (board.getColor(rowActual, colActual) == otherColor) {
+                    rowActual += direction.movOnAxisY();
+                    colActual += direction.movOnAxisX();
+
+                    if (!board.isOnBoard(rowActual, colActual)) {
+                        break;
+                    }
+                }
+                //  moveForwardLine(rowActual, colActual, direction); //when row/colActual goes out from this function, they didnot keep
+                                                                      // their old values.
 
                 if (!board.isOnBoard(rowActual, colActual)) {
                     continue;
@@ -212,8 +223,8 @@ public class OthelloImpl implements Othello, Observable {
 
                 if (board.getColor(rowActual, colActual) == currentColor) {
                     while (true) {
-                        rowActual -= direction.getxAxisMov();
-                        colActual -= direction.getyAxisMov();
+                        rowActual -= direction.movOnAxisY();
+                        colActual -= direction.movOnAxisX();
                         if ((rowActual == row) && (colActual == col)) {
                             break;
                         }
@@ -226,27 +237,27 @@ public class OthelloImpl implements Othello, Observable {
         return pawnsToFlip;
     }
 
-    /**
-     * Move forward a line until while the new position is the color of the
-     * other player.
-     *
-     * @param rowActual the current positions being verified, on x axis.
-     * @param colActual the current positions being verified, on y axis.
-     * @param direction the direction where to move.
-     */
-    private void moveForwardLine(int rowActual, int colActual,
-            Directions direction) {
-        PlayerColor otherColor = getOtherPlayerColor();
-
-        while (board.getColor(rowActual, colActual) == otherColor) {
-            rowActual += direction.getxAxisMov();
-            colActual += direction.getyAxisMov();
-
-            if (!board.isOnBoard(rowActual, colActual)) {
-                break;
-            }
-        }
-    }
+//    /**
+//     * Move forward a line until while the new position is the color of the
+//     * other player.
+//     *
+//     * @param rowActual the current positions being verified, on x axis.
+//     * @param colActual the current positions being verified, on y axis.
+//     * @param direction the direction where to move.
+//     */
+//    private void moveForwardLine(int rowActual, int colActual,
+//            Directions direction) {
+//        PlayerColor otherColor = getOtherPlayerColor();
+//
+//        while (board.getColor(rowActual, colActual) == otherColor) {
+//            rowActual += direction.movOnAxisY();
+//            colActual += direction.movOnAxisX();
+//
+//            if (!board.isOnBoard(rowActual, colActual)) {
+//                break;
+//            }
+//        }
+//    }
 
     /**
      * Verifies if a position is on the board and the cell at this position
@@ -300,8 +311,8 @@ public class OthelloImpl implements Othello, Observable {
         int row, col;
 
         for (Positions aPosition : pawnsToFlip) {
-            row = aPosition.getROW();
-            col = aPosition.getCOLUMN();
+            row = aPosition.getRow();
+            col = aPosition.getColumn();
 
             board.setColor(row, col, currentColor);
         }
@@ -320,8 +331,8 @@ public class OthelloImpl implements Othello, Observable {
         emptyPositions = getListEmptyPositions();
 
         for (Positions aPositionToTest : emptyPositions) {
-            row = aPositionToTest.getROW();
-            col = aPositionToTest.getCOLUMN();
+            row = aPositionToTest.getRow();
+            col = aPositionToTest.getColumn();
 
             if (getListPositionsToFlip(row, col).size() > 0) {
                 listValidMoves.add(aPositionToTest);
@@ -399,8 +410,8 @@ public class OthelloImpl implements Othello, Observable {
             board.incCounterWallsOnBoard();
             actionId++;
             actionsHistory.add(new Action(actionId, playerColorToString(),
-                                          "Place a wall", row + " - " + col,
-                                          0));
+                    "Place a wall", row + " - " + col,
+                    0));
             notifyObservers();
         }
     }
@@ -470,7 +481,7 @@ public class OthelloImpl implements Othello, Observable {
         setPossiblePositions();
         actionId++;
         actionsHistory.add(new Action(actionId, playerColorToString(),
-                                      "Pass", "  ", 0));
+                "Pass", "  ", 0));
         notifyObservers();
     }
 }
