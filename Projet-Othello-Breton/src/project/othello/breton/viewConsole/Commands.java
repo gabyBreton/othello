@@ -164,7 +164,7 @@ class Commands {
         xMove = Integer.parseInt(cmdSplitted[1]);
         yMove = convertLetterToNumber(command);
         if ((xMove - 1) >= game.getHeight()
-                || yMove >= game.getWidht()) {
+                || yMove >= game.getWidth()) {
             View.displayTooLargeValue(command);
             correctValue = false;
         }

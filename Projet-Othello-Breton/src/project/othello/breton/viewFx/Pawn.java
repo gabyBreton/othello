@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.util.Duration;
-import project.othello.breton.model.PlayerColor;
+import project.othello.breton.model.GameColor;
 
 /**
  * This class permits to create a pawn.
@@ -17,14 +17,14 @@ import project.othello.breton.model.PlayerColor;
  */
 public class Pawn extends StackPane {
 
-    private final PlayerColor color;
+    private final GameColor color;
 
     /**
      * Creates a new pawn.
      *
      * @param color the color of the owner of the pawn.
      */
-    public Pawn(PlayerColor color) {
+    public Pawn(GameColor color) {
         this.color = color;
 
         Ellipse bckgrnd = makeBackground();
@@ -71,9 +71,9 @@ public class Pawn extends StackPane {
      * @param bckgrnd the lower part of the pawn.
      * @param ellipse the upper part of the pawn.
      */
-    private void setColorsPawn(PlayerColor color, Ellipse bckgrnd,
+    private void setColorsPawn(GameColor color, Ellipse bckgrnd,
             Ellipse ellipse) {
-        if (color == PlayerColor.BLACK) {
+        if (color == GameColor.BLACK) {
             bckgrnd.setFill(Color.WHITE);
             bckgrnd.setStroke(Color.WHITE);
             ellipse.setFill(Color.BLACK);
@@ -86,7 +86,7 @@ public class Pawn extends StackPane {
         }
     }
 
-    PlayerColor getColor() {
+    GameColor getColor() {
         return color;
     }
 

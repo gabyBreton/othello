@@ -1,6 +1,6 @@
 package project.othello.breton.viewConsole;
 
-import project.othello.breton.model.PlayerColor;
+import project.othello.breton.model.GameColor;
 import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.model.Players;
 
@@ -17,9 +17,9 @@ class View {
      * @param game a session of Othello.
      */
     static void showGameBoard(OthelloImpl game) {
-        displayHeader(game.getWidht());
+        displayHeader(game.getWidth());
         displayContent(game);
-        displayFooter(game.getWidht());
+        displayFooter(game.getWidth());
     }
 
     /**
@@ -71,7 +71,7 @@ class View {
 
             displayLeftNumerotation(i);
 
-            for (int j = 0; j < game.getWidht(); j++) {
+            for (int j = 0; j < game.getWidth(); j++) {
                 printABoxContent(game, i, j);
             }
 
@@ -93,7 +93,7 @@ class View {
         String ansiWhite = "\u001B[47m";
         String ansiRed = "\u001B[41m";
         String ansiReset = "\u001B[0m";
-        PlayerColor colorCell;
+        GameColor colorCell;
 
         colorCell = game.getColor(x, y);
         if (null == colorCell) {
@@ -156,15 +156,12 @@ class View {
      * @param game the session of Othello.
      */
     static void showFinalScoresAndWinner(OthelloImpl game) {
-        Players playerBlack, playerWhite;
+        
+        showScores(game.getScoreBlack(), game.getScoreWhite());
 
-        playerBlack = game.getPlayers().get(0);
-        playerWhite = game.getPlayers().get(1);
-        showScores(playerBlack.getScore(), playerWhite.getScore());
-
-        if (playerBlack.getScore() > playerWhite.getScore()) {
+        if (game.getScoreBlack() >  game.getScoreWhite()) {
             System.out.println("The winner is Black");
-        } else if (playerWhite.getScore() > playerBlack.getScore()) {
+        } else if (game.getScoreBlack() <  game.getScoreWhite()) {
             System.out.println("The winner is White");
         } else {
             System.out.println("The scores are equals, both wins !");

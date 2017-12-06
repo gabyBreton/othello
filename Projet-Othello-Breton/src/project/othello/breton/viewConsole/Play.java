@@ -83,8 +83,8 @@ class Play {
                 break;
             case 2:
                 int scoreBlack, scoreWhite;
-                scoreBlack = othello.getPlayers().get(0).getScore();
-                scoreWhite = othello.getPlayers().get(1).getScore();
+                scoreBlack = othello.getScoreBlack();
+                scoreWhite = othello.getScoreWhite();
                 View.showScores(scoreBlack, scoreWhite);
                 break;
             case 3:

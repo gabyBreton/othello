@@ -8,7 +8,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import project.othello.breton.model.OthelloImpl;
-import project.othello.breton.model.PlayerColor;
+import project.othello.breton.model.GameColor;
 
 /**
  * This classes manages the scores view.
@@ -17,7 +17,7 @@ import project.othello.breton.model.PlayerColor;
  */
 public class ScoresInfos extends HBox {
 
-    private PlayerColor currentColor;
+    private GameColor currentColor;
 
     private Label scoreB;
     private Label scoreW;
@@ -72,8 +72,8 @@ public class ScoresInfos extends HBox {
         pseudoB = new Label();
         pseudoW = new Label();
 
-        pawnB = new Pawn(PlayerColor.BLACK);
-        pawnW = new Pawn(PlayerColor.WHITE);
+        pawnB = new Pawn(GameColor.BLACK);
+        pawnW = new Pawn(GameColor.WHITE);
 
         scoreB = new Label();
         scoreB.setText(String.valueOf(game.getScoreBlack()));
@@ -112,7 +112,7 @@ public class ScoresInfos extends HBox {
 //   //     this.currentColor = currentColor;
 // //       setCurrentArrow();
 //    }
-    void refresh(int scoreBlack, int scoreWhite, PlayerColor currentColor) {
+    void refresh(int scoreBlack, int scoreWhite, GameColor currentColor) {
         scoreB.setText(String.valueOf(scoreBlack));
         scoreW.setText(String.valueOf(scoreWhite));
         this.currentColor = currentColor;
@@ -120,7 +120,7 @@ public class ScoresInfos extends HBox {
     }
 
     private void setBackgroundColors() {
-        if (this.currentColor == PlayerColor.BLACK) {
+        if (this.currentColor == GameColor.BLACK) {
             paneBlack.setStyle("-fx-background-color: green; -fx-opacity: 0.5");
             paneWhite.setStyle("-fx-background-color: transparent;");
         } else {

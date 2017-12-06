@@ -14,7 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import project.othello.breton.model.OthelloImpl;
-import project.othello.breton.model.PlayerColor;
+import project.othello.breton.model.GameColor;
 
 /**
  * This class provides methods to creates tiles and place pawn on it.
@@ -34,7 +34,7 @@ class Tile extends StackPane {
      * @param row the number of the row.
      * @param col the number of the column.
      */
-    Tile(int row, int col, PlayerColor color, OthelloImpl game) {
+    Tile(int row, int col, GameColor color, OthelloImpl game) {
         border = new Rectangle(75, 75);
         pawn = null;
         this.row = row;
@@ -47,12 +47,12 @@ class Tile extends StackPane {
         getChildren().addAll(border);
     }
 
-    private void setTileRendering(int row1, int col1, PlayerColor color) {
+    private void setTileRendering(int row1, int col1, GameColor color) {
         if ((row1 == 0) || (col1 == 0)) {
             border.setFill(null);
             border.setStroke(null);
         } else {
-            if (color == PlayerColor.RED) {
+            if (color == GameColor.RED) {
                 border.setFill(Color.RED);
             } else {
                 border.setFill(Color.GREY);

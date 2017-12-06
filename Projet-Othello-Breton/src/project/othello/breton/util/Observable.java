@@ -15,13 +15,6 @@ public interface Observable {
     public void addObserver(Observer o);
 
     /**
-     * Add a variable number of observers.
-     *
-     * @param o the differents observers.
-     */
-    public void addAllObserver(Observer... o);
-
-    /**
      * Deletes an observer from the list of observers.
      *
      * @param o the observer to delete.

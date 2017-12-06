@@ -2,7 +2,7 @@ package project.othello.breton.viewFx;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-import project.othello.breton.model.PlayerColor;
+import project.othello.breton.model.GameColor;
 import project.othello.breton.model.OthelloImpl;
 
 /**
@@ -49,7 +49,7 @@ public class BoardPane extends GridPane {
      * Creates and add all the tiles of the board.
      */
     private void addTiles(OthelloImpl game) {
-        PlayerColor cellColor;
+        GameColor cellColor;
         for (int row = 0; row < rows + 1; row++) {
 
             for (int col = 0; col < columns + 1; col++) {
@@ -64,7 +64,7 @@ public class BoardPane extends GridPane {
         }
     }
 
-    private Tile makeTile(int col, int row, PlayerColor cellColor, OthelloImpl game) {
+    private Tile makeTile(int col, int row, GameColor cellColor, OthelloImpl game) {
         Tile tile = new Tile(col, row, cellColor, game);
         tilesArray[row][col] = tile;
         tile.setTranslateX(row * 75);
@@ -86,8 +86,8 @@ public class BoardPane extends GridPane {
 
             if ((col > 0) && (row > 0)) {
 
-                if ((game.getColor(row - 1, col - 1) == PlayerColor.BLACK)
-                    || (game.getColor(row - 1, col - 1) == PlayerColor.WHITE)) {
+                if ((game.getColor(row - 1, col - 1) == GameColor.BLACK)
+                    || (game.getColor(row - 1, col - 1) == GameColor.WHITE)) {
 
                     placeAPawn(game.getColor(row - 1, col - 1), row, col);
                 }
@@ -95,8 +95,8 @@ public class BoardPane extends GridPane {
         }
     }
 
-    private PlayerColor getCellColor(OthelloImpl game, int row, int col) {
-        PlayerColor cellColor;
+    private GameColor getCellColor(OthelloImpl game, int row, int col) {
+        GameColor cellColor;
         cellColor = null;
 
         if ((col < columns - 1) && (col < rows - 1)
@@ -116,7 +116,7 @@ public class BoardPane extends GridPane {
      * @param row the number of the row.
      * @param col the number of the column.
      */
-    void placeAPawn(PlayerColor color, int row, int col) {
+    void placeAPawn(GameColor color, int row, int col) {
         Tile tile;
         tile = tilesArray[row][col];
         tile.getChildren().add(new Pawn(color));
