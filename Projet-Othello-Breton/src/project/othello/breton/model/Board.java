@@ -7,7 +7,7 @@ package project.othello.breton.model;
  */
 class Board {
 
-    private final PlayerColor[][] board;
+    private final GameColor[][] board;
     private final int rows;
     private final int columns;
     private int counterPawnsOnBoard;
@@ -22,7 +22,7 @@ class Board {
     Board(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
-        board = new PlayerColor[rows][columns];
+        board = new GameColor[rows][columns];
         placeFirstFourPawns();
         counterPawnsOnBoard = 4;
         counterWallsOnBoard = 0;
@@ -33,10 +33,10 @@ class Board {
      * and two white. They are positioned around the center of the board.
      */
     private void placeFirstFourPawns() {
-        board[(rows / 2) - 1][(columns / 2) - 1] = PlayerColor.WHITE;
-        board[(rows / 2) - 1][columns / 2] = PlayerColor.BLACK;
-        board[rows / 2][(columns / 2) - 1] = PlayerColor.BLACK;
-        board[rows / 2][columns / 2] = PlayerColor.WHITE;
+        board[(rows / 2) - 1][(columns / 2) - 1] = GameColor.WHITE;
+        board[(rows / 2) - 1][columns / 2] = GameColor.BLACK;
+        board[rows / 2][(columns / 2) - 1] = GameColor.BLACK;
+        board[rows / 2][columns / 2] = GameColor.WHITE;
     }
 
     /**
@@ -57,7 +57,7 @@ class Board {
      */
     boolean isFree(int row, int col) {
         return (board[row][col] == null)
-                || (board[row][col] == PlayerColor.GREY);
+                || (board[row][col] == GameColor.GREY);
     }
 
     /**
@@ -67,8 +67,8 @@ class Board {
      * @param col the number of the column.
      * @return the color of the cell.
      */
-    PlayerColor getColor(int row, int col) {
-        PlayerColor color = board[row][col];
+    GameColor getColor(int row, int col) {
+        GameColor color = board[row][col];
         return color;
     }
 
@@ -97,7 +97,7 @@ class Board {
      * @param col the number of the column.
      * @param color the color of the pawn to place.
      */
-    void setColor(int row, int col, PlayerColor color) {
+    void setColor(int row, int col, GameColor color) {
         board[row][col] = color;
     }
 

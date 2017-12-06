@@ -1,13 +1,14 @@
 package project.othello.breton.model;
 
 /**
- * This class provides methods to create and manipulate players and their infos.
+ * This class provides methods to create and manipulate players and 
+ * their informations.
  *
  * @author Gabriel Breton - 43397
  */
 public class Players {
 
-    private final PlayerColor color;
+    private final GameColor color;
     private int score;
 
     /**
@@ -15,18 +16,9 @@ public class Players {
      *
      * @param color the color of the player.
      */
-    Players(PlayerColor color) {
+    Players(GameColor color) {
         this.color = color;
         this.score = 2;
-    }
-
-    /**
-     * Gives the color of the player.
-     *
-     * @return the color of the player.
-     */
-    public PlayerColor getColor() {
-        return color;
     }
 
     /**
@@ -34,16 +26,16 @@ public class Players {
      *
      * @return the score of the player.
      */
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
     /**
      * Add points to the score of the player.
      * 
-     * @param pointsToAdd the points to add to the score.
+     * @param points the points to add to the score.
      */
-    void addPointsToScore(int pointsToAdd) {
-        score += pointsToAdd;
+    void addPointsToScore(int points) {
+        score += points;
     }
 }

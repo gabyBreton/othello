@@ -17,7 +17,7 @@ public class OthelloImpl implements Othello, Observable {
     private final Board board;
     private final Players playerB;
     private final Players playerW;
-    private PlayerColor currentColor;
+    private GameColor currentColor;
     private final List<Observer> listObs;
     private final ObservableList<Action> actionsHistory;
     private int actionId;
@@ -25,314 +25,135 @@ public class OthelloImpl implements Othello, Observable {
     /**
      * Creates a new othello game.
      *
-     * @param rows the number of lines.
+     * @param rows the number of rows.
      * @param columns the number of columns.
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB = new Players(PlayerColor.BLACK);
-        playerW = new Players(PlayerColor.WHITE);
-        currentColor = PlayerColor.BLACK;
+        playerB = new Players(GameColor.BLACK);
+        playerW = new Players(GameColor.WHITE);
+        currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
         actionId = 0;
         actionsHistory = FXCollections.observableArrayList();
         actionsHistory.add(new Action(actionId, " ", "New game", " ", 0));
     }
 
+    /**
+     * Verifies if the game is over.
+     *
+     * @return true if the game is over, or else false.
+     */
     @Override
     public boolean isOver() {
         return board.isFull() || !stillValidMoves();
     }
 
-    @Override
-    public List<Players> getPlayers() {
-        List<Players> listPlayers = new ArrayList<>();
-
-        listPlayers.add(playerB);
-        listPlayers.add(playerW);
-
-        return listPlayers;
-    }
-
+    /**
+     * Gives the score of the player black.
+     *
+     * @return the score of the player black.
+     */
     @Override
     public int getScoreBlack() {
         return playerB.getScore();
     }
 
+    /**
+     * Gives the score of the player white.
+     *
+     * @return the score of the player white.
+     */
     @Override
     public int getScoreWhite() {
         return playerW.getScore();
     }
 
+    /**
+     * Gives the current player color.
+     *
+     * @return the current player color.
+     */
     @Override
-    public PlayerColor getCurrentColor() {
+    public GameColor getCurrentColor() {
         return currentColor;
     }
 
+    /**
+     * Gives the height of the board.
+     *
+     * @return the height of the board.
+     */
     @Override
     public int getHeight() {
         return board.getRows();
     }
 
+    /**
+     * Gives the width of the board.
+     *
+     * @return the width of the board.
+     */
     @Override
-    public int getWidht() {
+    public int getWidth() {
         return board.getColumns();
     }
 
+    /**
+     * Gives the color of cell at a position.
+     *
+     * @param row the number of the row.
+     * @param col the number of the col.
+     * @return the color of the cell, or null if the cell is free.
+     */
     @Override
-    public PlayerColor getColor(int row, int col) {
+    public GameColor getColor(int row, int col) {
         return board.getColor(row, col);
     }
 
+    /**
+     * Gives the history list of the actions made in the game.
+     *
+     * @return the history list of the actions made in the game.
+     */
+    @Override
     public ObservableList<Action> getActionsHistory() {
         return actionsHistory;
     }
 
-    @Override
-    public void cleanLastPlayerPossibilities() {
-        for (int row = 0; row < getHeight(); row++) {
-            for (int col = 0; col < getWidht(); col++) {
-                if (board.getColor(row, col) == PlayerColor.GREY) {
-                    board.setColor(row, col, null);
-                }
+    /**
+     * Verifies if there is still valid moves for both players.
+     *
+     * @return true if there is still valid moves for both players on the board,
+     * or else false.
+     */
+    private boolean stillValidMoves() {
+        boolean stillMoves;
+        stillMoves = true;
+
+        if (getValidMoves().isEmpty()) {
+            changeCurrentPlayer();
+            if (getValidMoves().isEmpty()) {
+                stillMoves = false;
             }
-        }
-    }
-
-    @Override
-    public void setPossiblePositions() {
-        List<Positions> listPossiblePositions = new ArrayList<>();
-        int row, col;
-
-        listPossiblePositions = getValidMoves();
-
-        for (Positions aPosition : listPossiblePositions) {
-            row = aPosition.getRow();
-            col = aPosition.getColumn();
-            board.setColor(row, col, PlayerColor.GREY);
-        }
-
-        if (listPossiblePositions.isEmpty()) {
             changeCurrentPlayer();
         }
-    }
 
-    @Override
-    public void play(int row, int col) throws ArrayIndexOutOfBoundsException {
-        List<Positions> pawnsToFlip = new ArrayList<>();
-        boolean validMove;
-
-        validMove = false;
-
-        if (isValidPosition(row, col)) {
-            pawnsToFlip = getListPositionsToFlip(row, col);
-            validMove = pawnsToFlip.size() > 0;
-        }
-
-        if (validMove) {
-            placeFlipAndSetScore(pawnsToFlip, row, col);
-            changeCurrentPlayer();
-            actionId++;
-            actionsHistory.add(new Action(actionId, playerColorToString(),
-                    "Place a wall", row + " - " + col,
-                    pawnsToFlip.size()));
-            notifyObservers();
-        }
-    }
-
-    private String playerColorToString() {
-        return currentColor == PlayerColor.BLACK ? "Black" : "White";
-    }
-
-    /**
-     * Flip the pawns and set the new score of the players.
-     *
-     * @param pawnsToFlip the list of positions of the pawns to flip.
-     * @param row the position where to place the new pawn on the x axis.
-     * @param col the position where to place the new pawn on the y axis.
-     */
-    private void placeFlipAndSetScore(List<Positions> pawnsToFlip,
-            int row, int col) {
-        int nbFlippedPawns;
-
-        flipPawns(pawnsToFlip);
-        board.setColor(row, col, currentColor);
-        board.incCounterPawnsOnBoard();
-
-        nbFlippedPawns = pawnsToFlip.size();
-        setPlayersScores(nbFlippedPawns);
-    }
-
-    /**
-     * Actualize the new score of the players.
-     *
-     * @param nbFlippedPawns the number of pawns that have been flipped.
-     */
-    private void setPlayersScores(int nbFlippedPawns) {
-        if (currentColor == PlayerColor.BLACK) {
-            playerB.addPointsToScore(nbFlippedPawns + 1);
-            playerW.addPointsToScore(-nbFlippedPawns);
-        } else {
-            playerW.addPointsToScore(nbFlippedPawns + 1);
-            playerB.addPointsToScore(-nbFlippedPawns);
-        }
-
-    }
-
-    /**
-     * Get a list of all the positions where flip the color.
-     *
-     * @param row the position from where starting to evaluate, on the x axis.
-     * @param col the position from where starting to evaluate, on the y axis.
-     * @return a list of positions to flip. This list can be returned empty.
-     */
-    private List<Positions> getListPositionsToFlip(int row, int col) {
-        List<Positions> pawnsToFlip = new ArrayList<>();
-
-        for (Directions direction : Directions.values()) {
-            int rowActual = row;
-            int colActual = col;
-
-            rowActual += direction.movOnAxisY();
-            colActual += direction.movOnAxisX();
-
-            if (isOnBoardAndOppositeColor(rowActual, colActual)) {
-                rowActual += direction.movOnAxisY();
-                colActual += direction.movOnAxisX();
-
-                if (!board.isOnBoard(rowActual, colActual)) {
-                    continue;
-                }
-
-                PlayerColor otherColor = getOtherPlayerColor();
-
-                while (board.getColor(rowActual, colActual) == otherColor) {
-                    rowActual += direction.movOnAxisY();
-                    colActual += direction.movOnAxisX();
-
-                    if (!board.isOnBoard(rowActual, colActual)) {
-                        break;
-                    }
-                }
-                //  moveForwardLine(rowActual, colActual, direction); //when row/colActual goes out from this function, they didnot keep
-                                                                      // their old values.
-
-                if (!board.isOnBoard(rowActual, colActual)) {
-                    continue;
-                }
-
-                if (board.getColor(rowActual, colActual) == currentColor) {
-                    while (true) {
-                        rowActual -= direction.movOnAxisY();
-                        colActual -= direction.movOnAxisX();
-                        if ((rowActual == row) && (colActual == col)) {
-                            break;
-                        }
-                        pawnsToFlip.add(new Positions(rowActual, colActual));
-                    }
-                }
-            }
-        }
-
-        return pawnsToFlip;
-    }
-
-//    /**
-//     * Move forward a line until while the new position is the color of the
-//     * other player.
-//     *
-//     * @param rowActual the current positions being verified, on x axis.
-//     * @param colActual the current positions being verified, on y axis.
-//     * @param direction the direction where to move.
-//     */
-//    private void moveForwardLine(int rowActual, int colActual,
-//            Directions direction) {
-//        PlayerColor otherColor = getOtherPlayerColor();
-//
-//        while (board.getColor(rowActual, colActual) == otherColor) {
-//            rowActual += direction.movOnAxisY();
-//            colActual += direction.movOnAxisX();
-//
-//            if (!board.isOnBoard(rowActual, colActual)) {
-//                break;
-//            }
-//        }
-//    }
-
-    /**
-     * Verifies if a position is on the board and the cell at this position
-     * contains a pawns of the opposite player.
-     *
-     * @param rowActual the current positions being verified, on x axis.
-     * @param colActual the current positions being verified, on y axis.
-     * @return true if the position is on the board and the cell at this
-     * position contains a pawns of the opposite player, or else false.
-     */
-    private boolean isOnBoardAndOppositeColor(int rowActual, int colActual) {
-        PlayerColor otherColor = getOtherPlayerColor();
-
-        return board.isOnBoard(rowActual, colActual)
-                && (board.getColor(rowActual, colActual) == otherColor);
-    }
-
-    /**
-     * Get the color of the non current player.
-     *
-     * @return the color of the non current player.
-     */
-    private PlayerColor getOtherPlayerColor() {
-        PlayerColor otherColor;
-        if (currentColor == PlayerColor.BLACK) {
-            otherColor = PlayerColor.WHITE;
-        } else {
-            otherColor = PlayerColor.BLACK;
-        }
-        return otherColor;
-    }
-
-    /**
-     * Verifies if a position is valid as it on the game board.
-     *
-     * @param row the position on the x axis.
-     * @param col the position on the y axis.
-     * @return true if the position is on the board, or else false.
-     */
-    private boolean isValidPosition(int row, int col) {
-        return (board.isFree(row, col)) && (board.isOnBoard(row, col));
-    }
-
-    /**
-     * Flip the color of a list of pawns.
-     *
-     * @param pawnsToFlip the list of positions that represents the pawns to
-     * flip.
-     */
-    private void flipPawns(List<Positions> pawnsToFlip) {
-        int row, col;
-
-        for (Positions aPosition : pawnsToFlip) {
-            row = aPosition.getRow();
-            col = aPosition.getColumn();
-
-            board.setColor(row, col, currentColor);
-        }
+        return stillMoves;
     }
 
     /**
      * Search for all the possibles pawns placement on the board.
      *
-     * @return a list with all the valids moves.
+     * @return a list with all the valid moves.
      */
     private List<Positions> getValidMoves() {
-        List<Positions> emptyPositions = new ArrayList<>();
         List<Positions> listValidMoves = new ArrayList<>();
         int row, col;
 
-        emptyPositions = getListEmptyPositions();
-
-        for (Positions aPositionToTest : emptyPositions) {
+        for (Positions aPositionToTest : getListEmptyPositions()) {
             row = aPositionToTest.getRow();
-            col = aPositionToTest.getColumn();
+            col = aPositionToTest.getCol();
 
             if (getListPositionsToFlip(row, col).size() > 0) {
                 listValidMoves.add(aPositionToTest);
@@ -349,14 +170,14 @@ public class OthelloImpl implements Othello, Observable {
      */
     private List<Positions> getListEmptyPositions() {
         List<Positions> emptyPositions = new ArrayList<>();
-        PlayerColor aColor;
+        GameColor aColor;
 
         for (int row = 0; row < board.getRows(); row++) {
             for (int col = 0; col < board.getColumns(); col++) {
 
                 aColor = board.getColor(row, col);
 
-                if (aColor == null || aColor == PlayerColor.GREY) {
+                if (aColor == null || aColor == GameColor.GREY) {
                     emptyPositions.add(new Positions(row, col));
                 }
             }
@@ -366,54 +187,249 @@ public class OthelloImpl implements Othello, Observable {
     }
 
     /**
+     * Get a list of all the positions where flip the color.
+     *
+     * @param row the row from where starting to evaluate.
+     * @param col the column from where starting to evaluate.
+     * @return a list of positions to flip. This list can be returned empty.
+     */
+    private List<Positions> getListPositionsToFlip(int row, int col) {
+        List<Positions> pawnsToFlip = new ArrayList<>();
+        GameColor otherColor;
+
+        for (Directions direction : Directions.values()) {
+            int rowActual = row;
+            int colActual = col;
+
+            rowActual += direction.getMovOutOfRow();
+            colActual += direction.getMovOutOfCol();
+
+            if (isOnBoardAndOppositeColor(rowActual, colActual)) {
+                rowActual += direction.getMovOutOfRow();
+                colActual += direction.getMovOutOfCol();
+
+                if (!board.isOnBoard(rowActual, colActual)) {
+                    continue;
+                }
+
+                otherColor = getOtherPlayerColor();
+
+                while (board.getColor(rowActual, colActual) == otherColor) {
+                    rowActual += direction.getMovOutOfRow();
+                    colActual += direction.getMovOutOfCol();
+
+                    if (!board.isOnBoard(rowActual, colActual)) {
+                        break;
+                    }
+                }
+
+                if (!board.isOnBoard(rowActual, colActual)) {
+                    continue;
+                }
+
+                if (board.getColor(rowActual, colActual) == currentColor) {
+                    while (true) {
+                        rowActual -= direction.getMovOutOfRow();
+                        colActual -= direction.getMovOutOfCol();
+                        if ((rowActual == row) && (colActual == col)) {
+                            break;
+                        }
+                        pawnsToFlip.add(new Positions(rowActual, colActual));
+                    }
+                }
+            }
+        }
+
+        return pawnsToFlip;
+    }
+
+    /**
+     * Get the color of the non current player.
+     *
+     * @return the color of the non current player.
+     */
+    private GameColor getOtherPlayerColor() {
+        GameColor otherColor;
+
+        if (currentColor == GameColor.BLACK) {
+            otherColor = GameColor.WHITE;
+        } else {
+            otherColor = GameColor.BLACK;
+        }
+
+        return otherColor;
+    }
+
+    /**
+     * Verifies if a position is on the board and the cell at this position
+     * contains a pawns of the opposite player.
+     *
+     * @param rowActual the current row of the position being verified.
+     * @param colActual the current column of the position being verified.
+     * @return true if the position is on the board and the cell at this
+     * position contains a pawns of the opposite player, or else false.
+     */
+    private boolean isOnBoardAndOppositeColor(int rowActual, int colActual) {
+        GameColor otherColor = getOtherPlayerColor();
+
+        return board.isOnBoard(rowActual, colActual)
+                && (board.getColor(rowActual, colActual) == otherColor);
+    }
+
+    /**
      * Changes the current player.
      */
     private void changeCurrentPlayer() {
-        if (currentColor == PlayerColor.BLACK) {
-            currentColor = PlayerColor.WHITE;
+        if (currentColor == GameColor.BLACK) {
+            currentColor = GameColor.WHITE;
         } else {
-            currentColor = PlayerColor.BLACK;
+            currentColor = GameColor.BLACK;
         }
     }
 
     /**
-     * Verifies if there is still valid moves for both players.
+     * Place a pawn on a position on the game board.
      *
-     * @return true if there is still valids moves for both players on the
-     * board, or else false.
-     */
-    private boolean stillValidMoves() {
-        boolean stillMoves;
+     * @param row the number of the row.
+     * @param col the number of the column.
+     * @throws ArrayIndexOutOfBoundsException if the value of row and col are
+     * out of the board.
+    */
+    @Override
+    public void play(int row, int col) throws ArrayIndexOutOfBoundsException {
+        List<Positions> pawnsToFlip = new ArrayList<>();
 
-        stillMoves = true;
-        if (getValidMoves().isEmpty()) {
-            changeCurrentPlayer();
-            if (getValidMoves().isEmpty()) {
-                stillMoves = false;
-            }
-            changeCurrentPlayer();
+        if (isValidPosition(row, col)) {
+            pawnsToFlip = getListPositionsToFlip(row, col);
         }
 
-        return stillMoves;
+        if (pawnsToFlip.size() > 0) {
+            placePawnAndSetScore(pawnsToFlip, row, col);
+            changeCurrentPlayer();
+            actionId++;
+            actionsHistory.add(new Action(actionId, playerColorToString(),
+                               "Place a pawn", row + " - " + col,
+                               pawnsToFlip.size()));
+            notifyObservers();
+        }
+    }
+
+    /**
+     * Verifies if a position is valid as it on the game board.
+     *
+     * @param row the position on the row.
+     * @param col the position on the column.
+     * @return true if the position is on the board, or else false.
+     */
+    private boolean isValidPosition(int row, int col) {
+        return (board.isFree(row, col)) && (board.isOnBoard(row, col));
+    }
+
+    /**
+     * Flip the pawns and set the new score of the players.
+     *
+     * @param pawnsToFlip the list of positions of the pawns to flip.
+     * @param row the row where to place the new pawn.
+     * @param col the column where to place the new pawn.
+     */
+    private void placePawnAndSetScore(List<Positions> pawnsToFlip,
+                                      int row, int col) {
+        int nbFlippedPawns;
+
+        flipPawns(pawnsToFlip);
+        board.setColor(row, col, currentColor);
+        board.incCounterPawnsOnBoard();
+
+        nbFlippedPawns = pawnsToFlip.size();
+        setPlayersScores(nbFlippedPawns);
+    }
+
+    /**
+     * Flip the color of a list of pawns.
+     *
+     * @param pawnsToFlip the list of positions of the pawns to flip.
+     */
+    private void flipPawns(List<Positions> pawnsToFlip) {
+        for (Positions aPosition : pawnsToFlip) {
+            board.setColor(aPosition.getRow(),aPosition.getCol(), currentColor);
+        }
+    }
+
+    /**
+     * Actualize the new score of the players.
+     *
+     * @param nbFlippedPawns the number of pawns that have been flipped.
+     */
+    private void setPlayersScores(int nbFlippedPawns) {
+        if (currentColor == GameColor.BLACK) {
+            playerB.addPointsToScore(nbFlippedPawns + 1);
+            playerW.addPointsToScore(-nbFlippedPawns);
+        } else {
+            playerW.addPointsToScore(nbFlippedPawns + 1);
+            playerB.addPointsToScore(-nbFlippedPawns);
+        }
+    }
+    
+    /**
+     * Set to 'null' all the cells that have been set as possible positions for 
+     * a pawn placement.
+     */
+    @Override
+    public void cleanLastPlayerPossibilities() {
+        for (int row = 0; row < getHeight(); row++) {
+            for (int col = 0; col < getWidth(); col++) {
+                if (board.getColor(row, col) == GameColor.GREY) {
+                    board.setColor(row, col, null);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets all the cell possible for a pawn placement to 'GREY' to be 
+     * recognized.
+     */    
+    @Override
+    public void setPossiblePositions() {
+        List<Positions> listPossiblePositions = new ArrayList<>();
+        listPossiblePositions = getValidMoves();
+     
+        for (Positions aPosition : getValidMoves()) {
+            board.setColor(aPosition.getRow(), aPosition.getCol(), 
+                           GameColor.GREY);
+        }
+
+        if (listPossiblePositions.isEmpty()) {
+            changeCurrentPlayer();
+        }
     }
 
     /**
      * Add a wall on the board, on an empty cell.
      *
-     * @param row the number of the line.
+     * @param row the number of the row.
      * @param col the number of the column.
      */
+    @Override
     public void wall(int row, int col) {
         if (board.isFree(row, col)) {
-            board.setColor(row, col, PlayerColor.RED);
+            board.setColor(row, col, GameColor.RED);
             changeCurrentPlayer();
             board.incCounterWallsOnBoard();
             actionId++;
             actionsHistory.add(new Action(actionId, playerColorToString(),
-                    "Place a wall", row + " - " + col,
-                    0));
+                               "Place a wall", row + " - " + col, 0));
             notifyObservers();
         }
+    }    
+    
+    /**
+     * Gives the color of the players as a String.
+     * 
+     * @return the color of the players as a String.
+     */
+    private String playerColorToString() {
+        return currentColor == GameColor.BLACK ? "Black" : "White";
     }
 
     /**
@@ -421,14 +437,35 @@ public class OthelloImpl implements Othello, Observable {
      *
      * @return the number of wall on the board.
      */
+    @Override
     public int getCounterWallsOnBoard() {
         return board.getCounterWallsOnBoard();
     }
 
+    /**
+     * Gives the number of pawns on the board.
+     *
+     * @return the number of pawns on the board.
+     */      
+    @Override
     public int getCounterPawnsOnBoard() {
         return board.getCounterPawnsOnBoard();
     }
 
+    /**
+     * To pass a turn.
+     */
+    @Override
+    public void pass() {
+        changeCurrentPlayer();
+        cleanLastPlayerPossibilities();
+        setPossiblePositions();
+        actionId++;
+        actionsHistory.add(new Action(actionId, playerColorToString(),
+                           "Pass", "  ", 0));
+        notifyObservers();
+    }
+    
     /**
      * Add an observer in the list of observers.
      *
@@ -438,18 +475,6 @@ public class OthelloImpl implements Othello, Observable {
     public void addObserver(Observer o) {
         if (!listObs.contains(o)) {
             listObs.add(o);
-        }
-    }
-
-    /**
-     * Add a variable number of observers.
-     *
-     * @param o the differents observers.
-     */
-    @Override
-    public void addAllObserver(Observer... o) {
-        for (Observer obs : o) {
-            addObserver(obs);
         }
     }
 
@@ -470,18 +495,5 @@ public class OthelloImpl implements Othello, Observable {
         listObs.forEach((obs) -> {
             obs.update();
         });
-    }
-
-    /**
-     * To pass a turn.
-     */
-    public void pass() {
-        changeCurrentPlayer();
-        cleanLastPlayerPossibilities();
-        setPossiblePositions();
-        actionId++;
-        actionsHistory.add(new Action(actionId, playerColorToString(),
-                "Pass", "  ", 0));
-        notifyObservers();
     }
 }

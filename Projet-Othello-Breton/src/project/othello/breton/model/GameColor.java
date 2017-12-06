@@ -5,15 +5,15 @@ package project.othello.breton.model;
  *
  * @author Gabriel Breton - 43397
  */
-public enum PlayerColor {
+public enum GameColor {
     
     /**
-     * For the player Black.
+     * The color of the cell for the player black.
      */
     BLACK, 
     
     /**
-     * For the player White.
+     * The color of the cell for the player white.
      */
     WHITE, 
     

@@ -8,34 +8,34 @@ package project.othello.breton.model;
 class Positions {
 
     private final int row;
-    private final int column;
+    private final int col;
 
     /**
      * Creates a new position.
      *
-     * @param row the position on the row axis.
-     * @param column the position on the column axis.
+     * @param row the number of the row.
+     * @param col the number of the col.
      */
-    Positions(int row, int column) {
+    Positions(int row, int col) {
         this.row = row;
-        this.column = column;
+        this.col = col;
     }
 
     /**
-     * Gives the position on the row axis.
+     * Gives the number of the row.
      *
-     * @return the position on the row axis.
+     * @return the number of the row.
      */
     int getRow() {
         return row;
     }
 
     /**
-     * Gives the position on the row axis.
+     * Gives the number of the column.
      *
-     * @return the position on the row axis.
+     * @return the number of the column.
      */
-    int getColumn() {
-        return column;
+    int getCol() {
+        return col;
     }
 }
