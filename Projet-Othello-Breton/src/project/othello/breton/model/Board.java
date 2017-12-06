@@ -1,8 +1,5 @@
 package project.othello.breton.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class provides methods to create and manipulate a game board.
  *
@@ -22,8 +19,8 @@ class Board {
      * @param rows the number of rows of the board.
      * @param columns the number of columns of the board.
      */
-    Board(int rows, int columns) { // ROWS AND COLUMS SHOULD BE ODD NUMBERS, 
-        this.rows = rows;          // WHERE VERIFY IT ?
+    Board(int rows, int columns) {
+        this.rows = rows;
         this.columns = columns;
         board = new PlayerColor[rows][columns];
         placeFirstFourPawns();
@@ -55,30 +52,19 @@ class Board {
      * Evaluates if a board cell is free or not.
      *
      * @param row the number of the row.
-     * @param col the number of the col.
+     * @param col the number of the column.
      * @return true if the cell is free, or else false.
      */
     boolean isFree(int row, int col) {
-        return (board[row][col] == null)                   
-                || (board[row][col] == PlayerColor.GREY); 
-    }
-
-    /**
-     * Places a pawn on a cell of the board.
-     *
-     * @param row the number of the row.
-     * @param col //TODO !!!!!!!!!!!!!!!
-     * @param color the color of the pawn.
-     */
-    void placePawn(int row, int col, PlayerColor color) {
-        board[row][col] = color;
+        return (board[row][col] == null)
+                || (board[row][col] == PlayerColor.GREY);
     }
 
     /**
      * Gives the color of a cell on the board.
      *
-     * //@TODO !!!!!!!!!!!!!
-     *
+     * @param row the number of the row.
+     * @param col the number of the column.
      * @return the color of the cell.
      */
     PlayerColor getColor(int row, int col) {
@@ -107,9 +93,9 @@ class Board {
     /**
      * Set the color of a position on the board.
      *
-     * @param row TODO
-     * @param col TODO
-     * @param color the color to set.
+     * @param row the number of the row.
+     * @param col the number of the column.
+     * @param color the color of the pawn to place.
      */
     void setColor(int row, int col, PlayerColor color) {
         board[row][col] = color;
@@ -118,14 +104,13 @@ class Board {
     /**
      * Verifies if a position is on the game board.
      *
-     * @param row the position on the x axis.
-     * @param col the position on the y axis.
+     * @param row the number of the row.
+     * @param col the number of the column.
      * @return true if the position is on the board, or else false.
      */
     boolean isOnBoard(int row, int col) {
-        boolean onBoard = ((row >= 0) && (row <= rows - 1)
+        return ((row >= 0) && (row <= rows - 1) 
                 && (col >= 0) && (col <= columns - 1));
-        return onBoard;
     }
 
     /**
@@ -135,24 +120,28 @@ class Board {
         counterPawnsOnBoard += 1;
     }
 
-    int getCounterPawnsOnBoard() {
-        return counterPawnsOnBoard;
-    }
-
-    /**
-     * Gives the number of wall on the board.
-     *
-     * @return the number of wall on the board.
-     */
-    int getCounterWallsOnBoard() {
-        return counterWallsOnBoard;
-    }
-
     /**
      * Increments the counter of walls on the board.
      */
     void incCounterWallsOnBoard() {
         counterWallsOnBoard += 1;
+    }    
+    
+    /**
+     * Gives the number of pawns on the board.
+     * 
+     * @return the number of pawns on the board.
+     */
+    int getCounterPawnsOnBoard() {
+        return counterPawnsOnBoard;
     }
 
+    /**
+     * Gives the number of walls on the board.
+     *
+     * @return the number of walls on the board.
+     */
+    int getCounterWallsOnBoard() {
+        return counterWallsOnBoard;
+    }
 }
