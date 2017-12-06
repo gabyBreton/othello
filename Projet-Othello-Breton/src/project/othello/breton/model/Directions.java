@@ -47,29 +47,35 @@ public enum Directions {
      */
     NW (-1, -1);
     
-    private final int movOnAxisY;
-    private final int movOnAxisX;
+    private final int movOutOfRow;
+    private final int movOutOfCol;
 
-    private Directions(int movOnAxisY, int movOnAxisX) {
-        this.movOnAxisY = movOnAxisY;
-        this.movOnAxisX = movOnAxisX;
+    /**
+     * Creates a new direction.
+     * 
+     * @param movOutOfRow the move on the row axis of this direction.
+     * @param movOutOfCol the move on the column axis of this direction.
+     */
+    private Directions(int movOutOfRow, int movOutOfCol) {
+        this.movOutOfRow = movOutOfRow;
+        this.movOutOfCol = movOutOfCol;
     }
 
     /**
-     * Gives the movement value on the x axis.
+     * Gives the direction of the row to go.
      * 
-     * @return the movement value on the x axis.
+     * @return the direction of the row to go.
      */
-    public int movOnAxisY() {
-        return movOnAxisY;
+    int getMovOutOfRow() {
+        return movOutOfRow;
     }
 
     /**
-     * Gives the movement value on the y axis.
+     * Gives the direction of the column to go.
      * 
-     * @return the movement value on the y axis.
+     * @return the direction of the column to go.
      */
-    public int movOnAxisX() {
-        return movOnAxisX;
+    int getMovOutOfCol() {
+        return movOutOfCol;
     }
 }
