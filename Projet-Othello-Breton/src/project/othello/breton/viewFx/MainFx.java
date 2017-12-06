@@ -94,5 +94,6 @@ public class MainFx extends Application implements Observer {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), game.getCurrentColor());
         gameRoot.refresh(game); 
         board.refresh(game);
+        
     }
 }

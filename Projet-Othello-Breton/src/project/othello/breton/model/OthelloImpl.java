@@ -2,8 +2,6 @@ package project.othello.breton.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import project.othello.breton.util.Observable;
 import project.othello.breton.util.Observer;
 
@@ -19,7 +17,8 @@ public class OthelloImpl implements Othello, Observable {
     private final Players playerW;
     private GameColor currentColor;
     private final List<Observer> listObs;
-    private final ObservableList<Action> actionsHistory;
+
+    private Action action;
     private int actionId;
 
     /**
@@ -34,9 +33,6 @@ public class OthelloImpl implements Othello, Observable {
         playerW = new Players(GameColor.WHITE);
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
-        actionId = 0;
-        actionsHistory = FXCollections.observableArrayList();
-        actionsHistory.add(new Action(actionId, " ", "New game", " ", 0));
     }
 
     /**
@@ -110,17 +106,17 @@ public class OthelloImpl implements Othello, Observable {
     public GameColor getColor(int row, int col) {
         return board.getColor(row, col);
     }
-
+    
     /**
-     * Gives the history list of the actions made in the game.
-     *
-     * @return the history list of the actions made in the game.
+     * Gives the last action of the game.
+     * 
+     * @return the last action of the game.
      */
     @Override
-    public ObservableList<Action> getActionsHistory() {
-        return actionsHistory;
+    public Action getAction() {
+        return action;
     }
-
+    
     /**
      * Verifies if there is still valid moves for both players.
      *
@@ -307,9 +303,9 @@ public class OthelloImpl implements Othello, Observable {
             placePawnAndSetScore(pawnsToFlip, row, col);
             changeCurrentPlayer();
             actionId++;
-            actionsHistory.add(new Action(actionId, playerColorToString(),
+            action = new Action(actionId, playerColorToString(),
                                "Place a pawn", row + " - " + col,
-                               pawnsToFlip.size()));
+                               pawnsToFlip.size());
             notifyObservers();
         }
     }
@@ -417,8 +413,8 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             board.incCounterWallsOnBoard();
             actionId++;
-            actionsHistory.add(new Action(actionId, playerColorToString(),
-                               "Place a wall", row + " - " + col, 0));
+            action = new Action(actionId, playerColorToString(),
+                               "Place a wall", row + " - " + col, 0);
             notifyObservers();
         }
     }    
@@ -461,8 +457,8 @@ public class OthelloImpl implements Othello, Observable {
         cleanLastPlayerPossibilities();
         setPossiblePositions();
         actionId++;
-        actionsHistory.add(new Action(actionId, playerColorToString(),
-                           "Pass", "  ", 0));
+        action = new Action(actionId, playerColorToString(),
+                            "Pass", "  ", 0);
         notifyObservers();
     }
     

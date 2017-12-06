@@ -1,5 +1,7 @@
 package project.othello.breton.viewFx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import project.othello.breton.model.Action;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,6 +14,9 @@ import project.othello.breton.model.OthelloImpl;
  */
 public class ActionsHistoryTable extends TableView {
 
+    private final ObservableList<Action> actionsHistory;
+    private int actionId;
+
     private TableColumn<Action, Integer> idColumn;
     private TableColumn<Action, String> colorColumn;
     private TableColumn<Action, String> actionColumn;
@@ -21,7 +26,9 @@ public class ActionsHistoryTable extends TableView {
     public ActionsHistoryTable(OthelloImpl game) {
         super();
         makeColumns();
-        setItems(game.getActionsHistory());
+        actionsHistory = FXCollections.observableArrayList();
+        actionsHistory.add(new Action(actionId, " ", "New game", " ", 0));        
+        setItems(actionsHistory);
         getColumns().addAll(idColumn, colorColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
      //   setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -48,5 +55,9 @@ public class ActionsHistoryTable extends TableView {
                                     String property) {
         column.setMinWidth(minWidth);
         column.setCellValueFactory(new PropertyValueFactory<>(property));
+    }
+    
+    public void refresh(OthelloImpl game) {
+        actionsHistory.add(game.getAction());
     }
 }

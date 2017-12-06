@@ -204,6 +204,7 @@ public class GameLayout extends BorderPane {
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
         refreshProgressIndicator(game.getCounterPawnsOnBoard() 
                                  + game.getCounterWallsOnBoard());
+        table.refresh(game);
         
     }
 }

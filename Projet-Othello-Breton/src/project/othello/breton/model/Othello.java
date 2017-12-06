@@ -61,11 +61,11 @@ interface Othello {
     GameColor getColor(int row, int col);
 
     /**
-     * Gives the history list of the actions made in the game.
+     * Gives the last action of the game.
      * 
-     * @return the history list of the actions made in the game.
-     */
-    ObservableList<Action> getActionsHistory();
+     * @return the last action of the game.
+     */    
+    Action getAction();
     
     /**
      * Place a pawn on a position on the game board.
