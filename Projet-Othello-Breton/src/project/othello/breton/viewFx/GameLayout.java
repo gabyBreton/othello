@@ -4,6 +4,7 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -13,6 +14,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 
 /**
@@ -39,13 +41,13 @@ public class GameLayout extends BorderPane {
     
     private final ActionsHistoryTable table;
 
-    GameLayout(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
+    GameLayout(Stage primaryStage, Scene finalScene, OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         super();
         setId("gamePane");
 
         this.board = board;
         this.scoreInfos = scoreInfos;
-        makeCenterZone(game);
+        makeCenterZone(primaryStage, finalScene, game);
         rightZone = new VBox();
         rightZone.setPadding(new Insets(70, 10, 10, 10));
         rightZone.setSpacing(40);
@@ -64,10 +66,10 @@ public class GameLayout extends BorderPane {
      * @param btnAbandon the button abandon.
      * @return
      */
-    private void makeCenterZone(OthelloImpl game) {
+    private void makeCenterZone(Stage primaryStage, Scene finalScene, OthelloImpl game) {
         centerZone = new GridPane();
         setPaddingAndGap();
-        makeElementsOfCenter(game);
+        makeElementsOfCenter(primaryStage, finalScene, game);
         addElements();
     }
 
@@ -78,16 +80,16 @@ public class GameLayout extends BorderPane {
         centerZone.setVgap(15);
     }
 
-    private void makeElementsOfCenter(OthelloImpl game) {
-        makeButtons(game);
+    private void makeElementsOfCenter(Stage primaryStage, Scene finalScene, OthelloImpl game) {
+        makeButtons(primaryStage, finalScene, game);
         makeProgressBar(game);
         makeProgressIndicator(game);
         makeGridPaneWalls();
     }
 
-    private void makeButtons(OthelloImpl game) {
+    private void makeButtons(Stage primaryStage, Scene finalScene, OthelloImpl game) {
         btnAbandon = makeAButton("Abandon", "button", (event) -> {
-            makeAlertAbandon();
+            makeAlertAbandon(primaryStage, finalScene);
         });
         btnPass = makeAButton("Pass", "button", (event) -> {
             game.pass();
@@ -132,20 +134,22 @@ public class GameLayout extends BorderPane {
         gridPaneWalls.add(nameCptWalls, 0, 0);
     }
 
-    private void makeAlertAbandon() {
+    private void makeAlertAbandon(Stage primaryStage, Scene finalScene) {
         Alert alertAbandon = setAlertAbandon();
         ButtonType buttonTypeSure = new ButtonType("Yes I give up ...");
         ButtonType buttonTypeNo = new ButtonType("No !");
 
         alertAbandon.getButtonTypes().setAll(buttonTypeNo, buttonTypeSure);
 
-        makeResultConfirmation(alertAbandon, buttonTypeSure);
+        makeResultConfirmation(primaryStage, finalScene, alertAbandon, buttonTypeSure);
     }
 
-    private void makeResultConfirmation(Alert alertAbandon, ButtonType buttonTypeSure) {
+    private void makeResultConfirmation(Stage primaryStage, Scene finalScene, Alert alertAbandon, ButtonType buttonTypeSure) {
         Optional<ButtonType> result = alertAbandon.showAndWait();
         if (result.get() == buttonTypeSure) {
-            // ... display final score etc ...
+            primaryStage.setScene(finalScene);
+            primaryStage.setMinWidth(1500);
+            primaryStage.setMaxWidth(1500);
         } else {
             alertAbandon.close();
         }
@@ -155,7 +159,8 @@ public class GameLayout extends BorderPane {
         Alert alertAbandon = new Alert(Alert.AlertType.CONFIRMATION);
         alertAbandon.setTitle("Abandon");
         alertAbandon.setHeaderText(null);
-        alertAbandon.setContentText("Is it the moment to give up ?");
+        alertAbandon.setContentText("Do you really want to give up ?");
+        alertAbandon.setResizable(true);
         return alertAbandon;
     }
 
@@ -205,6 +210,9 @@ public class GameLayout extends BorderPane {
         refreshProgressIndicator(game.getCounterPawnsOnBoard() 
                                  + game.getCounterWallsOnBoard());
         table.refresh(game);
-        
+                if(game.isOver()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.showAndWait();
+        }
     }
 }

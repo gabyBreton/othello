@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class creates the layout for the start interface.
@@ -74,7 +73,7 @@ public class StartLayout extends BorderPane {
         btnPlay.setMinHeight(50);
         btnPlay.setId("button");
         btnPlay.setOnAction(e -> {
-            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
+            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());//useless
             primaryStage.setScene(gameScene);
             primaryStage.setMinWidth(1500);
             primaryStage.setMaxWidth(1500);

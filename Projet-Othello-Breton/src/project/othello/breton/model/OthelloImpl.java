@@ -20,6 +20,8 @@ public class OthelloImpl implements Othello, Observable {
 
     private Action action;
     private int actionId;
+    
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";    
 
     /**
      * Creates a new othello game.
@@ -115,6 +117,13 @@ public class OthelloImpl implements Othello, Observable {
     @Override
     public Action getAction() {
         return action;
+    }
+ 
+    public String getWinner() {
+       // if (getScoreBlack() > getScoreWhite())
+        
+     //   return getScoreBlack() > getScoreWhite() ? GameColor.BLACK : GameColor.WHITE;
+     return "";
     }
     
     /**
@@ -304,7 +313,8 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             actionId++;
             action = new Action(actionId, playerColorToString(),
-                               "Place a pawn", row + " - " + col,
+                               "Place a pawn", 
+                               "" + alphabet.charAt(col) + " - " +(row + 1),
                                pawnsToFlip.size());
             notifyObservers();
         }
@@ -414,7 +424,9 @@ public class OthelloImpl implements Othello, Observable {
             board.incCounterWallsOnBoard();
             actionId++;
             action = new Action(actionId, playerColorToString(),
-                               "Place a wall", row + " - " + col, 0);
+                                "Place a wall",
+                                "" + alphabet.charAt(col) + " - " +(row + 1), 
+                                0);
             notifyObservers();
         }
     }    
@@ -458,7 +470,7 @@ public class OthelloImpl implements Othello, Observable {
         setPossiblePositions();
         actionId++;
         action = new Action(actionId, playerColorToString(),
-                            "Pass", "  ", 0);
+                            "    Pass", "  ", 0);
         notifyObservers();
     }
     

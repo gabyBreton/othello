@@ -38,7 +38,8 @@ class ActionsHistoryTable extends TableView {
         setItems(actionsHistory);
         getColumns().addAll(idColumn, colorColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
-     //   setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        setMinWidth(205);
+//setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     /**
@@ -49,16 +50,16 @@ class ActionsHistoryTable extends TableView {
         setTableColumn(idColumn, 10, "id");
 
         colorColumn = new TableColumn<>("Color");
-        setTableColumn(colorColumn, 100, "color");
+        setTableColumn(colorColumn, 55, "color");
         
         actionColumn = new TableColumn<>("Action");
-        setTableColumn(actionColumn, 200, "action");
+        setTableColumn(actionColumn, 100, "action");
         
         positionColumn = new TableColumn<>("Position");
-        setTableColumn(positionColumn, 50, "position");
+        setTableColumn(positionColumn, 30, "position");
         
         takingColumn = new TableColumn<>("Taking");
-        setTableColumn(takingColumn, 10, "taking");
+        setTableColumn(takingColumn, 20, "taking");
     }
 
     /**

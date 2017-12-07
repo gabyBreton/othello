@@ -1,5 +1,6 @@
 package project.othello.breton.viewFx;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import project.othello.breton.model.GameColor;

@@ -22,6 +22,7 @@ public class MainFx extends Application implements Observer {
     private BoardPane board;
     private StartLayout startRoot;
     private GameLayout gameRoot;
+    private FinalLayout finalRoot;
     
     /**
      * Starts and sets all the components of the game.
@@ -38,8 +39,19 @@ public class MainFx extends Application implements Observer {
         primaryStage.show();
     }
 
+    private void setLayoutPrimaryStage(Stage primaryStage) {
+        primaryStage.setTitle("Othello");
+        primaryStage.setMinWidth(1000);
+        primaryStage.setMaxWidth(1000);
+        primaryStage.setMinHeight(750);
+        primaryStage.setMaxHeight(750);
+    }
+    
     private Scene makeLayoutsAndScenes(Stage primaryStage) {
-        gameRoot = makeGameLayout();
+        finalRoot = new FinalLayout(game);
+        Scene finalScene = makeScene(finalRoot);
+        
+        gameRoot = makeGameLayout(primaryStage, finalScene);
         gameRoot.setMinHeight(750);
         gameRoot.setMinWidth(1000);
         Scene gameScene = makeScene(gameRoot);
@@ -56,24 +68,16 @@ public class MainFx extends Application implements Observer {
         return scene;
     }
 
-    private void setLayoutPrimaryStage(Stage primaryStage) {
-        primaryStage.setTitle("Othello");
-        primaryStage.setMinWidth(1000);
-        primaryStage.setMaxWidth(1000);
-        primaryStage.setMinHeight(750);
-        primaryStage.setMaxHeight(750);
-    }
-
     /**
      * Creates a game to creates the differents elements of the GUI.
      *
      * @return a ready to use root.
      */
-    private GameLayout makeGameLayout() {
+    private GameLayout makeGameLayout(Stage primaryStage, Scene finalScene) {
         game = new OthelloImpl(rows, columns);
         scoreInfos = new ScoresInfos(game);
         board = new BoardPane(game);
-        gameRoot = new GameLayout(game, scoreInfos, board); 
+        gameRoot = new GameLayout(primaryStage, finalScene, game, scoreInfos, board); 
 
         game.addObserver(this);
         return gameRoot;
@@ -90,10 +94,9 @@ public class MainFx extends Application implements Observer {
 
     @Override
     public void update() {
-        //scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite());
-        scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), game.getCurrentColor());
-        gameRoot.refresh(game); 
+        scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(), 
+                           game.getCurrentColor());
         board.refresh(game);
-        
+        gameRoot.refresh(game); 
     }
 }
