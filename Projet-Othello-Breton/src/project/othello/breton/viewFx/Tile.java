@@ -103,11 +103,20 @@ class Tile extends StackPane {
         addEventFilter(MouseEvent.MOUSE_PRESSED, (event) -> {
             if (col > 0 && row > 0) {
                 if (event.isPrimaryButtonDown()) {
-                    game.play(col - 1, row - 1);
+                    game.play(row - 1, col - 1);
                 } else if (event.isSecondaryButtonDown()) {
-                    game.wall(col - 1, row - 1);
+                    game.wall(row - 1, col - 1);
                 }
             }
+            // THE ORIGINAL
+//        addEventFilter(MouseEvent.MOUSE_PRESSED, (event) -> {
+//            if (col > 0 && row > 0) {
+//                if (event.isPrimaryButtonDown()) {
+//                    game.play(col - 1, row - 1);
+//                } else if (event.isSecondaryButtonDown()) {
+//                    game.wall(col - 1, row - 1);
+//                }
+//            }
         });
 
     }
