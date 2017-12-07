@@ -9,10 +9,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import project.othello.breton.model.OthelloImpl;
 
 /**
- *
+ * This classes is used to create an table view for the history of the actions 
+ * of the game.
+ * 
  * @author Gabriel Breton - 43397
  */
-public class ActionsHistoryTable extends TableView {
+class ActionsHistoryTable extends TableView {
 
     private final ObservableList<Action> actionsHistory;
     private int actionId;
@@ -23,6 +25,11 @@ public class ActionsHistoryTable extends TableView {
     private TableColumn<Action, String> positionColumn;
     private TableColumn<Action, Integer> takingColumn;
 
+    /**
+     * Creates a new history table view.
+     * 
+     * @param game the current session of othello.
+     */
     public ActionsHistoryTable(OthelloImpl game) {
         super();
         makeColumns();
@@ -34,6 +41,9 @@ public class ActionsHistoryTable extends TableView {
      //   setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
+    /**
+     * Makes the columns of the history table view.
+     */
     private void makeColumns() {
         idColumn = new TableColumn<>("ID");
         setTableColumn(idColumn, 10, "id");
@@ -51,12 +61,25 @@ public class ActionsHistoryTable extends TableView {
         setTableColumn(takingColumn, 10, "taking");
     }
 
+    /**
+     * Set a column of the table.
+     * 
+     * @param <T> the type of the content of the column.
+     * @param column the column.
+     * @param minWidth the minimal size of the column.
+     * @param property the property of the column.
+     */
     private <T> void setTableColumn(TableColumn<Action, T> column, int minWidth, 
                                     String property) {
         column.setMinWidth(minWidth);
         column.setCellValueFactory(new PropertyValueFactory<>(property));
     }
     
+    /**
+     * To refresh the tableview.
+     * 
+     * @param game the current session of othello.
+     */
     public void refresh(OthelloImpl game) {
         actionsHistory.add(game.getAction());
     }
