@@ -1,6 +1,7 @@
 package project.othello.breton.viewFx;
 
 import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import project.othello.breton.model.OthelloImpl;
@@ -11,30 +12,24 @@ import project.othello.breton.model.OthelloImpl;
  *
  * @author Gabriel Breton - 43397
  */
-class FinalLayout extends VBox {
+class FinalLayout extends BorderPane {
 
     private Label winner;
-    //private ScoresInfos scoresInfos;
+    private Label gameOver;
     private GridPane buttonsZone;
 
-    FinalLayout(OthelloImpl game) {
+    FinalLayout(OthelloImpl game, String whoIsWinner) {
         super();
-        //this.scoresInfos = scoresInfos;
-        winner = makeWinner(game);
-        getChildren().add(winner);
+        winner = new Label(whoIsWinner);
+        winner.setId("winner");
+        gameOver = new Label("GAME OVER !");
+        gameOver.setId("gameOver");
+        setMinSize(1000, 1000);
+        setTop(gameOver);
+        setCenter(winner);
+        setId("finalLayout");
     }
 
-    private Label makeWinner(OthelloImpl game) {
-        winner = new Label();
-        winner.setText(game.getWinner());
-        
-        if (winner.getText().matches("equality")) {
-            winner.setText("There is no winner ");
-        }
-      //  String winnerColor = game.getWinner();
-        
-        return winner;
-    }
 }
 
 

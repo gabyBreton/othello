@@ -27,7 +27,7 @@ public class MainFx extends Application implements Observer {
 
     private TextField tfdPseudoBlack;
     private TextField tfdPseudoWhite;
-    
+
     /**
      * Starts and sets all the components of the game.
      *
@@ -37,7 +37,7 @@ public class MainFx extends Application implements Observer {
     public void start(Stage primaryStage) {
         setLayoutPrimaryStage(primaryStage);
 
-        Scene startScene = makeLayoutsAndScenes(primaryStage);
+        Scene startScene = makeStartScene(primaryStage);
 
         primaryStage.setScene(startScene);
         primaryStage.show();
@@ -51,17 +51,11 @@ public class MainFx extends Application implements Observer {
         primaryStage.setMaxHeight(750);
     }
 
-    private Scene makeLayoutsAndScenes(Stage primaryStage) {
+    private Scene makeStartScene(Stage primaryStage) {
         game = new OthelloImpl(rows, columns);
-        finalRoot = new FinalLayout(game);
-        Scene finalScene = makeScene(finalRoot);
-        
-        tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
-        tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
+        game.addObserver(this);
 
-        gameRoot = makeGameLayout(game, primaryStage, finalScene);
-        gameRoot.setMinHeight(750);
-        gameRoot.setMinWidth(1000);
+        makeGameRoot(primaryStage);
         Scene gameScene = makeScene(gameRoot);
 
         startRoot = new StartLayout(game, primaryStage, gameScene, gameRoot);
@@ -69,12 +63,12 @@ public class MainFx extends Application implements Observer {
         return startScene;
     }
 
-    private TextField makeAPseudoTfd(String id, String promptText) {
-        TextField tfdPseudo = new TextField();
-        tfdPseudo.setId(id);
-        tfdPseudo.setPromptText(promptText);
-        tfdPseudo.setMaxWidth(300);
-        return tfdPseudo;
+    private void makeGameRoot(Stage primaryStage) {
+        scoreInfos = new ScoresInfos(game);
+        board = new BoardPane(game);
+        gameRoot = new GameLayout(primaryStage, game, scoreInfos, board);
+        gameRoot.setMinHeight(750);
+        gameRoot.setMinWidth(1000);
     }
 
     private Scene makeScene(Parent root) {
@@ -82,20 +76,6 @@ public class MainFx extends Application implements Observer {
         scene.getStylesheets().addAll(
                 this.getClass().getResource("style.css").toExternalForm());
         return scene;
-    }
-
-    /**
-     * Creates a game to creates the differents elements of the GUI.
-     *
-     * @return a ready to use root.
-     */
-    private GameLayout makeGameLayout(OthelloImpl game, Stage primaryStage, Scene finalScene) {
-        scoreInfos = new ScoresInfos(game);
-        board = new BoardPane(game);
-        gameRoot = new GameLayout(primaryStage, finalScene, game, scoreInfos, board);
-
-        game.addObserver(this);
-        return gameRoot;
     }
 
     /**

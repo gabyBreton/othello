@@ -1,13 +1,8 @@
 package project.othello.breton.viewFx;
 
-import javafx.animation.ScaleTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
-import javafx.util.Duration;
 import project.othello.breton.model.GameColor;
 
 /**
@@ -32,10 +27,6 @@ public class Pawn extends StackPane {
         setColorsPawn(color, bckgrnd, ellipse);
 
         getChildren().addAll(bckgrnd, ellipse);
-     //   ScaleTransition stHideFront = createFlipEffect();
-//        addEventFilter(MouseEvent.MOUSE_PRESSED, (event) -> {
-//           stHideFront.play();
-//        });
     }
 
     /**

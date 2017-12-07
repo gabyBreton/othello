@@ -138,6 +138,9 @@ public class OthelloImpl implements Othello, Observable {
         return playerW.getPseudo();
     }
 
+    /*
+        TO ADD DANS L'INTERFACE !!!!
+     */
     public String getPseudoCurrentPlayer() {
         String currentPseudo;
 
@@ -161,7 +164,9 @@ public class OthelloImpl implements Othello, Observable {
         } else if (playerB.getScore() < playerW.getScore()) {
             winner = playerW.getPseudo();
         } else {
-            winner = "Black : " + String.valueOf(playerB.getScore()) + " - " + "White : " + String.valueOf(playerW.getScore()) ;
+            winner = "Black : " + String.valueOf(playerB.getScore()) + " - " 
+                    + "White : " + String.valueOf(playerW.getScore() 
+                    + "Nombre pions sur le plateau: " + getCounterPawnsOnBoard()) ;
         }
 
         return winner;
