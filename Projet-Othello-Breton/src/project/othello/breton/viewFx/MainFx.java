@@ -52,13 +52,14 @@ public class MainFx extends Application implements Observer {
     }
 
     private Scene makeLayoutsAndScenes(Stage primaryStage) {
+        game = new OthelloImpl(rows, columns);
         finalRoot = new FinalLayout(game);
         Scene finalScene = makeScene(finalRoot);
         
         tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
         tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
 
-        gameRoot = makeGameLayout(primaryStage, finalScene);
+        gameRoot = makeGameLayout(game, primaryStage, finalScene);
         gameRoot.setMinHeight(750);
         gameRoot.setMinWidth(1000);
         Scene gameScene = makeScene(gameRoot);
@@ -88,8 +89,7 @@ public class MainFx extends Application implements Observer {
      *
      * @return a ready to use root.
      */
-    private GameLayout makeGameLayout(Stage primaryStage, Scene finalScene) {
-        game = new OthelloImpl(rows, columns);
+    private GameLayout makeGameLayout(OthelloImpl game, Stage primaryStage, Scene finalScene) {
         scoreInfos = new ScoresInfos(game);
         board = new BoardPane(game);
         gameRoot = new GameLayout(primaryStage, finalScene, game, scoreInfos, board);

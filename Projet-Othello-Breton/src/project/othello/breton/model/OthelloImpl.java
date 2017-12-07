@@ -20,8 +20,8 @@ public class OthelloImpl implements Othello, Observable {
 
     private Action action;
     private int actionId;
-    
-    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";    
+
+    private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * Creates a new othello game.
@@ -31,7 +31,7 @@ public class OthelloImpl implements Othello, Observable {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB =  new Players(GameColor.BLACK, null);;
+        playerB = new Players(GameColor.BLACK, null);;
         playerW = new Players(GameColor.WHITE, null);
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
@@ -41,6 +41,7 @@ public class OthelloImpl implements Othello, Observable {
         playerB = new Players(GameColor.BLACK, pseudoB);
         playerW = new Players(GameColor.WHITE, pseudoW);
     }
+
     /**
      * Verifies if the game is over.
      *
@@ -112,66 +113,74 @@ public class OthelloImpl implements Othello, Observable {
     public GameColor getColor(int row, int col) {
         return board.getColor(row, col);
     }
-    
+
     /**
      * Gives the last action of the game.
-     * 
+     *
      * @return the last action of the game.
      */
     @Override
     public Action getAction() {
         return action;
     }
-    
-        /*
+
+    /*
         TO ADD DANS L'INTERFACE !!!!
-    */
+     */
     public String getPseudoBlack() {
         return playerB.getPseudo();
     }
 
-        /*
+    /*
         TO ADD DANS L'INTERFACE !!!!
-    */
+     */
     public String getPseudoWhite() {
         return playerW.getPseudo();
     }
-    
+
     public String getPseudoCurrentPlayer() {
         String currentPseudo;
-        
+
         if (currentColor == GameColor.BLACK) {
             currentPseudo = playerW.getPseudo();
         } else {
             currentPseudo = playerB.getPseudo();
         }
-        
+
         return currentPseudo;
     }
-    
+
     /*
         TO ADD DANS L'INTERFACE !!!!
-    */
+     */
     public String getWinner() {
-       // if (getScoreBlack() > getScoreWhite())
+        String winner;
         
-     //   return getScoreBlack() > getScoreWhite() ? GameColor.BLACK : GameColor.WHITE;
-     return "";
+        if (playerB.getScore() > playerW.getScore()) {
+            winner = playerB.getPseudo();
+        } else if (playerB.getScore() < playerW.getScore()) {
+            winner = playerW.getPseudo();
+        } else {
+            winner = "Black : " + String.valueOf(playerB.getScore()) + " - " + "White : " + String.valueOf(playerW.getScore()) ;
+        }
+
+        return winner;
     }
+
     /*
         TO ADD DANS L'INTERFACE !!!!
-    */    
+     */
     public void setPseudoBlack(String pseudo) {
         playerB.setPseudo(pseudo);
     }
+
     /*
         TO ADD DANS L'INTERFACE !!!!
-    */    
+     */
     public void setPseudoWhite(String pseudo) {
         playerW.setPseudo(pseudo);
     }
 
-    
     /**
      * Verifies if there is still valid moves for both players.
      *
@@ -345,7 +354,7 @@ public class OthelloImpl implements Othello, Observable {
      * @param col the number of the column.
      * @throws ArrayIndexOutOfBoundsException if the value of row and col are
      * out of the board.
-    */
+     */
     @Override
     public void play(int row, int col) throws ArrayIndexOutOfBoundsException {
         List<Positions> pawnsToFlip = new ArrayList<>();
@@ -359,9 +368,9 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
-                               "Place a pawn", 
-                               "" + alphabet.charAt(col) + " - " +(row + 1),
-                               pawnsToFlip.size());
+                    "Place a pawn",
+                    "" + alphabet.charAt(col) + " - " + (row + 1),
+                    pawnsToFlip.size());
             notifyObservers();
         }
     }
@@ -385,7 +394,7 @@ public class OthelloImpl implements Othello, Observable {
      * @param col the column where to place the new pawn.
      */
     private void placePawnAndSetScore(List<Positions> pawnsToFlip,
-                                      int row, int col) {
+            int row, int col) {
         int nbFlippedPawns;
 
         flipPawns(pawnsToFlip);
@@ -403,7 +412,7 @@ public class OthelloImpl implements Othello, Observable {
      */
     private void flipPawns(List<Positions> pawnsToFlip) {
         for (Positions aPosition : pawnsToFlip) {
-            board.setColor(aPosition.getRow(),aPosition.getCol(), currentColor);
+            board.setColor(aPosition.getRow(), aPosition.getCol(), currentColor);
         }
     }
 
@@ -421,9 +430,9 @@ public class OthelloImpl implements Othello, Observable {
             playerB.addPointsToScore(-nbFlippedPawns);
         }
     }
-    
+
     /**
-     * Set to 'null' all the cells that have been set as possible positions for 
+     * Set to 'null' all the cells that have been set as possible positions for
      * a pawn placement.
      */
     @Override
@@ -438,17 +447,17 @@ public class OthelloImpl implements Othello, Observable {
     }
 
     /**
-     * Sets all the cell possible for a pawn placement to 'GREY' to be 
+     * Sets all the cell possible for a pawn placement to 'GREY' to be
      * recognized.
-     */    
+     */
     @Override
     public void setPossiblePositions() {
         List<Positions> listPossiblePositions = new ArrayList<>();
         listPossiblePositions = getValidMoves();
-     
+
         for (Positions aPosition : getValidMoves()) {
-            board.setColor(aPosition.getRow(), aPosition.getCol(), 
-                           GameColor.GREY);
+            board.setColor(aPosition.getRow(), aPosition.getCol(),
+                    GameColor.GREY);
         }
 
         if (listPossiblePositions.isEmpty()) {
@@ -470,16 +479,16 @@ public class OthelloImpl implements Othello, Observable {
             board.incCounterWallsOnBoard();
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
-                                "Place a wall",
-                                "" + alphabet.charAt(col) + " - " +(row + 1), 
-                                0);
+                    "Place a wall",
+                    "" + alphabet.charAt(col) + " - " + (row + 1),
+                    0);
             notifyObservers();
         }
-    }    
-    
+    }
+
     /**
      * Gives the color of the players as a String.
-     * 
+     *
      * @return the color of the players as a String.
      */
     private String playerColorToString() {
@@ -500,7 +509,7 @@ public class OthelloImpl implements Othello, Observable {
      * Gives the number of pawns on the board.
      *
      * @return the number of pawns on the board.
-     */      
+     */
     @Override
     public int getCounterPawnsOnBoard() {
         return board.getCounterPawnsOnBoard();
@@ -516,10 +525,10 @@ public class OthelloImpl implements Othello, Observable {
         setPossiblePositions();
         actionId++;
         action = new Action(actionId, playerColorToString(),
-                            "    Pass", "  ", 0);
+                "    Pass", "  ", 0);
         notifyObservers();
     }
-    
+
     /**
      * Add an observer in the list of observers.
      *

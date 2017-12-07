@@ -25,7 +25,12 @@ class FinalLayout extends VBox {
     }
 
     private Label makeWinner(OthelloImpl game) {
-        winner = new Label("Winner unknown !");
+        winner = new Label();
+        winner.setText(game.getWinner());
+        
+        if (winner.getText().matches("equality")) {
+            winner.setText("There is no winner ");
+        }
       //  String winnerColor = game.getWinner();
         
         return winner;
