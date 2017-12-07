@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class creates the layout for the start interface.
@@ -17,21 +18,24 @@ import javafx.stage.Stage;
  */
 public class StartLayout extends BorderPane {
 
-    StartLayout(Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
+    private final TextField tfdPseudoBlack;
+    private final TextField tfdPseudoWhite;
+    
+    StartLayout(OthelloImpl game, Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         super();
         setId("startPane");
         setSizeStage(primaryStage);
 
         makeGameNameBox();
 
-        VBox pseudosBox = makePseudoBox();
-        TextField tfdPseudoBlack = makeAPseudo("pseudoInput", "Black player");
-        TextField tfdPseudoWhite = makeAPseudo("pseudoInput", "White player");
+        VBox pseudosBox = makePseudosBox();
+        tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
+        tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
 
         pseudosBox.getChildren().addAll(tfdPseudoBlack, tfdPseudoWhite);
         setCenter(pseudosBox);
-
-        makeButton(tfdPseudoBlack, tfdPseudoWhite, primaryStage, gameScene, gameRoot);
+        
+        makeButton(primaryStage, gameScene, gameRoot, game);
     }
 
     void setSizeStage(Stage primaryStage) {
@@ -50,14 +54,14 @@ public class StartLayout extends BorderPane {
         setTop(gameNameBox);
     }
 
-    private VBox makePseudoBox() {
+    private VBox makePseudosBox() {
         VBox pseudosBox = new VBox();
         pseudosBox.setSpacing(40);
         pseudosBox.setPadding(new Insets(50, 0, 0, 350));
         return pseudosBox;
     }
 
-    private TextField makeAPseudo(String id, String promptText) {
+    private TextField makeAPseudoTfd(String id, String promptText) {
         TextField tfdPseudo = new TextField();
         tfdPseudo.setId(id);
         tfdPseudo.setPromptText(promptText);
@@ -65,7 +69,7 @@ public class StartLayout extends BorderPane {
         return tfdPseudo;
     }
 
-    private void makeButton(TextField tfdPseudoBlack, TextField tfdPseudoWhite, Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
+    private void makeButton(Stage primaryStage, Scene gameScene, GameLayout gameRoot, OthelloImpl game) {
         VBox buttonsBox = new VBox();
         buttonsBox.setPadding(new Insets(50, 50, 120, 425));
         Button btnPlay = new Button("Play");
@@ -73,12 +77,21 @@ public class StartLayout extends BorderPane {
         btnPlay.setMinHeight(50);
         btnPlay.setId("button");
         btnPlay.setOnAction(e -> {
-            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());//useless
+            game.makePlayers(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
+            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             primaryStage.setScene(gameScene);
             primaryStage.setMinWidth(1500);
             primaryStage.setMaxWidth(1500);
         });
         buttonsBox.getChildren().add(btnPlay);
         setBottom(buttonsBox);
+    }
+
+    TextField getTfdPseudoBlack() {
+        return tfdPseudoBlack;
+    }
+
+    TextField getTfdPseudoWhite() {
+        return tfdPseudoWhite;
     }
 }

@@ -106,12 +106,6 @@ public class ScoresInfos extends HBox {
         paneWhite.add(boxPawnScoreWhite, 1, 0);
     }
 
-//    void refresh(int scoreBlack, int scoreWhite, PlayerColor currentColor) {
-//        scoreB.setText(String.valueOf(scoreBlack));
-//        scoreW.setText(String.valueOf(scoreWhite));
-//   //     this.currentColor = currentColor;
-// //       setCurrentArrow();
-//    }
     void refresh(int scoreBlack, int scoreWhite, GameColor currentColor) {
         scoreB.setText(String.valueOf(scoreBlack));
         scoreW.setText(String.valueOf(scoreWhite));

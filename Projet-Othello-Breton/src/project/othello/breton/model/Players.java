@@ -10,15 +10,17 @@ public class Players {
 
     private final GameColor color;
     private int score;
-
+    private String pseudo;
+    
     /**
      * Creates a new player.
      *
      * @param color the color of the player.
      */
-    Players(GameColor color) {
+    Players(GameColor color, String pseudo) {
         this.color = color;
         this.score = 2;
+        this.pseudo = pseudo;
     }
 
     /**
@@ -37,5 +39,23 @@ public class Players {
      */
     void addPointsToScore(int points) {
         score += points;
+    }
+    
+    /**
+     * Sets the pseudo of the player.
+     * 
+     * @param pseudo the pseudo of the player.
+     */
+    void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    /**
+     * Gives the pseudo of the player.
+     * 
+     * @return the pseudo of the player.
+     */
+    public String getPseudo() {
+        return pseudo;
     }
 }

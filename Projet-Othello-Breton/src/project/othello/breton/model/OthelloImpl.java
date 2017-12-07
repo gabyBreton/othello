@@ -13,8 +13,8 @@ import project.othello.breton.util.Observer;
 public class OthelloImpl implements Othello, Observable {
 
     private final Board board;
-    private final Players playerB;
-    private final Players playerW;
+    private Players playerB;
+    private Players playerW;
     private GameColor currentColor;
     private final List<Observer> listObs;
 
@@ -31,12 +31,16 @@ public class OthelloImpl implements Othello, Observable {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB = new Players(GameColor.BLACK);
-        playerW = new Players(GameColor.WHITE);
+        playerB =  new Players(GameColor.BLACK, null);;
+        playerW = new Players(GameColor.WHITE, null);
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
     }
 
+    public void makePlayers(String pseudoB, String pseudoW) {
+        playerB = new Players(GameColor.BLACK, pseudoB);
+        playerW = new Players(GameColor.WHITE, pseudoW);
+    }
     /**
      * Verifies if the game is over.
      *
@@ -118,13 +122,55 @@ public class OthelloImpl implements Othello, Observable {
     public Action getAction() {
         return action;
     }
- 
+    
+        /*
+        TO ADD DANS L'INTERFACE !!!!
+    */
+    public String getPseudoBlack() {
+        return playerB.getPseudo();
+    }
+
+        /*
+        TO ADD DANS L'INTERFACE !!!!
+    */
+    public String getPseudoWhite() {
+        return playerW.getPseudo();
+    }
+    
+    public String getPseudoCurrentPlayer() {
+        String currentPseudo;
+        
+        if (currentColor == GameColor.BLACK) {
+            currentPseudo = playerW.getPseudo();
+        } else {
+            currentPseudo = playerB.getPseudo();
+        }
+        
+        return currentPseudo;
+    }
+    
+    /*
+        TO ADD DANS L'INTERFACE !!!!
+    */
     public String getWinner() {
        // if (getScoreBlack() > getScoreWhite())
         
      //   return getScoreBlack() > getScoreWhite() ? GameColor.BLACK : GameColor.WHITE;
      return "";
     }
+    /*
+        TO ADD DANS L'INTERFACE !!!!
+    */    
+    public void setPseudoBlack(String pseudo) {
+        playerB.setPseudo(pseudo);
+    }
+    /*
+        TO ADD DANS L'INTERFACE !!!!
+    */    
+    public void setPseudoWhite(String pseudo) {
+        playerW.setPseudo(pseudo);
+    }
+
     
     /**
      * Verifies if there is still valid moves for both players.
@@ -312,7 +358,7 @@ public class OthelloImpl implements Othello, Observable {
             placePawnAndSetScore(pawnsToFlip, row, col);
             changeCurrentPlayer();
             actionId++;
-            action = new Action(actionId, playerColorToString(),
+            action = new Action(actionId, getPseudoCurrentPlayer(),
                                "Place a pawn", 
                                "" + alphabet.charAt(col) + " - " +(row + 1),
                                pawnsToFlip.size());
@@ -423,7 +469,7 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             board.incCounterWallsOnBoard();
             actionId++;
-            action = new Action(actionId, playerColorToString(),
+            action = new Action(actionId, getPseudoCurrentPlayer(),
                                 "Place a wall",
                                 "" + alphabet.charAt(col) + " - " +(row + 1), 
                                 0);
