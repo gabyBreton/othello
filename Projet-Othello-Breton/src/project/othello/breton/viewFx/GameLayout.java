@@ -26,7 +26,7 @@ public class GameLayout extends BorderPane {
 
     private final ScoresInfos scoreInfos;
     private final BoardPane board;
-    private GridPane centerZone;
+    private GridPane buttonsZone;
     private GridPane gridPaneWalls;
     
     private GameInfo gameInfo;
@@ -34,14 +34,6 @@ public class GameLayout extends BorderPane {
     private Button btnAbandon;
     private Button btnPass;
     private Button btnRestart;
-
-//    private Label nameCptWalls;
-//    private Label nbWalls;
-
-//    private ProgressBar pBar;
-//    private ProgressIndicator pIndicator;
-    
-//    private final ActionsHistoryTable table;
 
     private final Stage primaryStage; 
     private Scene finalScene;
@@ -53,17 +45,12 @@ public class GameLayout extends BorderPane {
 
         this.board = board;
         this.scoreInfos = scoreInfos;
-        makeCenterZone(game, scoreInfos, board);
+        makeButtonsZone(game);
         gameInfo = new GameInfo(game);
-////        rightZone = new VBox();
-////        rightZone.setPadding(new Insets(70, 10, 10, 10));
-////        rightZone.setSpacing(40);
- //       table = new ActionsHistoryTable(game);
         
         setLeft(board);
-        setCenter(centerZone);
-        //rightZone.getChildren().addAll(scoreInfos);
-        //rightZone.getChildren().addAll(scoreInfos, table);
+        setCenter(buttonsZone);
+
         setRight(gameInfo);
         this.primaryStage = primaryStage;
     }
@@ -75,28 +62,25 @@ public class GameLayout extends BorderPane {
      * @param btnAbandon the button abandon.
      * @return
      */
-    private void makeCenterZone(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
-        centerZone = new GridPane();
+    private void makeButtonsZone(OthelloImpl game) {
+        buttonsZone = new GridPane();
         setPaddingAndGap();
-        makeElementsOfCenter(game, scoreInfos, board);
+        makeElementsOfCenter(game);
         addElements();
     }
 
     private void setPaddingAndGap() {
-        centerZone.setPadding(new Insets(75, 50, 0, 50));
+        buttonsZone.setPadding(new Insets(75, 50, 0, 50));
         setMinWidth(200);
-        centerZone.setHgap(10);
-        centerZone.setVgap(15);
+        buttonsZone.setHgap(10);
+        buttonsZone.setVgap(15);
     }
 
-    private void makeElementsOfCenter(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
-        makeButtons(game, scoreInfos, board);
-//        makeProgressBar(game);
-//        makeProgressIndicator(game);
-//        makeGridPaneWalls();
+    private void makeElementsOfCenter(OthelloImpl game) {
+        makeButtons(game);
     }
 
-    private void makeButtons(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
+    private void makeButtons(OthelloImpl game) {
         btnAbandon = makeAButton("Abandon", "button", (event) -> {
             makeAlertAbandon(game);
         });
@@ -107,47 +91,6 @@ public class GameLayout extends BorderPane {
 //  restart(game, scoreInfos, board);
         });
     }
-
-//    private void restart(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
-//        board = new BoardPane(game);
-//        scoreInfos = new ScoresInfos(game);
-//        game = new OthelloImpl(8, 8);
-//    }    
-    
-    
-//    private void makeProgressBar(OthelloImpl game) {
-//        pBar = new ProgressBar();
-//        pBar.setMinWidth(250);
-//        pBar.setMinHeight(10);
-//        pBar.setId("pBar");
-//        refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
-//    }
-    
-//    private void refreshProgressBar(int scoreBlack, int scoreTotal) {
-//        pBar.setProgress((double) scoreBlack / (double) scoreTotal);
-//    }
-
-//    private void makeProgressIndicator(OthelloImpl game) {
-//        pIndicator = new ProgressIndicator();
-//        pIndicator.setId("pIndicator");
-//        pIndicator.setMinSize(100, 100);
-//        refreshProgressIndicator(game.getCounterPawnsOnBoard());
-//    }
-//    
-//    private void refreshProgressIndicator(int nbPawnsAndWalls) {
-//        pIndicator.setProgress((double)nbPawnsAndWalls / 64);
-//    }
-    
-//    private void makeGridPaneWalls() {
-//        gridPaneWalls = new GridPane();
-//        gridPaneWalls.setHgap(10);
-//        gridPaneWalls.setVgap(15);
-//
-//        nameCptWalls = makeLabelWithId("Walls:", "nbWall");
-//        nbWalls = makeLabelWithId(String.valueOf(board.getCounterWallsOnBoard()), "nbWall");
-//        gridPaneWalls.add(nbWalls, 1, 0);
-//        gridPaneWalls.add(nameCptWalls, 0, 0);
-//    }
 
     private void makeAlertAbandon(OthelloImpl game) {
         Alert alertAbandon = setAlertAbandon();
@@ -190,26 +133,11 @@ public class GameLayout extends BorderPane {
         return button;
     }
 
-//    /**
-//     * Makes a label and set its Id.
-//     *
-//     * @return the label.
-//     */
-//    private Label makeLabelWithId(String text, String id) {
-//        Label label = new Label();
-//        label.setText(text);
-//        label.setId(id);
-//        return label;
-//    }
-
     private void addElements() {
-        centerZone.setGridLinesVisible(true); // FOR DEBUG!
-//        centerZone.add(gridPaneWalls, 0, 1);
-        centerZone.add(btnPass, 0, 3);
-        centerZone.add(btnRestart, 0, 5);
-        centerZone.add(btnAbandon, 0, 7);
-//        centerZone.add(pIndicator, 0, 9);
-//        centerZone.add(pBar, 0, 11);
+        buttonsZone.setGridLinesVisible(true); // FOR DEBUG!
+        buttonsZone.add(btnPass, 0, 3);
+        buttonsZone.add(btnRestart, 0, 5);
+        buttonsZone.add(btnAbandon, 0, 7);
     }
 
     ScoresInfos getScoreInfos() {
@@ -222,11 +150,6 @@ public class GameLayout extends BorderPane {
 
     public void refresh(OthelloImpl game) {
         gameInfo.refresh(game);
-//        nbWalls.setText(String.valueOf(game.getCounterWallsOnBoard()));
-//        refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
-//        refreshProgressIndicator(game.getCounterPawnsOnBoard() 
-//                                 + game.getCounterWallsOnBoard());
-//        table.refresh(game);
         if(game.isOver()) {
             makeFinalScene(game);
             primaryStage.setScene(finalScene);

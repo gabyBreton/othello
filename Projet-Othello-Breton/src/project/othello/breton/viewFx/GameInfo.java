@@ -1,9 +1,11 @@
 package project.othello.breton.viewFx;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import project.othello.breton.model.OthelloImpl;
@@ -23,8 +25,14 @@ public class GameInfo extends VBox {
     
     GameInfo(OthelloImpl game) {
         super();
-        setMaxWidth(330);
-        setMargin(this, new Insets(100, 200, 30, 30));
+        setMaxWidth(343);
+        setSpacing(30);
+        String cssLayout = "-fx-border-color: red;\n" +
+                   "-fx-border-insets: 5;\n" +
+                   "-fx-border-width: 3;\n" +
+                   "-fx-border-style: dashed;\n";
+        setStyle(cssLayout);
+   //     setMargin(this, new Insets(100, 1000, 30, 0));
         table = new ActionsHistoryTable(game);
         makeProgressBar(game);
         makeProgressIndicator(game);
@@ -34,9 +42,10 @@ public class GameInfo extends VBox {
     
     private void makeProgressBar(OthelloImpl game) {
         pBar = new ProgressBar();
-        pBar.setMinWidth(250);
+        pBar.setMinWidth(343);
         pBar.setMinHeight(10);
         pBar.setId("pBar");
+     //   pBar.setPadding(new Insets(0, 0, 0, 60));
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
     }
     
@@ -64,6 +73,7 @@ public class GameInfo extends VBox {
         nbWalls = makeLabelWithId(String.valueOf(game.getCounterWallsOnBoard()), "nbWall");
         gridPaneWalls.add(nbWalls, 1, 0);
         gridPaneWalls.add(nameCptWalls, 0, 0);
+        gridPaneWalls.setAlignment(Pos.CENTER);
     }
 
     /**
@@ -88,7 +98,7 @@ public class GameInfo extends VBox {
     
     void addElements() {
         VBox boxPIndicator = new VBox();
-        boxPIndicator.setMargin(pIndicator, new Insets(0, 20, 0, 20));
+        boxPIndicator.setMargin(pIndicator, new Insets(70, 20, 0, 20));
         boxPIndicator.getChildren().add(pIndicator);
         
         getChildren().addAll(boxPIndicator, pBar, table, gridPaneWalls);
