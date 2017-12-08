@@ -23,10 +23,10 @@ public class MainFx extends Application implements Observer {
     private BoardPane board;
     private StartLayout startRoot;
     private GameLayout gameRoot;
-    private FinalLayout finalRoot;
-
-    private TextField tfdPseudoBlack;
-    private TextField tfdPseudoWhite;
+//    private FinalLayout finalRoot;
+//
+//    private TextField tfdPseudoBlack;
+//    private TextField tfdPseudoWhite;
 
     /**
      * Starts and sets all the components of the game.
@@ -90,7 +90,7 @@ public class MainFx extends Application implements Observer {
     @Override
     public void update() {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(),
-                game.getCurrentColor());
+                           game.getCurrentColor());
         board.refresh(game);
         gameRoot.refresh(game);
     }

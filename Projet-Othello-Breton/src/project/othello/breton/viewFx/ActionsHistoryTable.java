@@ -39,7 +39,6 @@ class ActionsHistoryTable extends TableView {
         getColumns().addAll(idColumn, colorColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
         setMinWidth(205);
-//setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     /**
