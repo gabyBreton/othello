@@ -52,7 +52,7 @@ public class GameLayout extends BorderPane {
 
         this.board = board;
         this.scoreInfos = scoreInfos;
-        makeCenterZone(game);
+        makeCenterZone(game, scoreInfos, board);
         rightZone = new VBox();
         rightZone.setPadding(new Insets(70, 10, 10, 10));
         rightZone.setSpacing(40);
@@ -72,10 +72,10 @@ public class GameLayout extends BorderPane {
      * @param btnAbandon the button abandon.
      * @return
      */
-    private void makeCenterZone(OthelloImpl game) {
+    private void makeCenterZone(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         centerZone = new GridPane();
         setPaddingAndGap();
-        makeElementsOfCenter(game);
+        makeElementsOfCenter(game, scoreInfos, board);
         addElements();
     }
 
@@ -86,14 +86,14 @@ public class GameLayout extends BorderPane {
         centerZone.setVgap(15);
     }
 
-    private void makeElementsOfCenter(OthelloImpl game) {
-        makeButtons(game);
+    private void makeElementsOfCenter(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
+        makeButtons(game, scoreInfos, board);
         makeProgressBar(game);
         makeProgressIndicator(game);
         makeGridPaneWalls();
     }
 
-    private void makeButtons(OthelloImpl game) {
+    private void makeButtons(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
         btnAbandon = makeAButton("Abandon", "button", (event) -> {
             makeAlertAbandon(game);
         });
@@ -101,10 +101,17 @@ public class GameLayout extends BorderPane {
             game.pass();
         });
         btnRestart = makeAButton("Restart", "button", (event) -> {
-            //restart
+//  restart(game, scoreInfos, board);
         });
     }
 
+//    private void restart(OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
+//        board = new BoardPane(game);
+//        scoreInfos = new ScoresInfos(game);
+//        game = new OthelloImpl(8, 8);
+//    }    
+    
+    
     private void makeProgressBar(OthelloImpl game) {
         pBar = new ProgressBar();
         pBar.setMinWidth(250);

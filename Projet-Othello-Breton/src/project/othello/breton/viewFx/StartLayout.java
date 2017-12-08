@@ -18,8 +18,8 @@ import project.othello.breton.model.OthelloImpl;
  */
 public class StartLayout extends BorderPane {
 
-    private final TextField tfdPseudoBlack;
-    private final TextField tfdPseudoWhite;
+    private final TextFieldLimited tfdPseudoBlack;
+    private final TextFieldLimited tfdPseudoWhite;
     
     StartLayout(OthelloImpl game, Stage primaryStage, Scene gameScene, GameLayout gameRoot) {
         super();
@@ -61,8 +61,8 @@ public class StartLayout extends BorderPane {
         return pseudosBox;
     }
 
-    private TextField makeAPseudoTfd(String id, String promptText) {
-        TextField tfdPseudo = new TextField();
+    private TextFieldLimited makeAPseudoTfd(String id, String promptText) {
+        TextFieldLimited tfdPseudo = new TextFieldLimited();
         tfdPseudo.setId(id);
         tfdPseudo.setPromptText(promptText);
         tfdPseudo.setMaxWidth(300);
