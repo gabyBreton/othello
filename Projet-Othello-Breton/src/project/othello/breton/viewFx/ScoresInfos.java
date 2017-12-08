@@ -1,9 +1,8 @@
 package project.othello.breton.viewFx;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -21,13 +20,19 @@ public class ScoresInfos extends HBox {
 
     private Label scoreB;
     private Label scoreW;
+    
     private Label pseudoB;
     private Label pseudoW;
+    
     private Pawn pawnB;
     private Pawn pawnW;
+    
     private HBox boxPawnScoreBlack;
     private HBox boxPawnScoreWhite;
-
+    
+    private VBox boxPseudoB;
+    private VBox boxPseudoW;
+    
     private GridPane paneBlack;
     private GridPane paneWhite;
 
@@ -39,7 +44,7 @@ public class ScoresInfos extends HBox {
     ScoresInfos(OthelloImpl game) {
         super();
         this.currentColor = game.getCurrentColor();
-        setSpacing(60);
+        setSpacing(40);
 
         createElements(game);
         getChildren().addAll(paneBlack, paneWhite);
@@ -57,21 +62,34 @@ public class ScoresInfos extends HBox {
      */
     private void createElements(OthelloImpl game) {
         paneBlack = new GridPane();
-        paneBlack.setPadding(new Insets(20, 20, 20, 20));
+        paneBlack.setPadding(new Insets(10, 10, 10, 10));
         paneBlack.setHgap(20);
+        paneBlack.setMinWidth(280);
+        //paneBlack.setMaxWidth(200);
         paneBlack.setId("paneScore");
 
         paneWhite = new GridPane();
-        paneWhite.setPadding(new Insets(20, 20, 20, 20));
+        paneWhite.setPadding(new Insets(10, 10, 10, 10));
         paneWhite.setHgap(20);
+        paneWhite.setMinWidth(280);
         paneWhite.setId("paneScore");
 
         boxPawnScoreBlack = new HBox();
+        
         boxPawnScoreWhite = new HBox();
 
-        pseudoB = new Label();
         pseudoW = new Label();
-
+        boxPseudoW = new VBox();
+        boxPseudoW.getChildren().add(pseudoW);
+        boxPseudoW.setMinWidth(120);
+        
+        pseudoB = new Label();
+        boxPseudoB = new VBox();
+        boxPseudoB.getChildren().add(pseudoB);
+        boxPseudoB.setMinWidth(120);
+        
+        
+        
         pawnB = new Pawn(GameColor.BLACK);
         pawnW = new Pawn(GameColor.WHITE);
 
@@ -99,10 +117,10 @@ public class ScoresInfos extends HBox {
         boxPawnScoreBlack.getChildren().addAll(pawnB, scoreB);
         boxPawnScoreWhite.getChildren().addAll(pawnW, scoreW);
 
-        paneBlack.add(pseudoB, 0, 0);
+        paneBlack.add(boxPseudoB, 0, 0);
         paneBlack.add(boxPawnScoreBlack, 1, 0);
 
-        paneWhite.add(pseudoW, 0, 0);
+        paneWhite.add(boxPseudoW, 0, 0);
         paneWhite.add(boxPawnScoreWhite, 1, 0);
     }
 
@@ -115,11 +133,11 @@ public class ScoresInfos extends HBox {
 
     private void setBackgroundColors() {
         if (this.currentColor == GameColor.BLACK) {
-            paneBlack.setStyle("-fx-background-color: green; -fx-opacity: 0.5");
-            paneWhite.setStyle("-fx-background-color: transparent;");
+            paneBlack.setStyle("-fx-background-color: green; -fx-opacity: 0.7");
+            paneWhite.setStyle("-fx-background-color: grey; -fx-opacity: 0.7;");
         } else {
-            paneBlack.setStyle("-fx-background-color: transparent;");
-            paneWhite.setStyle("-fx-background-color: green; -fx-opacity: 0.5");
+            paneBlack.setStyle("-fx-background-color: grey; -fx-opacity: 0.7;");
+            paneWhite.setStyle("-fx-background-color: green; -fx-opacity: 0.7");
         }
     }
 

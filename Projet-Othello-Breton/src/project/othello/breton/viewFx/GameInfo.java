@@ -25,15 +25,15 @@ public class GameInfo extends VBox {
     
     GameInfo(OthelloImpl game) {
         super();
-        setMaxWidth(343);
+        setMaxWidth(327);
         setSpacing(30);
-        String cssLayout = "-fx-border-color: red;\n" +
-                   "-fx-border-insets: 5;\n" +
-                   "-fx-border-width: 3;\n" +
-                   "-fx-border-style: dashed;\n";
-        setStyle(cssLayout);
-   //     setMargin(this, new Insets(100, 1000, 30, 0));
+//        String cssLayout = "-fx-border-color: red;\n" +
+//                   "-fx-border-insets: 5;\n" +
+//                   "-fx-border-width: 3;\n" +
+//                   "-fx-border-style: dashed;\n";
+//        setStyle(cssLayout);
         table = new ActionsHistoryTable(game);
+        table.setMaxWidth(327);
         makeProgressBar(game);
         makeProgressIndicator(game);
         makeGridPaneWalls(game);        
@@ -42,10 +42,9 @@ public class GameInfo extends VBox {
     
     private void makeProgressBar(OthelloImpl game) {
         pBar = new ProgressBar();
-        pBar.setMinWidth(343);
+        pBar.setMinWidth(327);
         pBar.setMinHeight(10);
         pBar.setId("pBar");
-     //   pBar.setPadding(new Insets(0, 0, 0, 60));
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
     }
     

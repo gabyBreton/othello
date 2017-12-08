@@ -3,7 +3,6 @@ package project.othello.breton.viewFx;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 import project.othello.breton.util.Observer;
@@ -23,10 +22,6 @@ public class MainFx extends Application implements Observer {
     private BoardPane board;
     private StartLayout startRoot;
     private GameLayout gameRoot;
-//    private FinalLayout finalRoot;
-//
-//    private TextField tfdPseudoBlack;
-//    private TextField tfdPseudoWhite;
 
     /**
      * Starts and sets all the components of the game.

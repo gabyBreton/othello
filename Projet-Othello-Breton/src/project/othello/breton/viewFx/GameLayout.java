@@ -4,6 +4,7 @@ import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -15,6 +16,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import static javafx.scene.layout.VBox.setMargin;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 
@@ -27,7 +29,6 @@ public class GameLayout extends BorderPane {
     private final ScoresInfos scoreInfos;
     private final BoardPane board;
     private GridPane buttonsZone;
-    private GridPane gridPaneWalls;
     
     private GameInfo gameInfo;
 
@@ -47,8 +48,16 @@ public class GameLayout extends BorderPane {
         this.scoreInfos = scoreInfos;
         makeButtonsZone(game);
         gameInfo = new GameInfo(game);
+        setMargin(gameInfo, new Insets(0, 50, 50, 0));
         
-        setLeft(board);
+        //setMargin(scoreInfos, new Insets(200, 0, 0, 0));
+        scoreInfos.setAlignment(Pos.CENTER_RIGHT);
+        
+        VBox boxBoardScore = new VBox();
+        boxBoardScore.setSpacing(30);
+        boxBoardScore.getChildren().addAll(board, scoreInfos);
+        setLeft(boxBoardScore);
+        
         setCenter(buttonsZone);
 
         setRight(gameInfo);
@@ -70,7 +79,7 @@ public class GameLayout extends BorderPane {
     }
 
     private void setPaddingAndGap() {
-        buttonsZone.setPadding(new Insets(75, 50, 0, 50));
+        buttonsZone.setPadding(new Insets(225, 0, 0, 50));
         setMinWidth(200);
         buttonsZone.setHgap(10);
         buttonsZone.setVgap(15);
@@ -134,7 +143,7 @@ public class GameLayout extends BorderPane {
     }
 
     private void addElements() {
-        buttonsZone.setGridLinesVisible(true); // FOR DEBUG!
+     //   buttonsZone.setGridLinesVisible(true); // FOR DEBUG!
         buttonsZone.add(btnPass, 0, 3);
         buttonsZone.add(btnRestart, 0, 5);
         buttonsZone.add(btnAbandon, 0, 7);

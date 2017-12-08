@@ -16,7 +16,7 @@
 }
 
 #gamePane {
-    -fx-background-image: url('blueGreySpaceBigger.jpg');
+    -fx-background-image: url('blueGreySpaceBig.jpg');
     -fx-background-repeat: stretch;
     -fx-background-position: left;
 }
@@ -67,10 +67,10 @@
     -fx-text-fill: black;
 }
 
-#paneScore {
+/*#paneScore {
     -fx-border-style: dashed; 
     -fx-border-color: white;
-}
+}*/
 
 #numerotation {
     -fx-font: 25px "Serif";

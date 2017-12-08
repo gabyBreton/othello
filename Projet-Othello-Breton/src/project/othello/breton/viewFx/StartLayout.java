@@ -80,8 +80,10 @@ public class StartLayout extends BorderPane {
             game.makePlayers(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
             primaryStage.setScene(gameScene);
-            primaryStage.setMinWidth(1267);
-            primaryStage.setMaxWidth(1267); //1267
+            primaryStage.setMinWidth(1300);
+            primaryStage.setMaxWidth(1300); 
+            primaryStage.setMinHeight(820); 
+            primaryStage.setMaxHeight(820); 
         });
         buttonsBox.getChildren().add(btnPlay);
         setBottom(buttonsBox);
