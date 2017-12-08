@@ -9,12 +9,6 @@
     -fx-background-position: center center;
 }
 
-#finalLayout {
-    -fx-background-image: url('fire.gif');
-    -fx-background-repeat: stretch;
-    -fx-background-position: center center;
-}
-
 #gameName {
     -fx-font: 80px "Serif";
     -fx-font-weight: bold;
@@ -27,12 +21,21 @@
     -fx-background-position: left;
 }
 
-#scores, #winner, #gameOver {
+#scores {
     -fx-font: 40px "Serif";
     -fx-font-weight: bold;
-    -fx-text-fill: grey;    
+    -fx-text-fill: brown;    
 }
 
+#gameOver {
+    -fx-font: 90px "Dekko";
+    -fx-font-weight: bold;
+}
+
+#winner {
+    -fx-font: 50px "Dekko";
+    -fx-font-weight: bold;    
+}
 #score, #lblPseudoBlack, #lblPseudoWhite, #nbWall{
     -fx-font: 30px "Serif";
     -fx-font-weight: bold;

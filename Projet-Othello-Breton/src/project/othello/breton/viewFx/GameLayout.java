@@ -154,8 +154,8 @@ public class GameLayout extends BorderPane {
         if (result.get() == buttonTypeSure) {
             makeFinalScene(game);
             primaryStage.setScene(finalScene);
-            primaryStage.setMinWidth(1500);
-            primaryStage.setMaxWidth(1500);
+            primaryStage.setMinWidth(1000);
+            primaryStage.setMaxWidth(1000);
         } else {
             alertAbandon.close();
         }
@@ -219,8 +219,8 @@ public class GameLayout extends BorderPane {
         if(game.isOver()) {
             makeFinalScene(game);
             primaryStage.setScene(finalScene);
-            primaryStage.setMinWidth(1500);
-            primaryStage.setMaxWidth(1500);           
+            primaryStage.setMinWidth(1000);
+            primaryStage.setMaxWidth(1000);           
         }
     }
     

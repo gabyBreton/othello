@@ -164,9 +164,7 @@ public class OthelloImpl implements Othello, Observable {
         } else if (playerB.getScore() < playerW.getScore()) {
             winner = playerW.getPseudo();
         } else {
-            winner = "Black : " + String.valueOf(playerB.getScore()) + " - " 
-                    + "White : " + String.valueOf(playerW.getScore() 
-                    + "Nombre pions sur le plateau: " + getCounterPawnsOnBoard()) ;
+            winner = "Equality !" ;
         }
 
         return winner;
