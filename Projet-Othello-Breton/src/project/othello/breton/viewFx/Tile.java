@@ -121,4 +121,8 @@ class Tile extends StackPane {
             }
         });
     }
+    
+    void refresh(OthelloImpl game) {
+        setMouseEvent(game);
+    }
 }

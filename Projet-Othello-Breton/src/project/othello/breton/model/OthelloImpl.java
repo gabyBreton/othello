@@ -12,11 +12,11 @@ import project.othello.breton.util.Observer;
  */
 public class OthelloImpl implements Othello, Observable {
 
-    private Board board;
+    private final Board board;
     private Players playerB;
     private Players playerW;
     private GameColor currentColor;
-    private List<Observer> listObs;
+    private final List<Observer> listObs;
 
     private Action action;
     private int actionId;
@@ -30,15 +30,17 @@ public class OthelloImpl implements Othello, Observable {
      * @param columns the number of columns.
      */
     public OthelloImpl(int rows, int columns) {
-        start(rows, columns);
-    }
-
-    public void start(int rows, int columns) {
         board = new Board(rows, columns);
         playerB = new Players(GameColor.BLACK, null);;
         playerW = new Players(GameColor.WHITE, null);
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
+ //       start(rows, columns);
+    }
+
+    public void start(int rows, int columns) {
+
+//        notifyObservers();
     }
 
     public void makePlayers(String pseudoB, String pseudoW) {

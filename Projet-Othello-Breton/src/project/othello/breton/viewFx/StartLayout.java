@@ -4,9 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -153,11 +154,29 @@ class StartLayout extends BorderPane {
      */
     private void makeActionPlay(OthelloImpl game, Stage primaryStage, 
                                 Scene gameScene, GameLayout gameRoot) {
-        
-        game.makePlayers(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
-        gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(), 
-                                            tfdPseudoWhite.getText());
-        setSizesNewScene(primaryStage, gameScene);
+    
+        if ((tfdPseudoBlack.getLength() == 0) 
+             || (tfdPseudoWhite.getLength() == 0)) {
+            makeAlertPseudo();
+        } else {
+            game.makePlayers(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
+            gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(),
+                    tfdPseudoWhite.getText());
+            setSizesNewScene(primaryStage, gameScene);
+        }
+
+    }
+
+    /**
+     * Creates a warning dialog box, if at least one pseudo is not entered.
+     */
+    private void makeAlertPseudo() {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Pseudos Warning");
+        alert.setHeaderText(null);
+        alert.setContentText("Pseudos should contains at least one "
+                             + "character");
+        alert.showAndWait();
     }
 
     /**

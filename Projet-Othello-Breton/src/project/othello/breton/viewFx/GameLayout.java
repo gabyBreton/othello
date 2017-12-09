@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
@@ -126,7 +127,7 @@ class GameLayout extends BorderPane {
     private void makeButtons(OthelloImpl game) {
         makeAbandon(game);
         makePass(game);
-        makeRestart();
+        makeRestart(game);
     }
     
     /**
@@ -154,10 +155,26 @@ class GameLayout extends BorderPane {
     /**
      * Creates the restart button, used to restart the game.
      */
-    private void makeRestart() {
+    private void makeRestart(OthelloImpl game) {
         btnRestart = makeAButton("Restart", "button", (event) -> {
-            //  restart(game, scoreInfos, board);
+//            game.start(8, 8);
+//            refresh(game);
+            makeAlertRestart();
         });
+    }
+
+    /**
+     * Creates an error dialog to explains that the restart functionality is 
+     * still available.
+     */
+    private void makeAlertRestart() {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Error Restart");
+        alert.setHeaderText("Oups ! This functionality is still not "
+                            + "available");
+        alert.setContentText("Use the old fashioned way: close and "
+                             + "relaunch.");
+        alert.showAndWait();
     }
 
     /**
@@ -217,7 +234,8 @@ class GameLayout extends BorderPane {
      * @param alertAbandon the alert abandon window.
      * @param btnTypeSure the button to confirm the abandon.
      */
-    private void applyChoiceConfirmation(OthelloImpl game, Alert alertAbandon, ButtonType btnTypeSure) {
+    private void applyChoiceConfirmation(OthelloImpl game, Alert alertAbandon, 
+                                         ButtonType btnTypeSure) {
         Optional<ButtonType> result = alertAbandon.showAndWait();
         if (result.get() == btnTypeSure) {
             makeFinalScene(game);
@@ -267,7 +285,7 @@ class GameLayout extends BorderPane {
      * @param game the current session of Othello.
      */
     private void makeFinalScene(OthelloImpl game) {
-        finalRoot = new FinalLayout(game, game.getWinner());
+        finalRoot = new FinalLayout(game.getWinner());
         finalScene = makeScene(finalRoot);
     }
 

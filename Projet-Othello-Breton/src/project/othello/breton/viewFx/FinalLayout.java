@@ -3,15 +3,19 @@ package project.othello.breton.viewFx;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import project.othello.breton.model.GameColor;
 import project.othello.breton.model.OthelloImpl;
 
 /**
@@ -37,13 +41,13 @@ class FinalLayout extends VBox {
      * @param game the current session of Othello.
      * @param whoIsWinner the pseudo of the winner, or the String "Equality !"
      */
-    FinalLayout(OthelloImpl game, String whoIsWinner) {
+    FinalLayout(String whoIsWinner) {
         super();
         setId("finalLayout");
 
         VBox infoBox = makeInfoBox(whoIsWinner);        
         ImageView ivSoil = placeBackgroundImage();
-        makeButtonsZone(game);
+        makeButtonsZone();
         
         StackPane stackPane = new StackPane();
         stackPane.getChildren().addAll(ivSoil, infoBox, buttonsZone);
@@ -149,10 +153,10 @@ class FinalLayout extends VBox {
             winner = new Text(whoIsWinner + " win !");
         }
     }
- 
-    private void makeButtonsZone(OthelloImpl game) {
+    
+    private void makeButtonsZone() {
         buttonsZone = new GridPane();
-        makeRestart(game);
+        makeRestart();
         makeQuit();
         buttonsZone.setHgap(80);
         buttonsZone.setPadding(new Insets(500, 0, 0, 310));
@@ -163,12 +167,26 @@ class FinalLayout extends VBox {
     /**
      * Creates the restart button, used to restart the game.
      */
-    private void makeRestart(OthelloImpl game) {
+    private void makeRestart() {
         btnRestart = makeAButton("Restart", "buttonFinal", (event) -> {
-            game.start(8, 8);
+            makeAlertRestart();
         });
     }
 
+    /**
+     * Creates an error dialog to explains that the restart functionality is 
+     * still available.
+     */
+    private void makeAlertRestart() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error Restart");
+        alert.setHeaderText("Oups ! This functionality is still not "
+                            + "available");
+        alert.setContentText("Use the old fashioned way: close and "
+                             + "relaunch.");
+        alert.showAndWait();
+    }    
+    
     /**
      * Creates the quit button, used to exit the game.
      */

@@ -39,7 +39,8 @@
 
 #winner {
     -fx-font: 50px "Dekko";
-    -fx-font-weight: bold;    
+    -fx-font-weight: bold; 
+    -fx-text-fill: rgba(168, 73, 73, 0.8);
 }
 #score, #lblPseudoBlack, #lblPseudoWhite {
     -fx-font: 30px "Serif";
