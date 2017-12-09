@@ -24,7 +24,7 @@ public class OthelloImpl implements Othello, Observable {
     private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-     * Creates a new othello game.
+     * Creates a new Othello game.
      *
      * @param rows the number of rows.
      * @param columns the number of columns.
@@ -371,8 +371,8 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
-                    "Place a pawn",
-                    "" + alphabet.charAt(col) + " - " + (row + 1),
+                    " Place a pawn",
+                    "    " + alphabet.charAt(col) + " - " + (row + 1),
                     pawnsToFlip.size());
             notifyObservers();
         }
@@ -482,8 +482,8 @@ public class OthelloImpl implements Othello, Observable {
             board.incCounterWallsOnBoard();
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
-                    "Place a wall",
-                    "" + alphabet.charAt(col) + " - " + (row + 1),
+                    "  Place a wall",
+                    "    " + alphabet.charAt(col) + " - " + (row + 1),
                     0);
             notifyObservers();
         }
@@ -528,7 +528,7 @@ public class OthelloImpl implements Othello, Observable {
         setPossiblePositions();
         actionId++;
         action = new Action(actionId, playerColorToString(),
-                "    Pass", "  ", 0);
+                            "        Pass", "  ", 0);
         notifyObservers();
     }
 

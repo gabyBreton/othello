@@ -1,6 +1,5 @@
 package project.othello.breton.viewFx;
 
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import project.othello.breton.model.GameColor;
@@ -23,7 +22,7 @@ class BoardPane extends GridPane {
     private Label columnLetter;
     private int cptWallOnBoard;
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
-    //the specific tile where to place it.
+                                       //the specific tile where to place it.
 
     /**
      * Creates a new Othello board, with the first four pawns and the sides
@@ -84,7 +83,8 @@ class BoardPane extends GridPane {
      * @param game the current session of othello.
      * @return the new tile.
      */
-    private Tile makeTile(int row, int col, GameColor cellColor, OthelloImpl game) {
+    private Tile makeTile(int row, int col, GameColor cellColor, 
+                          OthelloImpl game) {
         Tile tile = new Tile(row, col, cellColor, game);
         tilesArray[row][col] = tile;
         tile.setTranslateX(row * 75);
@@ -104,7 +104,7 @@ class BoardPane extends GridPane {
         if ((col > 0) && (row > 0)) {
 
             if ((game.getColor(row - 1, col - 1) == GameColor.BLACK)
-                    || (game.getColor(row - 1, col - 1) == GameColor.WHITE)) {
+                 || (game.getColor(row - 1, col - 1) == GameColor.WHITE)) {
 
                 placeAPawn(game.getColor(row - 1, col - 1), row, col);
             }
@@ -114,7 +114,7 @@ class BoardPane extends GridPane {
     /**
      * Gets the color of a cell.
      *
-     * @param game the current session of othello.
+     * @param game the current session of Othello.
      * @param row the row of the cell.
      * @param col the column of the cell.
      * @return the color of the cell.
@@ -182,40 +182,10 @@ class BoardPane extends GridPane {
         rowNumber.setId("numerotation");
     }
 
-    //PAS UTILISER GAME POUR AVOIR CETTE INFO ?
-    int getCounterWallsOnBoard() {
-        return cptWallOnBoard;
-    }
-//
-//    int getCountBlackOnBoard() {
-//        calculateNumberOfColor();
-//        return countBlackOnBoard;
-//    }
-//
-//    int getCountWhiteOnBoard() {
-//        calculateNumberOfColor();
-//        return countWhiteOnBoard;
-//    }
-//
-//    private void calculateNumberOfColor() {
-//        for (Tile[] tiles : tilesArray) {
-//            for (Tile tile : tiles) {
-//
-//                if (tile.getPawn() != null) {
-//                    if (tile.getPawn().getColor() == GameColor.BLACK) {
-//                        countBlackOnBoard += 1;
-//                    } else if (tile.getPawn().getColor() == GameColor.WHITE) {
-//                        countWhiteOnBoard += 1;
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     /**
      * Refresh the board.
      *
-     * @param game the current session of othello.
+     * @param game the current session of Othello.
      */
     void refresh(OthelloImpl game) {
         for (Tile[] tiles : tilesArray) {
