@@ -65,7 +65,8 @@ class StartLayout extends BorderPane {
 
         tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
         tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
-
+        tfdPseudoBlack.se
+        
         pseudosBox.getChildren().addAll(tfdPseudoBlack, tfdPseudoWhite);
         setCenter(pseudosBox);
     } 

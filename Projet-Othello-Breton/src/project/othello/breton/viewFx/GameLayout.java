@@ -14,6 +14,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 
@@ -24,6 +25,8 @@ import project.othello.breton.model.OthelloImpl;
  */
 class GameLayout extends BorderPane {
 
+    private AudioClip music;
+    
     private ScoresInfos scoreInfos;
     private BoardPane board;
     private GridPane buttonsZone;
@@ -53,7 +56,8 @@ class GameLayout extends BorderPane {
         this.primaryStage = primaryStage;
         makeLeftZone(board, scoreInfos);
         makeCenterZone(game);
-        makeRightZone(game);               
+        makeRightZone(game);     
+        makeAndStartPlayer();
         setId("gamePane");
     }
 
@@ -172,7 +176,7 @@ class GameLayout extends BorderPane {
         alert.setTitle("Error Restart");
         alert.setHeaderText("Oups ! This functionality is still not "
                             + "available");
-        alert.setContentText("Use the old fashioned way: close and "
+        alert.setContentText("Use the old fashioned way: quit and "
                              + "relaunch.");
         alert.showAndWait();
     }
@@ -314,10 +318,17 @@ class GameLayout extends BorderPane {
         board.refresh(game);        
         gameInfo.refresh(game);
         if(game.isOver()) {
-            makeFinalScene(game);
+            makeFinalScene(game);            
             primaryStage.setScene(finalScene);
             primaryStage.setMinWidth(1000);
             primaryStage.setMaxWidth(1000);           
         }
+    }
+    
+    private void makeAndStartPlayer() {
+        music = new AudioClip(this.getClass()
+                                  .getResource("LayaProjectANewDayRemix.mp3")
+                                  .toString());
+        music.play();
     }
 }

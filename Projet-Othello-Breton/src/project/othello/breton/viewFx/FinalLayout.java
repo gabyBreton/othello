@@ -3,20 +3,17 @@ package project.othello.breton.viewFx;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import project.othello.breton.model.GameColor;
-import project.othello.breton.model.OthelloImpl;
 
 /**
  * This class provides methods to create and use the final layout for when the
@@ -26,7 +23,7 @@ import project.othello.breton.model.OthelloImpl;
  * @author Gabriel Breton - 43397
  */
 class FinalLayout extends VBox {
-
+    
     private Text winner;
     private Text gameOver;
     private GridPane buttonsZone;
@@ -44,7 +41,7 @@ class FinalLayout extends VBox {
     FinalLayout(String whoIsWinner) {
         super();
         setId("finalLayout");
-
+        
         VBox infoBox = makeInfoBox(whoIsWinner);        
         ImageView ivSoil = placeBackgroundImage();
         makeButtonsZone();
@@ -182,7 +179,7 @@ class FinalLayout extends VBox {
         alert.setTitle("Error Restart");
         alert.setHeaderText("Oups ! This functionality is still not "
                             + "available");
-        alert.setContentText("Use the old fashioned way: close and "
+        alert.setContentText("Use the old fashioned way: quit and "
                              + "relaunch.");
         alert.showAndWait();
     }    
