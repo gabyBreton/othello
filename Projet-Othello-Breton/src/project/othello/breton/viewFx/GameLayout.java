@@ -10,24 +10,21 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import static javafx.scene.layout.VBox.setMargin;
 import javafx.stage.Stage;
 import project.othello.breton.model.OthelloImpl;
 
 /**
- *
+ * This class provides methods to create and set the layout of the game scene.
+ * 
  * @author Gabriel Breton - 43397
  */
-public class GameLayout extends BorderPane {
+class GameLayout extends BorderPane {
 
-    private final ScoresInfos scoreInfos;
-    private final BoardPane board;
+    private ScoresInfos scoreInfos;
+    private BoardPane board;
     private GridPane buttonsZone;
     
     private GameInfo gameInfo;
@@ -40,80 +37,189 @@ public class GameLayout extends BorderPane {
     private Scene finalScene;
     private FinalLayout finalRoot;
     
-    GameLayout(Stage primaryStage, OthelloImpl game, ScoresInfos scoreInfos, BoardPane board) {
+    /**
+     * Creates a new game interface, that contains the board, the scores 
+     * informations, the buttons and the game informations.
+     * 
+     * @param primaryStage the primary stage that contains the scene.
+     * @param game the current session of Othello.
+     * @param scoreInfos the elements of the score informations.
+     * @param board the board of the game.
+     */
+    GameLayout(Stage primaryStage, OthelloImpl game, ScoresInfos scoreInfos, 
+               BoardPane board) {
         super();
-        setId("gamePane");
-
-        this.board = board;
-        this.scoreInfos = scoreInfos;
-        makeButtonsZone(game);
-        gameInfo = new GameInfo(game);
-        setMargin(gameInfo, new Insets(0, 50, 50, 0));
-        
-        //setMargin(scoreInfos, new Insets(200, 0, 0, 0));
-        scoreInfos.setAlignment(Pos.CENTER_RIGHT);
-        
-        VBox boxBoardScore = new VBox();
-        boxBoardScore.setSpacing(30);
-        boxBoardScore.getChildren().addAll(board, scoreInfos);
-        setLeft(boxBoardScore);
-        
-        setCenter(buttonsZone);
-
-        setRight(gameInfo);
         this.primaryStage = primaryStage;
+        makeLeftZone(board, scoreInfos);
+        makeCenterZone(game);
+        makeRightZone(game);               
+        setId("gamePane");
     }
 
     /**
-     * Creates the side zone with the scores infos and the buttons.
+     * Creates the left zone of the game interface, where are the score 
+     * informations and the game board.
+     * 
+     * @param board the board of the game.
+     * @param scoreInfos the score informations elements.
+     */
+    private void makeLeftZone(BoardPane board, ScoresInfos scoreInfos) {
+        this.board = board;
+        this.scoreInfos = scoreInfos;
+        scoreInfos.setAlignment(Pos.CENTER_RIGHT);
+        VBox boardScoreBox = makeBoardScoreBox(board, scoreInfos);
+        setLeft(boardScoreBox);
+    }
+
+    /**
+     * Creates and set the box that will contains the score informations and
+     * the board.
+     * 
+     * @param board the board of the game.
+     * @param scoreInfosthe score informations elements.
+     * @return the new box.
+     */
+    private VBox makeBoardScoreBox(BoardPane board, ScoresInfos scoreInfos) {
+        VBox boardScoreBox = new VBox();
+        boardScoreBox.setSpacing(30);
+        boardScoreBox.getChildren().addAll(board, scoreInfos);
+        return boardScoreBox;
+    }
+    
+    /**
+     * Creates the center zone that contains the buttons.
+     * 
+     * @param game the current session of Othello.
+     */
+    private void makeCenterZone(OthelloImpl game) {
+        makeButtonsZone(game);
+        setCenter(buttonsZone);
+    }
+
+    /**
+     * Creates the zone that will contains the buttons.
      *
-     * @param scoreInfos the scores infos.
-     * @param btnAbandon the button abandon.
-     * @return
+     * @param game the current session of Othello.
      */
     private void makeButtonsZone(OthelloImpl game) {
         buttonsZone = new GridPane();
-        setPaddingAndGap();
-        makeElementsOfCenter(game);
-        addElements();
+        setPaddingAndGapBtnZone();
+        makeButtons(game);
+        addElementsBtnZone();
     }
 
-    private void setPaddingAndGap() {
+    /**
+     * Set the paddings and gaps of the buttons zone.
+     */
+    private void setPaddingAndGapBtnZone() {
         buttonsZone.setPadding(new Insets(225, 0, 0, 50));
-        setMinWidth(200);
+     //   setMinWidth(200); // APPLY ON WHAT ?
         buttonsZone.setHgap(10);
         buttonsZone.setVgap(15);
     }
 
-    private void makeElementsOfCenter(OthelloImpl game) {
-        makeButtons(game);
-    }
-
+    /**
+     * Creates the three buttons: Abandon, Pass and Restart.
+     * 
+     * @param game the current session of Othello.
+     */
     private void makeButtons(OthelloImpl game) {
+        makeAbandon(game);
+        makePass(game);
+        makeRestart();
+    }
+    
+    /**
+     * Creates the abandon button, used to abandon the game.
+     *
+     * @param game the current session of Othello.
+     */
+    private void makeAbandon(OthelloImpl game) {
         btnAbandon = makeAButton("Abandon", "button", (event) -> {
             makeAlertAbandon(game);
         });
+    }
+
+    /**
+     * Creates the pass button, used to pass a turn.
+     * 
+     * @param game the current session of Othello.
+     */
+    private void makePass(OthelloImpl game) {
         btnPass = makeAButton("Pass", "button", (event) -> {
             game.pass();
         });
+    }
+    
+    /**
+     * Creates the restart button, used to restart the game.
+     */
+    private void makeRestart() {
         btnRestart = makeAButton("Restart", "button", (event) -> {
-//  restart(game, scoreInfos, board);
+            //  restart(game, scoreInfos, board);
         });
     }
 
-    private void makeAlertAbandon(OthelloImpl game) {
-        Alert alertAbandon = setAlertAbandon();
-        ButtonType buttonTypeSure = new ButtonType("Yes I give up ...");
-        ButtonType buttonTypeNo = new ButtonType("No !");
-
-        alertAbandon.getButtonTypes().setAll(buttonTypeNo, buttonTypeSure);
-
-        makeResultConfirmation(game, alertAbandon, buttonTypeSure);
+    /**
+     * Creates a button.
+     * 
+     * @param text the text displayed on the button.
+     * @param id the id of the button, for the css styling.
+     * @param value the action activated when clicked.
+     * @return the new button.
+     */
+    private Button makeAButton(String text, String id,
+                               EventHandler<ActionEvent> value) {
+        Button button = new Button(text);
+        button.setMaxWidth(150);
+        button.setMinHeight(50);
+        button.setId(id);
+        button.setOnAction(value);
+       
+        return button;
     }
 
-    private void makeResultConfirmation(OthelloImpl game, Alert alertAbandon, ButtonType buttonTypeSure) {
+    /**
+     * Makes the abandon alert window, displayer when the button alert is 
+     * clicked.
+     * 
+     * @param game the current session of Othello.
+     */
+    private void makeAlertAbandon(OthelloImpl game) {
+        Alert alertAbandon = creatAndSetAlertAbandon();
+        ButtonType btnTypeSure = new ButtonType("Yes I give up ...");
+        ButtonType btnTypeNo = new ButtonType("No !");
+
+        alertAbandon.getButtonTypes().setAll(btnTypeNo, btnTypeSure);
+        applyChoiceConfirmation(game, alertAbandon, btnTypeSure);
+    }    
+
+    /**
+     * Creates and sets the alert abandon window.
+     * 
+     * @return the new alert abandon window.
+     */
+    private Alert creatAndSetAlertAbandon() {
+        Alert alertAbandon = new Alert(Alert.AlertType.CONFIRMATION);
+        alertAbandon.setTitle("Abandon");
+        alertAbandon.setHeaderText(null);
+        alertAbandon.setContentText("Do you really want to give up ?");
+      
+        return alertAbandon;
+    }    
+
+    /**
+     * Applies the choice confirmation to abandon or not. If yes is clicked, 
+     * the game scene load the final scene that display the winner and scores,
+     * else the user alert window disappear and the user can continue to play.
+     * 
+     * @param game the current session of Othello.
+     * @param alertAbandon the alert abandon window.
+     * @param btnTypeSure the button to confirm the abandon.
+     */
+    private void applyChoiceConfirmation(OthelloImpl game, Alert alertAbandon, ButtonType btnTypeSure) {
         Optional<ButtonType> result = alertAbandon.showAndWait();
-        if (result.get() == buttonTypeSure) {
+        if (result.get() == btnTypeSure) {
             makeFinalScene(game);
             primaryStage.setScene(finalScene);
             primaryStage.setMinWidth(1000);
@@ -122,42 +228,72 @@ public class GameLayout extends BorderPane {
             alertAbandon.close();
         }
     }
-
-    private Alert setAlertAbandon() {
-        Alert alertAbandon = new Alert(Alert.AlertType.CONFIRMATION);
-        alertAbandon.setTitle("Abandon");
-        alertAbandon.setHeaderText(null);
-        alertAbandon.setContentText("Do you really want to give up ?");
-        alertAbandon.setResizable(true);
-        return alertAbandon;
+    
+    /**
+     * Creates the right zone, that will contains the game informations 
+     * elements such as the history table, progress indication tools and a 
+     * counter of the number of walls on the board.
+     * 
+     * @param game the current session of Othello.
+     */
+    private void makeRightZone(OthelloImpl game) {
+        this.gameInfo = new GameInfo(game);
+        setMargin(gameInfo, new Insets(0, 50, 50, 0));
+        setRight(gameInfo);
     }
-
-    private Button makeAButton(String text, String id,
-            EventHandler<ActionEvent> value) {
-        Button button = new Button(text);
-        button.setMaxWidth(150);
-        button.setMinHeight(50);
-        button.setId(id);
-        button.setOnAction(value);
-        return button;
-    }
-
-    private void addElements() {
-     //   buttonsZone.setGridLinesVisible(true); // FOR DEBUG!
+    
+    /**
+     * Add the elements of the buttons zone to it.
+     */
+    private void addElementsBtnZone() {
         buttonsZone.add(btnPass, 0, 3);
         buttonsZone.add(btnRestart, 0, 5);
         buttonsZone.add(btnAbandon, 0, 7);
     }
 
+    /**
+     * Gives the score informations elements.
+     * 
+     * @return the score informations elements.
+     */
     ScoresInfos getScoreInfos() {
         return scoreInfos;
     }
 
-    BoardPane getBoard() {
-        return board;
+    /**
+     * Creates and sets the final scene and its parent. This scene displays who 
+     * wins and the scores.
+     * 
+     * @param game the current session of Othello.
+     */
+    private void makeFinalScene(OthelloImpl game) {
+        finalRoot = new FinalLayout(game, game.getWinner());
+        finalScene = makeScene(finalRoot);
     }
 
+    /**
+     * Creates a scene and set it with the style sheet.
+     * 
+     * @param root the parent of the scene.
+     * @return 
+     */
+    private Scene makeScene(Parent root) {
+        Scene scene = new Scene(root);
+        scene.getStylesheets().addAll(
+                this.getClass().getResource("style.css").toExternalForm());
+        return scene;
+    }
+    
+    /**
+     * Refresh the elements of the game interface when an action is proceed,
+     * such as placing a wall, a pawn or passing.
+     * 
+     * @param game the current session of Othello.
+     */
     public void refresh(OthelloImpl game) {
+        scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(),
+                           game.getCurrentColor());
+        board.refresh(game);        
         gameInfo.refresh(game);
         if(game.isOver()) {
             makeFinalScene(game);
@@ -165,17 +301,5 @@ public class GameLayout extends BorderPane {
             primaryStage.setMinWidth(1000);
             primaryStage.setMaxWidth(1000);           
         }
-    }
-    
-    private void makeFinalScene(OthelloImpl game) {
-        finalRoot = new FinalLayout(game, game.getWinner());
-        finalScene = makeScene(finalRoot);
-    }
-
-    private Scene makeScene(Parent root) {
-        Scene scene = new Scene(root);
-        scene.getStylesheets().addAll(
-                this.getClass().getResource("style.css").toExternalForm());
-        return scene;
     }
 }

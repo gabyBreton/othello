@@ -527,7 +527,7 @@ public class OthelloImpl implements Othello, Observable {
         cleanLastPlayerPossibilities();
         setPossiblePositions();
         actionId++;
-        action = new Action(actionId, playerColorToString(),
+        action = new Action(actionId, getPseudoCurrentPlayer(),
                             "        Pass", "  ", 0);
         notifyObservers();
     }
