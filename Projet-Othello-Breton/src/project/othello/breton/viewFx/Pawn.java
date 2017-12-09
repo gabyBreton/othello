@@ -6,7 +6,7 @@ import javafx.scene.shape.Ellipse;
 import project.othello.breton.model.GameColor;
 
 /**
- * This class permits to create a pawn.
+ * This class provides methods to create and set pawns.
  *
  * @author Gabriel Breton - 43397
  */
@@ -22,90 +22,56 @@ public class Pawn extends StackPane {
     public Pawn(GameColor color) {
         this.color = color;
 
-        Ellipse bckgrnd = makeBackground();
-        Ellipse ellipse = makeEllipse();
+        Ellipse bckgrnd = makeEllipse(24, 20, 2.25, 0, 6);
+        Ellipse ellipse = makeEllipse(24, 20, 2.25, 0, 1) ;
         setColorsPawn(color, bckgrnd, ellipse);
 
         getChildren().addAll(bckgrnd, ellipse);
     }
 
     /**
-     * Creates the upper part of the pawn.
+     * Creates and sets an ellipse.
      *
-     * @return the upper part of the pawn.
+     * @return the new ellipse.
      */
-    private Ellipse makeEllipse() {
-        Ellipse ellipse = new Ellipse(24, 20);
-        ellipse.setStrokeWidth(2.25);
-        ellipse.setTranslateX(0);
-        ellipse.setTranslateY(1);
+    private Ellipse makeEllipse(int radiusX, int radiusY, double strokeWidth, 
+                                int translateX, int translateY) {
+        Ellipse ellipse = new Ellipse(radiusX, radiusY);
+        ellipse.setStrokeWidth(strokeWidth);
+        ellipse.setTranslateX(translateX);
+        ellipse.setTranslateY(translateY);
         return ellipse;
     }
 
     /**
-     * Creates the lower part of the pawn.
-     *
-     * @return the lower part of the pawn.
-     */
-    private Ellipse makeBackground() {
-        Ellipse bckgrnd = new Ellipse(24, 20);
-        bckgrnd.setStrokeWidth(2.25);
-        bckgrnd.setTranslateX(0);
-        bckgrnd.setTranslateY(6);
-        return bckgrnd;
-    }
-
-    /**
-     * Sets the colors of a pawn.
+     * Sets the colors of a pawn, depending on the owner.
      *
      * @param color the color of the owner of the pawn.
      * @param bckgrnd the lower part of the pawn.
      * @param ellipse the upper part of the pawn.
      */
     private void setColorsPawn(GameColor color, Ellipse bckgrnd,
-            Ellipse ellipse) {
+                               Ellipse ellipse) {
         if (color == GameColor.BLACK) {
-            bckgrnd.setFill(Color.WHITE);
-            bckgrnd.setStroke(Color.WHITE);
-            ellipse.setFill(Color.BLACK);
-            ellipse.setStroke(Color.BLACK);
+            setFillAndStroke(bckgrnd, ellipse, Color.WHITE, Color.BLACK);
         } else {
-            bckgrnd.setFill(Color.BLACK);
-            bckgrnd.setStroke(Color.BLACK);
-            ellipse.setFill(Color.WHITE);
-            ellipse.setStroke(Color.WHITE);
+            setFillAndStroke(bckgrnd, ellipse, Color.BLACK, Color.WHITE);
         }
     }
 
-    GameColor getColor() {
-        return color;
+    /**
+     * Sets the fill and the stroke of a pawn.
+     * 
+     * @param bckgrnd the ellipse that is in the background.
+     * @param ellipse the ellipse that is on the upper side.
+     * @param bckgrndColor the color of the background ellipse.
+     * @param ellipseColor the color of the upper ellipse.
+     */
+    private void setFillAndStroke(Ellipse bckgrnd, Ellipse ellipse, 
+                                  Color bckgrndColor, Color ellipseColor) {
+        bckgrnd.setFill(bckgrndColor);
+        bckgrnd.setStroke(bckgrndColor);
+        ellipse.setFill(ellipseColor);
+        ellipse.setStroke(ellipseColor);
     }
-
-//    private ScaleTransition createFlipEffect() {
-//        Pawn back;
-//
-//        ScaleTransition stHideFront = new ScaleTransition(Duration.millis(1500), this);
-//        stHideFront.setFromX(1);
-//        stHideFront.setToX(0);
-//
-//        if (this.color == PlayerColor.BLACK) {
-//            back = new Pawn(PlayerColor.WHITE);
-//        } else {
-//            back = new Pawn(PlayerColor.BLACK);
-//        }
-//        back.setScaleX(0);
-//
-//        ScaleTransition stShowBack = new ScaleTransition(Duration.millis(1500), back);
-//        stShowBack.setFromX(0);
-//        stShowBack.setFromY(1);
-//
-//        stHideFront.setOnFinished(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                stShowBack.play();
-//            }
-//        });
-//
-//        return stHideFront;
-//    }
 }
