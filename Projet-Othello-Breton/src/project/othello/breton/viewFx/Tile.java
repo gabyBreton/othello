@@ -114,7 +114,9 @@ class Tile extends StackPane {
         addEventFilter(MouseEvent.MOUSE_PRESSED, (event) -> {
             if (col > 0 && row > 0) {
                 if (event.isPrimaryButtonDown()) {
-                    game.play(row - 1, col - 1);
+                    game.getCurrentPlayer()
+                        .executePlayStrategy(row - 1, col - 1);
+                    //game.play(row - 1, col - 1);
                 } else if (event.isSecondaryButtonDown()) {
                     game.wall(row - 1, col - 1);
                 }

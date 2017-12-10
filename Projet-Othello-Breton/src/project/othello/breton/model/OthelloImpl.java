@@ -31,11 +31,12 @@ public class OthelloImpl implements Othello, Observable {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB = new Players(null);;
-        playerW = new Players(null);
+
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
- //       start(rows, columns);
+        playerB = new Players(new HumanBehavior(this), null);
+        playerW = new Players(new HumanBehavior(this), null);
+        //       start(rows, columns);
     }
 
     public void start(int rows, int columns) {
@@ -43,9 +44,10 @@ public class OthelloImpl implements Othello, Observable {
 //        notifyObservers();
     }
 
-    public void makePlayers(String pseudoB, String pseudoW) {
-        playerB = new Players(pseudoB);
-        playerW = new Players(pseudoW);
+    public void makePlayers(PlayStrategy playStrategyWhite, String pseudoB, 
+                            String pseudoW) {
+        playerB = new Players(new HumanBehavior(this), pseudoB);
+        playerW = new Players(playStrategyWhite, pseudoW);
     }
 
     /**
@@ -159,6 +161,14 @@ public class OthelloImpl implements Othello, Observable {
         return currentPseudo;
     }
 
+    public Players getCurrentPlayer() {
+        if (currentColor == GameColor.BLACK) {
+            return playerB;
+        } else {
+            return playerW;
+        }
+    }
+    
     /*
         TO ADD DANS L'INTERFACE !!!!
      */
@@ -373,14 +383,22 @@ public class OthelloImpl implements Othello, Observable {
         }
 
         if (pawnsToFlip.size() > 0) {
-            placePawnAndSetScore(pawnsToFlip, row, col);
-            changeCurrentPlayer();
+            placePawnAndSetScore(pawnsToFlip, row, col);          
+            changeCurrentPlayer();              
+            //makeComputerPlay(); 
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
                     " Place a pawn",
                     "    " + alphabet.charAt(col) + " - " + (row + 1),
                     pawnsToFlip.size());
-            notifyObservers();
+            notifyObservers();          
+        }
+    }
+    
+    public void makeComputerPlay() {
+        if(getCurrentPlayer().getPlayStrategy() instanceof ComputerBehavior) {
+            getCurrentPlayer().executePlayStrategy(0, 0);
+         //   changeCurrentPlayer();
         }
     }
 
@@ -493,15 +511,6 @@ public class OthelloImpl implements Othello, Observable {
                     0);
             notifyObservers();
         }
-    }
-
-    /**
-     * Gives the color of the players as a String.
-     *
-     * @return the color of the players as a String.
-     */
-    private String playerColorToString() {
-        return currentColor == GameColor.BLACK ? "Black" : "White";
     }
 
     /**

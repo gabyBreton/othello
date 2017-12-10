@@ -26,6 +26,12 @@
     -fx-font-weight: bold;
     -fx-text-fill: lightgrey;   
 }
+
+#rbButton {
+    -fx-font: 20px "Serif";
+    -fx-font-weight: bold;
+    -fx-text-fill: lightgrey;   
+}
 #scores {
     -fx-font: 40px "Serif";
     -fx-font-weight: bold;

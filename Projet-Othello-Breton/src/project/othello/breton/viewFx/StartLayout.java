@@ -10,9 +10,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import project.othello.breton.model.ComputerBehavior;
+import project.othello.breton.model.HumanBehavior;
 import project.othello.breton.model.OthelloImpl;
 
 /**
@@ -22,6 +27,9 @@ import project.othello.breton.model.OthelloImpl;
  */
 class StartLayout extends BorderPane {
 
+    private RadioButton humanBlack;
+    private RadioButton humanWhite;
+    private RadioButton computerWhite;
     private final BooleanProperty firstTime;    
     private TextFieldLimited tfdPseudoBlack;
     private TextFieldLimited tfdPseudoWhite;
@@ -70,10 +78,81 @@ class StartLayout extends BorderPane {
         tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
         tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
         
-        pseudosBox.getChildren().addAll(tfdPseudoBlack, tfdPseudoWhite);
+        makeRBtnChoiceAdversary();
+        GridPane paneChoiceAdversary = makePaneChoiceAdversary();
+        
+        pseudosBox.getChildren().addAll(tfdPseudoBlack, humanBlack, 
+                                        tfdPseudoWhite, paneChoiceAdversary);
         setFocusedPropertyTfd(pseudosBox);
         setCenter(pseudosBox);
     } 
+
+    /**
+     * Creates the buttons for the choice of the adversary.
+     */
+    private void makeRBtnChoiceAdversary() {
+        makeHumanBlack();
+        makeChoiceAdversaryWhite();
+    } 
+
+    /**
+     * Creates the buttons for the choice of the adversary of the white player.
+     */
+    private void makeChoiceAdversaryWhite() {
+        ToggleGroup groupChoiceAdversary = new ToggleGroup();
+        makeHumanWhite(groupChoiceAdversary);
+        makeComputerWhite(groupChoiceAdversary);
+    } 
+
+    /**
+     * Creates the button for the white player to choose the computer.
+     * 
+     * @param groupChoiceAdversary the toggle group for the computer button.
+     */
+    private void makeComputerWhite(ToggleGroup groupChoiceAdversary) {
+        computerWhite = new RadioButton("Computer");
+        computerWhite.setId("rbButton");
+        computerWhite.setToggleGroup(groupChoiceAdversary);
+    } 
+
+    /**
+     * Creates the button for the white player to choose the human.
+     * 
+     * @param groupChoiceAdversary the toggle group for the human white button.
+     */
+    private void makeHumanWhite(ToggleGroup groupChoiceAdversary) {
+        humanWhite = new RadioButton("Human");
+        humanWhite.setId("rbButton");
+        humanWhite.setSelected(true);
+        humanWhite.setToggleGroup(groupChoiceAdversary);
+    }
+
+    /**
+     * Creates the human black radio button.
+     */
+    private void makeHumanBlack() {
+        humanBlack = new RadioButton("Human");
+        humanBlack.setId("rbButton");
+        humanBlack.setSelected(true);
+        humanBlack.setPadding(new Insets(0, 0, 0, 80));
+        
+        ToggleGroup groupBlackChoice = new ToggleGroup();
+        humanBlack.setToggleGroup(groupBlackChoice);
+    }
+
+    /**
+     * Creates the grid pane to place the two white radio buttons for the
+     * choice of the adversary between computer and human.
+     * 
+     * @return the new grid pane.
+     */
+    private GridPane makePaneChoiceAdversary() {
+        GridPane paneChoiceAdversary = new GridPane();
+        paneChoiceAdversary.setHgap(20);
+        paneChoiceAdversary.add(humanWhite, 0, 0);
+        paneChoiceAdversary.add(computerWhite, 1, 0);
+        return paneChoiceAdversary;
+    }
 
     /**
      * Set the focused property of the text field for the pseudo of the black
@@ -102,7 +181,7 @@ class StartLayout extends BorderPane {
     private VBox makePseudosBox() {
         VBox pseudosBox = new VBox();
         pseudosBox.setSpacing(40);
-        pseudosBox.setPadding(new Insets(50, 0, 0, 350));
+        pseudosBox.setPadding(new Insets(10, 0, 0, 350));
       
         return pseudosBox;
     }
@@ -182,12 +261,22 @@ class StartLayout extends BorderPane {
              || (tfdPseudoWhite.getLength() == 0)) {
             makeAlertPseudo();
         } else {
-            game.makePlayers(tfdPseudoBlack.getText(), tfdPseudoWhite.getText());
+            makePlayers(game);
             gameRoot.getScoreInfos().setPseudos(tfdPseudoBlack.getText(),
                     tfdPseudoWhite.getText());
             setSizesNewScene(primaryStage, gameScene);
         }
 
+    }
+
+    private void makePlayers(OthelloImpl game) {
+        if (humanWhite.isSelected()) {
+            game.makePlayers(new HumanBehavior(game), tfdPseudoBlack.getText(),
+                             tfdPseudoWhite.getText());
+        } else {
+            game.makePlayers(new ComputerBehavior(game), tfdPseudoBlack.getText(),
+                             tfdPseudoWhite.getText());
+        }
     }
 
     /**

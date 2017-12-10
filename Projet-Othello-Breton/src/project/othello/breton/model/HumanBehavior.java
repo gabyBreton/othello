@@ -7,7 +7,7 @@ package project.othello.breton.model;
  */
 public class HumanBehavior implements PlayStrategy {
 
-    private OthelloImpl game;
+    private final OthelloImpl game;
     
     /**
      * Creates a new human behavior for playing a pawn.
