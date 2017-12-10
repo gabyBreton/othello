@@ -21,15 +21,14 @@ In this implementations there is three scene.
 It is the entering door of the game, where the players can enter their pseudo 
 and choose to play or not against the computer.
 
-Text fields for the pseudos are implemented by the class **TextFieldLimited** 
-that redefines TextField to create textfield that have a maximal length, by
-default set on 10.
+    - **TextFieldLimited** creates text fields for the pseudos that redefines 
+    TextField to create ones that have a maximal length, by default set on 10.
 
 #### GameLayout
 It the where to play.
 This class creates:
-    * a board created by the class **BoardPane**.
-    * score information such as score, pseudo and colored pawn, created by the 
+    - a board created by the class **BoardPane**.
+    - score information such as score, pseudo and colored pawn, created by the 
 class **ScoreInfos**.
 
 ## How to install
