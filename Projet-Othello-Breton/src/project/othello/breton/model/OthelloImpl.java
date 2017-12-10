@@ -31,17 +31,10 @@ public class OthelloImpl implements Othello, Observable {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
         playerB = new Players(new HumanBehavior(this), null);
         playerW = new Players(new HumanBehavior(this), null);
-        //       start(rows, columns);
-    }
-
-    public void start(int rows, int columns) {
-
-//        notifyObservers();
     }
 
     /**
@@ -52,6 +45,7 @@ public class OthelloImpl implements Othello, Observable {
      * @param pseudoB the pseudo of the black player.
      * @param pseudoW the pseudo of the white player.
      */
+    @Override
     public void makePlayers(GameStrategy gameStrategyWhite, String pseudoB, 
                             String pseudoW) {
         playerB = new Players(new HumanBehavior(this), pseudoB);
@@ -140,35 +134,29 @@ public class OthelloImpl implements Othello, Observable {
         return action;
     }
 
-    /*
-        TO ADD DANS L'INTERFACE !!!!
+    /**
+     * Gives the pseudo of the current player.
+     * 
+     * @return the pseudo of the current player.
      */
-    public String getPseudoBlack() {
-        return playerB.getPseudo();
-    }
-
-    /*
-        TO ADD DANS L'INTERFACE !!!!
-     */
-    public String getPseudoWhite() {
-        return playerW.getPseudo();
-    }
-
-    /*
-        TO ADD DANS L'INTERFACE !!!!
-     */
-    public String getPseudoCurrentPlayer() {
+    private String getPseudoCurrentPlayer() {
         String currentPseudo;
 
         if (currentColor == GameColor.BLACK) {
-            currentPseudo = playerW.getPseudo();
-        } else {
             currentPseudo = playerB.getPseudo();
+        } else {
+            currentPseudo = playerW.getPseudo();
         }
 
         return currentPseudo;
     }
 
+    /**
+     * Gives the current player.
+     * 
+     * @return the current player.
+     */
+    @Override
     public Players getCurrentPlayer() {
         if (currentColor == GameColor.BLACK) {
             return playerB;
@@ -177,9 +165,13 @@ public class OthelloImpl implements Othello, Observable {
         }
     }
     
-    /*
-        TO ADD DANS L'INTERFACE !!!!
+    /**
+     * Gives the pseudo of the winner of the game, and if there is equality,
+     * it will gives the String "Equality !".
+     * 
+     * @return the pseudo of the winner, or "Equality !".
      */
+    @Override
     public String getWinner() {
         String winner;
         
@@ -192,20 +184,6 @@ public class OthelloImpl implements Othello, Observable {
         }
 
         return winner;
-    }
-
-    /*
-        TO ADD DANS L'INTERFACE !!!!
-     */
-    public void setPseudoBlack(String pseudo) {
-        playerB.setPseudo(pseudo);
-    }
-
-    /*
-        TO ADD DANS L'INTERFACE !!!!
-     */
-    public void setPseudoWhite(String pseudo) {
-        playerW.setPseudo(pseudo);
     }
 
     /**
@@ -555,12 +533,22 @@ public class OthelloImpl implements Othello, Observable {
         notifyObservers();
     }
 
+    /**
+     * Gives a random valid positions, where a pawn can be placed.
+     * 
+     * @return a random valid positions, where a pawn can be placed.
+     */
     Positions getRandomValidPosition() {
         int choice;
         choice = (int) (Math.random() * getValidMoves().size());
         return getValidMoves().get(choice);    
     }
     
+    /**
+     * Gives a random empty position, where a wall can be placed.
+     * 
+     * @return a random empty position, where a wall can be placed.
+     */
     Positions getRandomEmptyPositions() {
         int choice;
         choice = (int) (Math.random() * getListEmptyPositions().size());

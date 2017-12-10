@@ -1,14 +1,22 @@
 package project.othello.breton.model;
 
-import javafx.collections.ObservableList;
-
 /**
  * Interface of the facade of Othello.
  *
  * @author Gabriel Breton - 43397
  */
 interface Othello {
-
+    
+    /**
+     * Changes and creates new players, based on the pseudo inputs and the 
+     * choice of the computer or not as adversary.
+     * 
+     * @param gameStrategyWhite the behavior choose for the white player.
+     * @param pseudoB the pseudo of the black player.
+     * @param pseudoW the pseudo of the white player.
+     */
+    void makePlayers(GameStrategy gameStrategyWhite, String pseudoB, 
+                     String pseudoW);
     /**
      * Verifies if the game is over.
      *
@@ -66,6 +74,21 @@ interface Othello {
      * @return the last action of the game.
      */    
     Action getAction();
+ 
+    /**
+     * Gives the current player.
+     * 
+     * @return the current player.
+     */    
+    Players getCurrentPlayer();
+ 
+    /**
+     * Gives the pseudo of the winner of the game, and if there is equality,
+     * it will gives the String "Equality !".
+     * 
+     * @return the pseudo of the winner, or "Equality !".
+     */    
+    String getWinner();
     
     /**
      * Place a pawn on a position on the game board.

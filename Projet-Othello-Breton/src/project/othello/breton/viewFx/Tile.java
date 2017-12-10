@@ -116,7 +116,6 @@ class Tile extends StackPane {
                 if (event.isPrimaryButtonDown()) {
                     game.getCurrentPlayer()
                         .executePlayGameStrategy(row - 1, col - 1);
-                    //game.play(row - 1, col - 1);
                 } else if (event.isSecondaryButtonDown()) {
                     game.getCurrentPlayer()
                         .executeWallGameStrategy(row - 1, col - 1);                }

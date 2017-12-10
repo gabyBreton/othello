@@ -18,11 +18,23 @@ public class HumanBehavior implements GameStrategy {
         this.game = game;
     }
     
+    /**
+     * Place a pawn on the given position.
+     * 
+     * @param row the line where to place the pawn.
+     * @param col the column where to place the pawn.
+     */
     @Override
     public void play(int row, int col) {
         game.play(row, col);
     }
 
+    /**
+     * Place a wall on the given position.
+     * 
+     * @param row the line where to place the wall.
+     * @param col the column where to place the wall.
+     */
     @Override
     public void wall(int row, int col) {
         game.wall(row, col);

@@ -23,28 +23,37 @@ public class Players {
         this.pseudo = pseudo;
     }
     
-//    /**
-//     * Creates a new player.
-//     *
-//     * @param color the color of the player.
-//     */
-//    Players(String pseudo) {
-//        
-//        this.score = 2;
-//        this.pseudo = pseudo;
-//    }
-
+    /**
+     * Executes the play method from the game strategy. The results will 
+     * depends of the behavior used to implements the Game Strategy.
+     * 
+     * @param row the line where to place the pawn.
+     * @param col the column where to place the pawn.
+     */
     public void executePlayGameStrategy(int row, int col) {
         gameStrategy.play(row, col);
     }
-    
+
+    /**
+     * Executes the wall method from the game strategy. The results will 
+     * depends of the behavior used to implements the Game Strategy.
+     * 
+     * @param row the line where to place the wall.
+     * @param col the column where to place the wall.
+     */    
     public void executeWallGameStrategy(int row, int col) {
         gameStrategy.wall(row, col);
     }
     
+    /**
+     * Gives the game strategy of the player.
+     * 
+     * @return the game strategy of the player.
+     */
     GameStrategy getGameStrategy() {
         return gameStrategy;
     }
+    
     /**
      * Gives the score of the player.
      *

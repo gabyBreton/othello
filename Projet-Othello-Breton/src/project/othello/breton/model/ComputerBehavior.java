@@ -14,6 +14,12 @@ public class ComputerBehavior implements GameStrategy {
         this.game = game;
     }
 
+    /**
+     * Place a pawn randomly on a valid position.
+     * 
+     * @param row the line where to place the pawn.
+     * @param col the column where to place the pawn.
+     */
     @Override
     public void play(int row, int col) {
         Positions randomPosition;
@@ -21,6 +27,12 @@ public class ComputerBehavior implements GameStrategy {
         game.play(randomPosition.getRow(), randomPosition.getCol());
     }  
 
+    /**
+     * Place a wall randomly on an empty position.
+     * 
+     * @param row the line where to place the wall.
+     * @param col the column where to place the wall.
+     */    
     @Override
     public void wall(int row, int col) {
         Positions randomPosition;
