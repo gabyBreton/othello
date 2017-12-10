@@ -48,14 +48,14 @@ public class OthelloImpl implements Othello, Observable {
      * Changes and creates new players, based on the pseudo inputs and the 
      * choice of the computer or not as adversary.
      * 
-     * @param playStrategyWhite the behavior choose for the white player.
+     * @param gameStrategyWhite the behavior choose for the white player.
      * @param pseudoB the pseudo of the black player.
      * @param pseudoW the pseudo of the white player.
      */
-    public void makePlayers(PlayStrategy playStrategyWhite, String pseudoB, 
+    public void makePlayers(GameStrategy gameStrategyWhite, String pseudoB, 
                             String pseudoW) {
         playerB = new Players(new HumanBehavior(this), pseudoB);
-        playerW = new Players(playStrategyWhite, pseudoW);
+        playerW = new Players(gameStrategyWhite, pseudoW);
     }
 
     /**
@@ -404,8 +404,8 @@ public class OthelloImpl implements Othello, Observable {
     }
     
     public void makeComputerPlay() {
-        if(getCurrentPlayer().getPlayStrategy() instanceof ComputerBehavior) {
-            getCurrentPlayer().executePlayStrategy(0, 0);
+        if(getCurrentPlayer().getGameStrategy() instanceof ComputerBehavior) {
+            getCurrentPlayer().executePlayGameStrategy(0, 0);
          //   changeCurrentPlayer();
         }
     }
@@ -558,7 +558,13 @@ public class OthelloImpl implements Othello, Observable {
     Positions getRandomValidPosition() {
         int choice;
         choice = (int) (Math.random() * getValidMoves().size());
-        return getValidMoves().get(choice);
+        return getValidMoves().get(choice);    
+    }
+    
+    Positions getRandomEmptyPositions() {
+        int choice;
+        choice = (int) (Math.random() * getListEmptyPositions().size());
+        return getListEmptyPositions().get(choice);
     }
     
     /**

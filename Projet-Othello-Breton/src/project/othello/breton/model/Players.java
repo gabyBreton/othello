@@ -8,7 +8,7 @@ package project.othello.breton.model;
  */
 public class Players {
 
-    private final PlayStrategy playStrategy;
+    private final GameStrategy gameStrategy;
     private int score;
     private String pseudo;
     
@@ -17,8 +17,8 @@ public class Players {
      *
      * @param color the color of the player.
      */
-    Players(PlayStrategy playStrategy, String pseudo) {
-        this.playStrategy = playStrategy;
+    Players(GameStrategy playStrategy, String pseudo) {
+        this.gameStrategy = playStrategy;
         this.score = 2;
         this.pseudo = pseudo;
     }
@@ -34,12 +34,16 @@ public class Players {
 //        this.pseudo = pseudo;
 //    }
 
-    public void executePlayStrategy(int row, int col) {
-        playStrategy.play(row, col);
+    public void executePlayGameStrategy(int row, int col) {
+        gameStrategy.play(row, col);
     }
     
-    PlayStrategy getPlayStrategy() {
-        return playStrategy;
+    public void executeWallGameStrategy(int row, int col) {
+        gameStrategy.wall(row, col);
+    }
+    
+    GameStrategy getGameStrategy() {
+        return gameStrategy;
     }
     /**
      * Gives the score of the player.

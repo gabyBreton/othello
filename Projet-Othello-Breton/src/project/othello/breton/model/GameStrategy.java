@@ -7,8 +7,9 @@ package project.othello.breton.model;
  * 
  * @author Gabriel Breton - 43397
  */
-public interface PlayStrategy {
+public interface GameStrategy {
     
     void play(int row, int col);
     
+    void wall(int row, int col);
 }

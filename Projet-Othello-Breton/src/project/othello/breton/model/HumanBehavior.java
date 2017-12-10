@@ -5,7 +5,7 @@ package project.othello.breton.model;
  * 
  * @author Gabriel Breton - 43397
  */
-public class HumanBehavior implements PlayStrategy {
+public class HumanBehavior implements GameStrategy {
 
     private final OthelloImpl game;
     
@@ -21,5 +21,10 @@ public class HumanBehavior implements PlayStrategy {
     @Override
     public void play(int row, int col) {
         game.play(row, col);
+    }
+
+    @Override
+    public void wall(int row, int col) {
+        game.wall(row, col);
     }
 }
