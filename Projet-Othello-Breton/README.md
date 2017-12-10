@@ -51,6 +51,10 @@ dialog box to explain it).
 ### FinalLayout
 This class shows **who wins** and provides a button to **quit** and **restart** 
 (same problem as above for restart).
+### To-Do
+Write more test.
+Fix the IndexOutOfBounds thrown by OthelloImpl.getRandomValidPosition() et
+OthelloImpl.getRandomEmptyPositions().
 
 ## Compilation and running
 ### Compilation
@@ -82,7 +86,9 @@ If you get in trouble as setting PATH or CLASSPATH, there is some
 documentation: [PATH and CLASSPATH], [CLASSPATH]
 
 #### Credits
+The song of the game is: [Laya Project - A New Day (Pitch Black Remix)]
 
+[Laya Project - A New Day (Pitch Black Remix)]:<https://www.youtube.com/watch?v=2XzyEAdj-FM>
 [wikipedia]:<https://en.wikipedia.org/wiki/Reversi>
 [Dillinger]:<https://dillinger.io>
 [PATH and CLASSPATH]:<https://docs.oracle.com/javase/tutorial/essential/environment/paths.html>
