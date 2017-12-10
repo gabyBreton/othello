@@ -14,7 +14,7 @@ public class MainConsole {
 
     /**
      * Launch a party of Othello.
-     * @param args 
+     * @param args not used.
      */
     public static void main(String[] args) {
         OthelloImpl game;

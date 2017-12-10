@@ -1,5 +1,7 @@
 package project.othello.breton.viewFx;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -20,6 +22,7 @@ import project.othello.breton.model.OthelloImpl;
  */
 class StartLayout extends BorderPane {
 
+    private final BooleanProperty firstTime;    
     private TextFieldLimited tfdPseudoBlack;
     private TextFieldLimited tfdPseudoWhite;
     
@@ -36,7 +39,8 @@ class StartLayout extends BorderPane {
                 GameLayout gameRoot) {
         super();
         setId("startPane");
-
+        firstTime = new SimpleBooleanProperty(true);
+        
         makeGameNameBox();
         makePseudoZone();
         makeBtnPlay(game, primaryStage, gameScene, gameRoot);
@@ -65,10 +69,28 @@ class StartLayout extends BorderPane {
 
         tfdPseudoBlack = makeAPseudoTfd("pseudoInput", "Black player");
         tfdPseudoWhite = makeAPseudoTfd("pseudoInput", "White player");
-        tfdPseudoBlack.se
         
         pseudosBox.getChildren().addAll(tfdPseudoBlack, tfdPseudoWhite);
+        setFocusedPropertyTfd(pseudosBox);
         setCenter(pseudosBox);
+    } 
+
+    /**
+     * Set the focused property of the text field for the pseudo of the black
+     * player to have no focus when scene charge so the prompt text is visible.
+     * 
+     * @param pseudosBox the pseudo box that contains the text field for the
+     * pseudo of the black player.
+     */
+    private void setFocusedPropertyTfd(VBox pseudosBox) {
+        tfdPseudoBlack.focusedProperty().addListener((observable,  oldValue,
+                                                      newValue) -> {
+            if(newValue && firstTime.get()){
+                pseudosBox.requestFocus(); // Delegate the focus to container
+                firstTime.setValue(false); // Variable value changed for future
+                                            // references
+            }
+        });
     } 
     
     /**
