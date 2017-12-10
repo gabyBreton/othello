@@ -8,7 +8,6 @@ package project.othello.breton.model;
  */
 public class Players {
 
-    private final GameColor color;
     private int score;
     private String pseudo;
     
@@ -17,8 +16,8 @@ public class Players {
      *
      * @param color the color of the player.
      */
-    Players(GameColor color, String pseudo) {
-        this.color = color;
+    Players(String pseudo) {
+        
         this.score = 2;
         this.pseudo = pseudo;
     }

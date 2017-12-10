@@ -31,8 +31,8 @@ public class OthelloImpl implements Othello, Observable {
      */
     public OthelloImpl(int rows, int columns) {
         board = new Board(rows, columns);
-        playerB = new Players(GameColor.BLACK, null);;
-        playerW = new Players(GameColor.WHITE, null);
+        playerB = new Players(null);;
+        playerW = new Players(null);
         currentColor = GameColor.BLACK;
         listObs = new ArrayList<>();
  //       start(rows, columns);
@@ -44,8 +44,8 @@ public class OthelloImpl implements Othello, Observable {
     }
 
     public void makePlayers(String pseudoB, String pseudoW) {
-        playerB = new Players(GameColor.BLACK, pseudoB);
-        playerW = new Players(GameColor.WHITE, pseudoW);
+        playerB = new Players(pseudoB);
+        playerW = new Players(pseudoW);
     }
 
     /**
@@ -538,6 +538,12 @@ public class OthelloImpl implements Othello, Observable {
         notifyObservers();
     }
 
+    Positions getRandomValidPosition() {
+        int choice;
+        choice = (int) (Math.random() * getValidMoves().size());
+        return getValidMoves().get(choice);
+    }
+    
     /**
      * Add an observer in the list of observers.
      *
