@@ -50,7 +50,7 @@ public class Players {
      * 
      * @return the game strategy of the player.
      */
-    GameStrategy getGameStrategy() {
+    public GameStrategy getGameStrategy() {
         return gameStrategy;
     }
     

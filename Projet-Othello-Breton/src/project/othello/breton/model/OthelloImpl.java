@@ -344,7 +344,8 @@ public class OthelloImpl implements Othello, Observable {
     /**
      * Changes the current player.
      */
-    private void changeCurrentPlayer() {
+    // /!\ Set on public for the test class !
+    public void changeCurrentPlayer() {
         if (currentColor == GameColor.BLACK) {
             currentColor = GameColor.WHITE;
         } else {
@@ -492,9 +493,11 @@ public class OthelloImpl implements Othello, Observable {
      *
      * @param row the number of the row.
      * @param col the number of the column.
+     * @throws ArrayIndexOutOfBoundsException when trying to place a wall out 
+     * of the board
      */
     @Override
-    public void wall(int row, int col) {
+    public void wall(int row, int col) throws ArrayIndexOutOfBoundsException {
         if (board.isFree(row, col)) {
             board.setColor(row, col, GameColor.RED);
             board.incCounterWallsOnBoard();
