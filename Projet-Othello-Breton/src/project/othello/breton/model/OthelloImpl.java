@@ -22,7 +22,7 @@ public class OthelloImpl implements Othello, Observable {
     private int actionId;
 
     private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
+    
     /**
      * Creates a new Othello game.
      *
@@ -370,21 +370,30 @@ public class OthelloImpl implements Othello, Observable {
 
         if (pawnsToFlip.size() > 0) {
             placePawnAndSetScore(pawnsToFlip, row, col);          
-            changeCurrentPlayer();              
-            //makeComputerPlay(); 
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
                     " Place a pawn",
                     "    " + alphabet.charAt(col) + " - " + (row + 1),
                     pawnsToFlip.size());
             notifyObservers();          
+            changeCurrentPlayer();              
+            makeComputerPlay();             
         }
     }
     
     public void makeComputerPlay() {
-        if(getCurrentPlayer().getGameStrategy() instanceof ComputerBehavior) {
-            getCurrentPlayer().executePlayGameStrategy(0, 0);
-         //   changeCurrentPlayer();
+        if (getCurrentPlayer().getGameStrategy() instanceof ComputerBehavior) {
+            // This if-else structure try  to force the computer to play
+            // more often pawn than walls.
+            if (actionId % 6 == 0) {
+                if ((int) (Math.random() * 101) % 2 == 0) {
+                    getCurrentPlayer().executePlayGameStrategy(0, 0);
+                } else {
+                    getCurrentPlayer().executeWallGameStrategy(0, 0);
+                }
+            } else {
+                getCurrentPlayer().executePlayGameStrategy(0, 0);
+            }
         }
     }
 
@@ -488,7 +497,6 @@ public class OthelloImpl implements Othello, Observable {
     public void wall(int row, int col) {
         if (board.isFree(row, col)) {
             board.setColor(row, col, GameColor.RED);
-            changeCurrentPlayer();
             board.incCounterWallsOnBoard();
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
@@ -496,6 +504,8 @@ public class OthelloImpl implements Othello, Observable {
                     "    " + alphabet.charAt(col) + " - " + (row + 1),
                     0);
             notifyObservers();
+            changeCurrentPlayer();            
+            makeComputerPlay();                         
         }
     }
 
@@ -524,13 +534,14 @@ public class OthelloImpl implements Othello, Observable {
      */
     @Override
     public void pass() {
+        actionId++;
+        action = new Action(actionId, getPseudoCurrentPlayer(),
+                            "        Pass", "  ", 0);        
+        notifyObservers();
         changeCurrentPlayer();
         cleanLastPlayerPossibilities();
         setPossiblePositions();
-        actionId++;
-        action = new Action(actionId, getPseudoCurrentPlayer(),
-                            "        Pass", "  ", 0);
-        notifyObservers();
+        makeComputerPlay();
     }
 
     /**
@@ -541,7 +552,10 @@ public class OthelloImpl implements Othello, Observable {
     Positions getRandomValidPosition() {
         int choice;
         choice = (int) (Math.random() * getValidMoves().size());
-        return getValidMoves().get(choice);    
+        return getValidMoves().get(choice);
+        //@Fix-Me:
+        //IF THE LIST OF VALID POSITIONS IS EMPTY WE HAVE
+        //INDEXOUTOFBONDS EXCEPTIONS /!\
     }
     
     /**
@@ -553,6 +567,9 @@ public class OthelloImpl implements Othello, Observable {
         int choice;
         choice = (int) (Math.random() * getListEmptyPositions().size());
         return getListEmptyPositions().get(choice);
+        //@Fix-Me:
+        //IF THE LIST OF EMPTY POSITIONS IS EMPTY WE HAVE
+        //INDEXOUTOFBONDS EXCEPTION /!\        
     }
     
     /**

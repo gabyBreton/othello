@@ -148,7 +148,7 @@ class StartLayout extends BorderPane {
      */
     private GridPane makePaneChoiceAdversary() {
         GridPane paneChoiceAdversary = new GridPane();
-        paneChoiceAdversary.setHgap(20);
+        paneChoiceAdversary.setHgap(30);
         paneChoiceAdversary.add(humanWhite, 0, 0);
         paneChoiceAdversary.add(computerWhite, 1, 0);
         return paneChoiceAdversary;
