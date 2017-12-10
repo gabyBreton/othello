@@ -41,7 +41,7 @@ public class GameInfo extends VBox {
      * Sets the sizes of the game informations box.
      */
     private void setSizes() {
-        setMaxWidth(327);
+        setMaxWidth(382);
         setSpacing(30);
     }
 
@@ -100,7 +100,7 @@ public class GameInfo extends VBox {
      */
     private void makeProgressBar(OthelloImpl game) {
         pBar = new ProgressBar();
-        pBar.setMinWidth(327);
+        pBar.setMinWidth(366);
         pBar.setMinHeight(10);
         pBar.setId("pBar");
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());

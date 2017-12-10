@@ -20,7 +20,7 @@ class ActionsHistoryTable extends TableView {
     private int actionId;
 
     private TableColumn<Action, Integer> idColumn;
-    private TableColumn<Action, String> colorColumn;
+    private TableColumn<Action, String> pseudoColumn;
     private TableColumn<Action, String> actionColumn;
     private TableColumn<Action, String> positionColumn;
     private TableColumn<Action, Integer> takingColumn;
@@ -36,10 +36,9 @@ class ActionsHistoryTable extends TableView {
         actionsHistory = FXCollections.observableArrayList();
         actionsHistory.add(new Action(actionId, " ", "   New game", " ", 0));        
         setItems(actionsHistory);
-        getColumns().addAll(idColumn, colorColumn, actionColumn);
+        getColumns().addAll(idColumn, pseudoColumn, actionColumn);
         getColumns().addAll(positionColumn, takingColumn);
-        setMinWidth(205);
-        
+        setMinWidth(366);
     }
 
     /**
@@ -49,8 +48,8 @@ class ActionsHistoryTable extends TableView {
         idColumn = new TableColumn<>("ID");
         setTableColumn(idColumn, 10, "id");
 
-        colorColumn = new TableColumn<>("Color");
-        setTableColumn(colorColumn, 55, "color");
+        pseudoColumn = new TableColumn<>("Pseudo");
+        setTableColumn(pseudoColumn, 95, "pseudo");
         
         actionColumn = new TableColumn<>("Action");
         setTableColumn(actionColumn, 100, "action");

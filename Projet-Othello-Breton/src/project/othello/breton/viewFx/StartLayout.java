@@ -269,12 +269,20 @@ class StartLayout extends BorderPane {
 
     }
 
+    /**
+     * Creates the players, based on the pseudo inputs and the choice of the 
+     * computer or not.
+     * 
+     * @param game the current session of Othello.
+     */
     private void makePlayers(OthelloImpl game) {
         if (humanWhite.isSelected()) {
-            game.makePlayers(new HumanBehavior(game), tfdPseudoBlack.getText(),
+            game.makePlayers(new HumanBehavior(game), 
+                             tfdPseudoBlack.getText(),
                              tfdPseudoWhite.getText());
         } else {
-            game.makePlayers(new ComputerBehavior(game), tfdPseudoBlack.getText(),
+            game.makePlayers(new ComputerBehavior(game), 
+                             tfdPseudoBlack.getText(),
                              tfdPseudoWhite.getText());
         }
     }
@@ -299,8 +307,8 @@ class StartLayout extends BorderPane {
      */
     private void setSizesNewScene(Stage primaryStage, Scene gameScene) {
         primaryStage.setScene(gameScene);
-        primaryStage.setMinWidth(1300);
-        primaryStage.setMaxWidth(1300);
+        primaryStage.setMinWidth(1335);
+        primaryStage.setMaxWidth(1335);
         primaryStage.setMinHeight(820);
         primaryStage.setMaxHeight(820);
     }

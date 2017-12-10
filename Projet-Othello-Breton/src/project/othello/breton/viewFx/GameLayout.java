@@ -118,7 +118,6 @@ class GameLayout extends BorderPane {
      */
     private void setPaddingAndGapBtnZone() {
         buttonsZone.setPadding(new Insets(225, 0, 0, 50));
-     //   setMinWidth(200); // APPLY ON WHAT ?
         buttonsZone.setHgap(10);
         buttonsZone.setVgap(15);
     }

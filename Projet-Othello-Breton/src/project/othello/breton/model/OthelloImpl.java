@@ -44,6 +44,14 @@ public class OthelloImpl implements Othello, Observable {
 //        notifyObservers();
     }
 
+    /**
+     * Changes and creates new players, based on the pseudo inputs and the 
+     * choice of the computer or not as adversary.
+     * 
+     * @param playStrategyWhite the behavior choose for the white player.
+     * @param pseudoB the pseudo of the black player.
+     * @param pseudoW the pseudo of the white player.
+     */
     public void makePlayers(PlayStrategy playStrategyWhite, String pseudoB, 
                             String pseudoW) {
         playerB = new Players(new HumanBehavior(this), pseudoB);

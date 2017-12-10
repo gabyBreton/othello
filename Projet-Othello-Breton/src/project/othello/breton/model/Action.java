@@ -9,7 +9,7 @@ package project.othello.breton.model;
 public class Action {
 
     private final int id;
-    private final String color;
+    private final String pseudo;
     private final String action;
     private final String position;
     private final int taking;
@@ -23,10 +23,10 @@ public class Action {
      * @param position the position on the board of the action.
      * @param taking the number of pawn taken by the action.
      */
-    public Action(int id, String color, String action, String position, 
+    public Action(int id, String pseudo, String action, String position, 
                   int taking) {
         this.id = id;
-        this.color = color;
+        this.pseudo = pseudo;
         this.action = action;
         this.position = position;
         this.taking = taking;
@@ -46,8 +46,8 @@ public class Action {
      * 
      * @return the color of the player who made the action.
      */
-    public String getColor() {
-        return color;
+    public String getPseudo() {
+        return pseudo;
     }
     
     /**
