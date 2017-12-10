@@ -53,7 +53,7 @@ This class shows **who wins** and provides a button to **quit** and **restart**
 (same problem as above for restart).
 ### To-Do
 Write more test.
-Fix the IndexOutOfBounds thrown by OthelloImpl.getRandomValidPosition() et
+Fix the IndexOutOfBounds thrown by OthelloImpl.getRandomValidPosition() and
 OthelloImpl.getRandomEmptyPositions().
 
 ## Compilation and running
