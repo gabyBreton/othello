@@ -14,7 +14,7 @@ import project.othello.breton.model.GameColor;
  *
  * @author Gabriel Breton - 43397
  */
-public class ScoresInfos extends HBox {
+class ScoresInfos extends HBox {
 
     private GameColor currentColor;
 

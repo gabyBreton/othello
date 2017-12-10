@@ -65,6 +65,4 @@ class TextFieldLimited extends TextField {
             super.replaceSelection(text);
         }
     }
-    
-    
 }

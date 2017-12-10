@@ -12,15 +12,11 @@ import project.othello.breton.model.OthelloImpl;
  */
 class BoardPane extends GridPane {
 
-    private int countBlackOnBoard;
-    private int countWhiteOnBoard;
-
     private final int rows = 8;
     private final int columns = 8;
     private final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Label rowNumber;
     private Label columnLetter;
-    private int cptWallOnBoard;
     private final Tile[][] tilesArray; //Used to place a pawn by identifying
                                        //the specific tile where to place it.
 
@@ -34,7 +30,6 @@ class BoardPane extends GridPane {
         super();
         setStyle();
         tilesArray = new Tile[rows + 1][columns + 1];
-        cptWallOnBoard = game.getCounterWallsOnBoard();
         addTiles(game);
     }
 
@@ -194,6 +189,5 @@ class BoardPane extends GridPane {
             }
         }
         addTiles(game);
-        cptWallOnBoard = game.getCounterWallsOnBoard();
     }
 }

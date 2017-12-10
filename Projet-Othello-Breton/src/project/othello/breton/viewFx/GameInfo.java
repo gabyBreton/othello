@@ -16,7 +16,7 @@ import project.othello.breton.model.OthelloImpl;
  * 
  * @author Gabriel Breton - 43397
  */
-public class GameInfo extends VBox {
+class GameInfo extends VBox {
     
     private ActionsHistoryTable table;
     private ProgressBar pBar;

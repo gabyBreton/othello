@@ -10,7 +10,7 @@ import project.othello.breton.model.GameColor;
  *
  * @author Gabriel Breton - 43397
  */
-public class Pawn extends StackPane {
+class Pawn extends StackPane {
 
     private final GameColor color;
 
@@ -19,7 +19,7 @@ public class Pawn extends StackPane {
      *
      * @param color the color of the owner of the pawn.
      */
-    public Pawn(GameColor color) {
+    Pawn(GameColor color) {
         this.color = color;
 
         Ellipse bckgrnd = makeEllipse(24, 20, 2.25, 0, 6);

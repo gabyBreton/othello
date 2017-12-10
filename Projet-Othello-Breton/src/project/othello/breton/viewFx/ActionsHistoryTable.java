@@ -30,7 +30,7 @@ class ActionsHistoryTable extends TableView {
      * 
      * @param game the current session of Othello.
      */
-    public ActionsHistoryTable(OthelloImpl game) {
+    ActionsHistoryTable(OthelloImpl game) {
         super();
         makeColumns();
         actionsHistory = FXCollections.observableArrayList();
@@ -80,7 +80,7 @@ class ActionsHistoryTable extends TableView {
      * 
      * @param game the current session of Othello.
      */
-    public void refresh(OthelloImpl game) {
+    void refresh(OthelloImpl game) {
         actionsHistory.add(game.getAction());
     }
 }

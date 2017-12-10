@@ -160,8 +160,6 @@ class GameLayout extends BorderPane {
      */
     private void makeRestart(OthelloImpl game) {
         btnRestart = makeAButton("Restart", "button", (event) -> {
-//            game.start(8, 8);
-//            refresh(game);
             makeAlertRestart();
         });
     }
@@ -311,7 +309,7 @@ class GameLayout extends BorderPane {
      * 
      * @param game the current session of Othello.
      */
-    public void refresh(OthelloImpl game) {
+    void refresh(OthelloImpl game) {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(),
                            game.getCurrentColor());
         board.refresh(game);        

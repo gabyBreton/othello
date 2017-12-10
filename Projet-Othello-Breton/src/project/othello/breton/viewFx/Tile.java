@@ -1,6 +1,5 @@
 package project.othello.breton.viewFx;
 
-import javafx.animation.ScaleTransition;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.effect.InnerShadow;
@@ -18,7 +17,7 @@ import project.othello.breton.model.GameColor;
  */
 class Tile extends StackPane {
 
-    private Pawn pawn;
+    private final Pawn pawn;
     int row;
     int col;
     Rectangle border;
