@@ -126,6 +126,11 @@ class Board {
     void incCounterWallsOnBoard() {
         counterWallsOnBoard += 1;
     }    
+
+    void decCounterWallsOnBoard() {
+        counterWallsOnBoard -= 1;
+    }    
+    
     
     /**
      * Gives the number of pawns on the board.

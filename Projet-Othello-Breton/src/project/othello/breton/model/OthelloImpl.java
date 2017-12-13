@@ -507,7 +507,9 @@ public class OthelloImpl implements Othello, Observable {
      */
     @Override
     public void wall(int row, int col) throws ArrayIndexOutOfBoundsException {
-        if (board.isFree(row, col)) {
+        if (thereIsAWall(row, col)) {
+            deleteWall(row, col);
+        } else if (board.isFree(row, col)) {
             board.setColor(row, col, GameColor.RED);
             board.incCounterWallsOnBoard();
             actionId++;
@@ -521,6 +523,23 @@ public class OthelloImpl implements Othello, Observable {
         }
     }
 
+    private boolean thereIsAWall(int row, int col) {
+        return board.getColor(row, col) == GameColor.RED;
+    }
+    
+    private void deleteWall(int row, int col) {
+        board.setColor(row, col, null);  
+        board.decCounterWallsOnBoard();
+        actionId++;
+        action = new Action(actionId, getPseudoCurrentPlayer(),
+                    " Delete a wall",
+                    "    " + alphabet.charAt(col) + " - " + (row + 1),
+                    0);
+        notifyObservers();
+        changeCurrentPlayer();
+        makeComputerPlay();
+    }
+    
     /**
      * Gives the number of wall on the board.
      *
