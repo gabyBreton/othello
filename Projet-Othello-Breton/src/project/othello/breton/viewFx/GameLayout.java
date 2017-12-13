@@ -11,6 +11,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -32,7 +35,8 @@ class GameLayout extends BorderPane {
     private GridPane buttonsZone;
     
     private GameInfo gameInfo;
-
+    private ChartsScoresLayout chartsScoreRoot;
+    
     private Button btnAbandon;
     private Button btnPass;
     private Button btnRestart;
@@ -40,6 +44,8 @@ class GameLayout extends BorderPane {
     private final Stage primaryStage; 
     private Scene finalScene;
     private FinalLayout finalRoot;
+    
+    private MenuBar menu;
     
     /**
      * Creates a new game interface, that contains the board, the scores 
@@ -54,6 +60,8 @@ class GameLayout extends BorderPane {
                BoardPane board) {
         super();
         this.primaryStage = primaryStage;
+        chartsScoreRoot = new ChartsScoresLayout();        
+        makeTopZone();
         makeLeftZone(board, scoreInfos);
         makeCenterZone(game);
         makeRightZone(game);     
@@ -61,6 +69,37 @@ class GameLayout extends BorderPane {
         setId("gamePane");
     }
 
+    private void makeTopZone() {
+        makeMenu();
+        setTop(menu);
+    }
+    
+    private MenuBar makeMenu() {
+        menu = new MenuBar();
+        Menu menuEdit = new Menu("Edit");
+
+        MenuItem edit = makeItemEdit();
+        menuEdit.getItems().add(edit);
+        menu.getMenus().add(menuEdit);
+        return menu;
+    }
+    
+    private MenuItem makeItemEdit() {
+        MenuItem edit = new MenuItem("Edit");
+
+        edit.setOnAction((ActionEvent t) -> {
+            Stage stageCharts = new Stage();
+            stageCharts.setTitle("Scores Line Charts");
+            
+            Scene sceneCharts = makeScene(chartsScoreRoot);
+            
+            stageCharts.setScene(sceneCharts);
+            stageCharts.show();
+        });
+
+        return edit;
+    }
+    
     /**
      * Creates the left zone of the game interface, where are the score 
      * informations and the game board.
@@ -312,6 +351,7 @@ class GameLayout extends BorderPane {
     void refresh(OthelloImpl game) {
         scoreInfos.refresh(game.getScoreBlack(), game.getScoreWhite(),
                            game.getCurrentColor());
+        chartsScoreRoot.refresh(game);
         board.refresh(game);        
         gameInfo.refresh(game);
         if(game.isOver()) {

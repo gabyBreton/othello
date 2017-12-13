@@ -309,7 +309,7 @@ class StartLayout extends BorderPane {
         primaryStage.setScene(gameScene);
         primaryStage.setMinWidth(1335);
         primaryStage.setMaxWidth(1335);
-        primaryStage.setMinHeight(820);
-        primaryStage.setMaxHeight(820);
+        primaryStage.setMinHeight(860);
+        primaryStage.setMaxHeight(860);
     }
 }
