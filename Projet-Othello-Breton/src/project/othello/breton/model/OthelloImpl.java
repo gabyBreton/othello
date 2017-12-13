@@ -370,7 +370,8 @@ public class OthelloImpl implements Othello, Observable {
         }
 
         if (pawnsToFlip.size() > 0) {
-            placePawnAndSetScore(pawnsToFlip, row, col);          
+            placePawnAndSetScore(pawnsToFlip, row, col);    
+            getCurrentPlayer().incTaking(pawnsToFlip.size());            
             actionId++;
             action = new Action(actionId, getPseudoCurrentPlayer(),
                     " Place a pawn",
@@ -380,6 +381,14 @@ public class OthelloImpl implements Othello, Observable {
             changeCurrentPlayer();              
             makeComputerPlay();             
         }
+    }
+
+    public int getTakingBlack() {
+        return playerB.getTotalPawnsTaked();
+    }
+
+    public int getTakingWhite() {
+        return playerW.getTotalPawnsTaked();
     }
     
     public void makeComputerPlay() {

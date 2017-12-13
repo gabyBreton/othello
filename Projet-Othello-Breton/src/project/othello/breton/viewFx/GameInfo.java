@@ -18,6 +18,12 @@ import project.othello.breton.model.OthelloImpl;
  */
 class GameInfo extends VBox {
     
+    private Label totalTakesBlack;
+    private Label totalTakesWhite;
+    private Label stringTakesBlack;
+    private Label stringTakesWhite;
+    private GridPane gridTakings;
+    
     private ActionsHistoryTable table;
     private ProgressBar pBar;
     private ProgressIndicator pIndicator;
@@ -56,6 +62,7 @@ class GameInfo extends VBox {
         makeProgressBar(game);
         makeProgressIndicator(game);
         makeGridPaneWalls(game);
+        makeGridPaneTaking(game);
     }
 
     /**
@@ -64,7 +71,8 @@ class GameInfo extends VBox {
     private void addElements() {
         VBox boxPIndicator = makeBoxPIndicator();
         
-        getChildren().addAll(boxPIndicator, pBar, table, gridPaneWalls);
+        getChildren().addAll(boxPIndicator, pBar, table, gridPaneWalls, 
+                             gridTakings);
         setSpacing(20);
     }
 
@@ -147,7 +155,7 @@ class GameInfo extends VBox {
      */
     private void makeGridPaneWalls(OthelloImpl game) {
         gridPaneWalls = new GridPane();
-        setGapsGridPaneWalls();
+        setGapsGridPaneInfos(gridPaneWalls);
         makeElementsGridPaneWalls(game);
         addElementsGridPaneWalls();
         gridPaneWalls.setAlignment(Pos.CENTER);
@@ -156,9 +164,9 @@ class GameInfo extends VBox {
     /**
      * Sets the gaps of the gridpane walls.
      */
-    private void setGapsGridPaneWalls() {
-        gridPaneWalls.setHgap(10);
-        gridPaneWalls.setVgap(15);
+    private void setGapsGridPaneInfos(GridPane gridPane) {
+        gridPane.setHgap(10);
+        gridPane.setVgap(15);
     }
 
     /**
@@ -172,6 +180,32 @@ class GameInfo extends VBox {
                             "nbWall");
     }
 
+    private void makeGridPaneTaking(OthelloImpl game) {
+        gridTakings = new GridPane();
+        setGapsGridPaneInfos(gridTakings);
+        makeElementsGridTakings(game);
+        addElementsGridTakings();
+        gridTakings.setAlignment(Pos.CENTER);        
+    }
+    
+    private void makeElementsGridTakings(OthelloImpl game) {
+        totalTakesBlack = makeLabel(String.valueOf(game.getTakingBlack()), 
+                                    "taking");
+        totalTakesWhite = makeLabel(String.valueOf(game.getTakingWhite()), 
+                                    "taking");
+        stringTakesBlack = makeLabel("Taked by Black: ", 
+                                     "taking");
+        stringTakesWhite = makeLabel("Taked by White: ", 
+                                     "taking");
+    }
+
+    private void addElementsGridTakings() {
+        gridTakings.add(totalTakesBlack, 1, 0);
+        gridTakings.add(stringTakesBlack, 0, 0);
+        gridTakings.add(totalTakesWhite, 1, 1);
+        gridTakings.add(stringTakesWhite, 0, 1);
+    }    
+    
     /**
      * Makes a label and set its id.
      *
@@ -202,6 +236,8 @@ class GameInfo extends VBox {
         refreshProgressBar(game.getScoreBlack(), game.getCounterPawnsOnBoard());
         refreshProgressIndicator(game.getCounterPawnsOnBoard()
                                  + game.getCounterWallsOnBoard());
+        totalTakesBlack.setText(String.valueOf(game.getTakingBlack()));
+        totalTakesWhite.setText(String.valueOf(game.getTakingWhite()));
         table.refresh(game);
     }
 }

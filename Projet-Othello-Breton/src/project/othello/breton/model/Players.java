@@ -11,6 +11,7 @@ public class Players {
     private final GameStrategy gameStrategy;
     private int score;
     private String pseudo;
+    private int totalPawnsTaked;
     
     /**
      * Creates a new player.
@@ -21,6 +22,7 @@ public class Players {
         this.gameStrategy = playStrategy;
         this.score = 2;
         this.pseudo = pseudo;
+        totalPawnsTaked = 0;
     }
     
     /**
@@ -89,4 +91,14 @@ public class Players {
     public String getPseudo() {
         return pseudo;
     }
+    
+    void incTaking(int pawnsTaked) {
+        totalPawnsTaked += pawnsTaked;
+    }
+
+    public int getTotalPawnsTaked() {
+        return totalPawnsTaked;
+    }
 }
+
+

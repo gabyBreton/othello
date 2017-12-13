@@ -21,7 +21,7 @@
     -fx-background-position: left;
 }
 
-#nbWall {
+#nbWall, #taking {
     -fx-font: 25px "Serif";
     -fx-font-weight: bold;
     -fx-text-fill: lightgrey;   
