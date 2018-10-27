@@ -60,7 +60,7 @@ OthelloImpl.getRandomEmptyPositions().
 ### Compilation
 First you need to clone the project
 ```
-$ git clone https://git.esi-bru.be/2017-18-DEVG3-C112/Projet-Othello-Breton.git
+$ git clone https://github.com/gabyBreton/othello.git
 ```
 Then compile .java files
 ```
